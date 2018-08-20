@@ -12,6 +12,6 @@ The following topics will be read and written to.  The <simulation_id> is a Grid
 
 ## Message Structure
 
-Both the simulation output message and teh sensor simulation output will have the same structure see 
+Both the simulation output message and the sensor simulation output will have the same structure see 
 (https://gridappsd.readthedocs.io/en/latest/using_gridappsd/index.html#subscribe-to-simulation-output)
 
