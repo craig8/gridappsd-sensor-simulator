@@ -4,6 +4,7 @@
 #set relax_naming_rules=1
 //#set savefile=test.xml
 #set minimum_timestep=1
+#set warn=0
 
 clock {
 	timezone PST+8PDT;
@@ -73,8 +74,8 @@ object transformer_configuration {
 	name default_transformer_A;
 	connect_type SINGLE_PHASE_CENTER_TAPPED;
 	install_type PADMOUNT;
-	power_rating 150;
-	powerA_rating 150 kVA;
+	power_rating 15;
+	powerA_rating 15 kVA;
 	primary_voltage 7200;
 	secondary_voltage 120;
 	impedance +0.015+0.0675j;
@@ -84,8 +85,8 @@ object transformer_configuration {
 	name default_transformer_B;
 	connect_type SINGLE_PHASE_CENTER_TAPPED;
 	install_type PADMOUNT;
-	power_rating 150;
-	powerB_rating 150;
+	power_rating 15;
+	powerB_rating 15;
 	primary_voltage 7200;
 	secondary_voltage 120;
 	impedance +0.015+0.0675j;
@@ -95,8 +96,8 @@ object transformer_configuration {
 	name default_transformer_C;
 	connect_type SINGLE_PHASE_CENTER_TAPPED;
 	install_type PADMOUNT;
-	power_rating 150;
-	powerC_rating 150;
+	power_rating 15;
+	powerC_rating 15;
 	primary_voltage 7200;
 	secondary_voltage 120;
 	impedance +0.015+0.0675j;
