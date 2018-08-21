@@ -4,6 +4,8 @@ from datetime import datetime
 import json
 import random
 import time
+import sys
+import csv
 
 from gridappsd import GridAPPSD
 from gridappsd.topics import simulation_output_topic
@@ -24,11 +26,12 @@ def sensor_output_topic(simulation_id):
 
 
 class Sensor(object):
-    def __init__(self, gridappsd, seed, perunit_dropping, perunit_error, output_topic):
+    def __init__(self, gridappsd, seed, perunit_dropping, perunit_error, interval, output_topic):
         self._gapps = gridappsd
         self._perunit_dropping = perunit_dropping
         self._perunit_error = perunit_error
         self._seed = seed
+        self._interval = interval
         self._output_topic = output_topic
         random.seed(seed)
 
@@ -45,8 +48,38 @@ class Sensor(object):
         return self._perunit_error
 
     @property
+    def interval(self):
+        return self._interval
+
+    @property
     def output_topic(self):
         return self._output_topic
+
+    def reset_interval(self, t):
+        self._n = 0
+        self._tstart = t
+        self._average = 0.0
+        self._min = sys.float_info.max
+        self._max = -sys.float_info.max
+
+    def add_sample(self, t, val):
+        if t - self._tstart <= self._interval:
+            if val < self._min:
+                self._min = val
+            if val > self._max:
+                self._max = val
+            self._average = self._average + val
+            self._n = self._n + 1
+
+    def check_sample(self, t):
+        if t >= self._tstart + self._interval:
+            return True
+        return False
+
+    def take_sample(self, t):
+        ret = (self._average / self._n, self._min, self._max)
+        self.reset_interval(t)
+        return ret
 
     def get_new_value(self, value):
 
@@ -62,8 +95,8 @@ class Sensor(object):
             return random.uniform(value - band, value + band)
 
     def __str__(self):
-        return "seed: {}, perunit error: {}, perunit dropping: {}, output topic: {}".format(
-            self.seed, self.perunit_error, self.perunit_dropping, self.output_topic
+        return "seed: {}, perunit error: {}, perunit dropping: {}, interval: {}, output topic: {}".format(
+            self.seed, self.perunit_error, self.perunit_dropping, self.interval, self.output_topic
         )
 
     def on_simulation_message(self, headers, message):
@@ -113,7 +146,9 @@ def get_opts():
     parser.add_argument("--perunit-error", type=float, default=0.01,
                         help="Specify the perunit error that is to be calculated.")
     parser.add_argument("--perunit-dropping", type=float, default=0.0001,
-                        help="perunit dropping of measurements.")
+                        help="Fraction of measurements that are not republished.")
+    parser.add_argument("--interval", type=float, default=900.0,
+                        help="Interval in seconds for min, max, average aggregation.")
     parser.add_argument("-u", "--username", default="system",
                         help="The username to authenticate with the message bus.")
     parser.add_argument("-p", "--password", default="manager",
@@ -125,6 +160,57 @@ def get_opts():
     opts = parser.parse_args()
     return opts
 
+def run_test (iname, oname, opts):
+    ip = open (iname, 'r', newline='')
+
+    # create a sensor for each input signal column
+    rdr = csv.reader (ip, delimiter=',')
+    colnames = next (rdr)
+    colnames[0] = 't'
+    ncol = len(colnames) - 1
+    sensors = {}
+    outnames = []
+    outnames.append ('t')
+    for i in range(ncol):
+        column_name=colnames[i+1]
+        sensors[i] = Sensor(None, 
+                        seed=opts.random_seed,
+                        perunit_error=opts.perunit_error,
+                        perunit_dropping=opts.perunit_dropping,
+                        interval=opts.interval,
+                        output_topic=column_name)
+        outnames.append (column_name + '_avg')
+        outnames.append (column_name + '_min')
+        outnames.append (column_name + '_max')
+    for i in sensors:
+        print ('Sensor', i, '=', sensors[i])
+        sensors[i].reset_interval (0.0)
+
+    op = open (oname, 'w')
+    wrt = csv.writer (op, delimiter=',')
+    wrt.writerow (outnames)
+
+    # write average, minimum and maximum for each sensor
+    outputs = [0.0] * (3 * ncol + 1)
+    # loop through the input rows, add samples, write the outputs
+    for row in rdr:
+        t = float(row[0])
+        outputs[0] = t
+        have_output = False
+        for i in sensors:
+            val = float(row[i+1])
+            sensors[i].add_sample(t, val)
+            if sensors[i].check_sample(t):
+                sample = sensors[i].take_sample(t)
+                outputs[3*i + 1] = sample[0]
+                outputs[3*i + 2] = sample[1]
+                outputs[3*i + 3] = sample[2]
+                have_output = True
+        if have_output:
+            wrt.writerow (['{:.3f}'.format(x) for x in outputs])
+
+    ip.close()
+    op.close()
 
 if __name__ == '__main__':
 
@@ -133,6 +219,7 @@ if __name__ == '__main__':
 
     if opts.simulation_id == '-9999':
         print ('entering test mode with', opts)
+        run_test ('Input.csv', 'Output.csv', opts)
         raise SystemExit
 
     read_topic = simulation_output_topic(opts.simulation_id)
@@ -147,7 +234,8 @@ if __name__ == '__main__':
                     seed=opts.random_seed,
                     perunit_error=opts.perunit_error,
                     output_topic=write_topic,
-                    perunit_dropping=opts.perunit_dropping)
+                    perunit_dropping=opts.perunit_dropping,
+                    interval=opts.interval)
 
     gapp.subscribe(read_topic, sensor.on_simulation_message)
 

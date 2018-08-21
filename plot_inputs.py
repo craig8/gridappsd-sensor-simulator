@@ -8,7 +8,8 @@ if __name__ == '__main__':
     dtm = np.loadtxt('TPM_B0.csv', dtype=float, skiprows=9, delimiter=',', usecols=[1,2,3,4,5,6])
 
     n = dxf.shape[0]
-    hrs = np.linspace(0, n/3600.0, n)
+    secs = np.linspace(0, n-1, n)
+    hrs = secs / 3600.0
     vmtr = np.array (np.sqrt (np.add (dtm[:,0]*dtm[:,0],dtm[:,1]*dtm[:,1])))
     imtr = np.array (np.sqrt (np.add (dtm[:,2]*dtm[:,2],dtm[:,3]*dtm[:,3])))
     pmtr = dtm[:,4]
@@ -43,5 +44,9 @@ if __name__ == '__main__':
 
     ax[3].set_xlabel ('Hours')
     plt.show()
+
+    np.savetxt ('Input.csv', np.column_stack((secs, vmtr, imtr, pmtr, qmtr)),
+                fmt=['%d', '%.3f', '%.3f', '%.2f', '%.2f'], 
+                delimiter=',', header='t[s],v,i,p,q')
 
 
