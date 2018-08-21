@@ -24,10 +24,10 @@ def sensor_output_topic(simulation_id):
 
 
 class Sensor(object):
-    def __init__(self, gridappsd, seed, allow_dropping, percent_error, output_topic):
+    def __init__(self, gridappsd, seed, perunit_dropping, perunit_error, output_topic):
         self._gapps = gridappsd
-        self._allow_dropping = allow_dropping
-        self._percent_error = percent_error
+        self._perunit_dropping = perunit_dropping
+        self._perunit_error = perunit_error
         self._seed = seed
         self._output_topic = output_topic
         random.seed(seed)
@@ -37,12 +37,12 @@ class Sensor(object):
         return self._seed
 
     @property
-    def allow_dropping(self):
-        return self._allow_dropping
+    def perunit_dropping(self):
+        return self._perunit_dropping
 
     @property
-    def percent_error(self):
-        return self._percent_error
+    def perunit_error(self):
+        return self._perunit_error
 
     @property
     def output_topic(self):
@@ -50,19 +50,20 @@ class Sensor(object):
 
     def get_new_value(self, value):
 
-        if self.allow_dropping:
+        if self.perunit_dropping > 0.0:
             drop = random.uniform(0, 1)
-            if drop > 0.99:
+            if drop <= self.perunit_dropping:
                 return None
 
-        if isinstance(value, bool):
+        if isinstance(value, bool) or self.perunit_error <= 0.0:
             return value
-        else:
-            return random.uniform(0.99 * value, 1.01 * value)
+        else: #TODO define error bounds around a nominal value or nominal range, not around the instantaneous value
+            band = self.perunit_error * value
+            return random.uniform(value - band, value + band)
 
     def __str__(self):
-        return "seed: {}, percent error: {}, allow dropping: {}, output topic: {}".format(
-            self.seed, self.percent_error, self.allow_dropping, self.output_topic
+        return "seed: {}, perunit error: {}, perunit dropping: {}, output topic: {}".format(
+            self.seed, self.perunit_error, self.perunit_dropping, self.output_topic
         )
 
     def on_simulation_message(self, headers, message):
@@ -109,10 +110,10 @@ def get_opts():
                         help="Simulation id to use for responses on the message bus.")
     parser.add_argument("--random-seed", type=int, default=calendar.timegm(datetime.utcnow().timetuple()),
                         help="Seed for the random uniform distribution.")
-    # parser.add_argument("--percent-error", type=float, default=0.01,
-    #                     help="Specify the percent error that is to be calculated.")
-    parser.add_argument("--allow-dropping", type=bool, default=True,
-                        help="Allow dropping of measurements.")
+    parser.add_argument("--perunit-error", type=float, default=0.01,
+                        help="Specify the perunit error that is to be calculated.")
+    parser.add_argument("--perunit-dropping", type=float, default=0.0001,
+                        help="perunit dropping of measurements.")
     parser.add_argument("-u", "--username", default="system",
                         help="The username to authenticate with the message bus.")
     parser.add_argument("-p", "--password", default="manager",
@@ -122,9 +123,6 @@ def get_opts():
     parser.add_argument("--stomp-port", default=61613, type=int,
                         help="the stomp port on the message bus.")
     opts = parser.parse_args()
-
-    opts.percent_error = 0.01
-
     return opts
 
 
@@ -132,6 +130,10 @@ if __name__ == '__main__':
 
     sensors = dict()
     opts = get_opts()
+
+    if opts.simulation_id == '-9999':
+        print ('entering test mode with', opts)
+        raise SystemExit
 
     read_topic = simulation_output_topic(opts.simulation_id)
     write_topic = sensor_output_topic(opts.simulation_id)
@@ -143,9 +145,9 @@ if __name__ == '__main__':
 
     sensor = Sensor(gapp,
                     seed=opts.random_seed,
-                    percent_error=opts.percent_error,
+                    perunit_error=opts.perunit_error,
                     output_topic=write_topic,
-                    allow_dropping=opts.allow_dropping)
+                    perunit_dropping=opts.perunit_dropping)
 
     gapp.subscribe(read_topic, sensor.on_simulation_message)
 

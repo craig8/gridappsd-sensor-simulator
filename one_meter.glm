@@ -1,0 +1,373 @@
+#set double_format=%+.12lg
+#set profiler=1
+#set randomseed=10
+#set relax_naming_rules=1
+//#set savefile=test.xml
+#set minimum_timestep=1
+
+clock {
+	timezone PST+8PDT;
+	starttime '2013-07-01 00:00:00';
+	stoptime '2013-07-02 00:00:00';
+}
+
+module climate;
+module market;
+module powerflow {
+	solver_method FBS;
+	NR_iteration_limit 100;
+}
+module residential {
+	implicit_enduses NONE;
+}
+module tape;
+module generators;
+
+#include "water_and_setpoint_schedule_v5.glm"
+#include "appliance_schedules.glm"
+
+object climate {
+    name "RegionalWeather";
+    tmyfile "WA-Seattle.tmy2";
+    interpolate QUADRATIC;
+};
+
+class player {
+    double value;
+}
+object player {
+    name PHASE_A;
+    file "phase_A.player";
+    loop 1;
+}
+object player {
+    name PHASE_B;
+    file "phase_B.player";
+    loop 1;
+}
+object player {
+    name PHASE_C;
+    file "phase_C.player";
+    loop 1;
+}
+object player {
+    name VOLTAGE;
+    file "voltage.player";
+    loop 1;
+}
+
+object transformer_configuration {
+	name substation_config;
+	connect_type WYE_WYE;
+	install_type PADMOUNT;
+	power_rating 450;
+	powerA_rating 150 kVA;
+	powerB_rating 150;
+	powerC_rating 150;
+	primary_voltage 133000;
+	secondary_voltage 7200;
+	impedance +0.015+0.0675j;
+}
+
+object transformer_configuration {
+	name default_transformer_A;
+	connect_type SINGLE_PHASE_CENTER_TAPPED;
+	install_type PADMOUNT;
+	power_rating 150;
+	powerA_rating 150 kVA;
+	primary_voltage 7200;
+	secondary_voltage 120;
+	impedance +0.015+0.0675j;
+}
+
+object transformer_configuration {
+	name default_transformer_B;
+	connect_type SINGLE_PHASE_CENTER_TAPPED;
+	install_type PADMOUNT;
+	power_rating 150;
+	powerB_rating 150;
+	primary_voltage 7200;
+	secondary_voltage 120;
+	impedance +0.015+0.0675j;
+}
+
+object transformer_configuration {
+	name default_transformer_C;
+	connect_type SINGLE_PHASE_CENTER_TAPPED;
+	install_type PADMOUNT;
+	power_rating 150;
+	powerC_rating 150;
+	primary_voltage 7200;
+	secondary_voltage 120;
+	impedance +0.015+0.0675j;
+}
+
+object triplex_line_conductor {
+	name Name_1_0_AA_triplex;
+	resistance 0.57;
+	geometric_mean_radius 0.011;
+}
+
+object triplex_line_configuration {
+	name TLCFG;
+	conductor_1 Name_1_0_AA_triplex;
+	conductor_2 Name_1_0_AA_triplex;
+	conductor_N Name_1_0_AA_triplex;
+	insulation_thickness 0.08;
+	diameter 0.368;
+}
+
+object substation {
+	name network_node;
+	phases ABCN;
+	nominal_voltage 133000;
+	positive_sequence_voltage VOLTAGE.value; // 133000;
+	bustype SWING;
+    base_power 12MVA;
+    power_convergence_value 100VA;
+}
+
+object meter {
+	name F1_transformer_meter;
+	phases ABCN;
+	nominal_voltage 7200;
+}
+
+object transformer {
+	name F1_Transformer1;
+	groupid F1_Network_Trans;
+	phases ABCN;
+	from network_node;
+	to F1_transformer_meter;
+	configuration substation_config;
+}
+
+object load {
+     name unresp_load;
+     nominal_voltage 7200;
+     phases ABCN;
+     parent F1_transformer_meter;
+	 
+     base_power_A PHASE_A.value*1.0;
+     base_power_B PHASE_B.value*1.0;
+     base_power_C PHASE_C.value*1.0;
+	 
+	 power_pf_A 0.9;
+	 power_pf_B 0.9;
+	 power_pf_C 0.9;
+	 
+	 power_fraction_A 1.0;
+	 power_fraction_B 1.0;
+	 power_fraction_C 1.0;
+	 
+	 current_fraction_A 0.0;
+	 current_fraction_B 0.0;
+	 current_fraction_C 0.0;
+	 
+	 impedance_fraction_A 0.0;
+	 impedance_fraction_B 0.0;
+	 impedance_fraction_C 0.0;
+};
+
+object triplex_meter {
+	name F1_triplex_node_A;
+	phases SA;
+	nominal_voltage 120;
+}
+
+object triplex_meter {
+	name F1_triplex_node_B;
+	phases SB;
+	nominal_voltage 120;
+}
+
+object triplex_meter {
+	name F1_triplex_node_C;
+	phases SC;
+	nominal_voltage 120;
+}
+
+object transformer {
+	name F1_center_tap_transformer_A;
+	phases SA;
+	from F1_transformer_meter;
+	to F1_triplex_node_A;
+	configuration default_transformer_A;
+}
+
+object transformer {
+	name F1_center_tap_transformer_B;
+	phases SB;
+	from F1_transformer_meter;
+	to F1_triplex_node_B;
+	configuration default_transformer_B;
+}
+
+object transformer {
+	name F1_center_tap_transformer_C;
+	phases SC;
+	from F1_transformer_meter;
+	to F1_triplex_node_C;
+	configuration default_transformer_C;
+}
+
+object triplex_meter {
+	name F1_tpm_flatrate_B0;
+	groupid F1_flatrate_meter;
+	phases SB;
+	nominal_voltage 120;
+}
+
+object triplex_line {
+	groupid F1_Triplex_Line;
+	phases SB;
+	from F1_triplex_node_B;
+	to F1_tpm_flatrate_B0;
+	length 100 ft;
+	configuration TLCFG;
+}
+
+object triplex_meter {
+	name F1_tpm_rt_B0;
+	groupid F1_rt_meter;
+	parent F1_tpm_flatrate_B0;
+	phases SB;
+	nominal_voltage 120;
+}
+
+object house {
+	name F1_house_B0;
+	parent F1_tpm_rt_B0;
+	schedule_skew 577;
+	Rroof 17.618;
+	Rwall 6.872;
+	Rfloor 4.818;
+	Rdoors 3;
+	Rwindows 1.315;
+	airchange_per_hour 1.288;
+	hvac_power_factor 0.97;
+	cooling_system_type ELECTRIC;
+	heating_system_type GAS;
+	fan_type ONE_SPEED;
+	hvac_breaker_rating 200;
+	total_thermal_mass_per_floor_area 4.311;
+	motor_efficiency AVERAGE;
+	motor_model BASIC;
+	cooling_COP 2.502;
+	floor_area 637.886;
+	number_of_doors 1;
+	air_temperature 68.886;
+	mass_temperature 68.886;
+	heating_setpoint heating5*1.043+1.41;
+object ZIPload {
+	schedule_skew 577;
+	heat_fraction 0.889;
+	base_power LIGHTS*1.7284;
+	power_pf 0;
+	power_fraction 0;
+	current_pf 0;
+	current_fraction 0;
+	impedance_pf 1;
+	impedance_fraction 1;
+};
+object ZIPload {
+	schedule_skew 577;
+	heat_fraction 0.732;
+	base_power CLOTHESWASHER*0.9135;
+	power_pf 0.97;
+	power_fraction 1;
+	current_pf 0.97;
+	current_fraction 0;
+	impedance_pf 0.97;
+	impedance_fraction 0;
+};
+object ZIPload {
+	schedule_skew 577;
+	heat_fraction 0.853;
+	base_power REFRIGERATOR*0.8837;
+	power_pf 0.97;
+	power_fraction 1;
+	current_pf 0.97;
+	current_fraction 0;
+	impedance_pf 0.97;
+	impedance_fraction 0;
+};
+object ZIPload {
+	schedule_skew 577;
+	heat_fraction 0.875;
+	base_power DRYER*0.5453;
+	power_pf 0.9;
+	power_fraction 0.1;
+	current_pf 0.9;
+	current_fraction 0.1;
+	impedance_pf 1;
+	impedance_fraction 0.8;
+};
+object ZIPload {
+	schedule_skew 577;
+	heat_fraction 0.76;
+	base_power RANGE*0.6705;
+	power_pf 0;
+	power_fraction 0;
+	current_pf 0;
+	current_fraction 0;
+	impedance_pf 1;
+	impedance_fraction 1;
+};
+object ZIPload {
+	schedule_skew 577;
+	heat_fraction 0.951;
+	base_power MICROWAVE*0.7977;
+	power_pf 0.97;
+	power_fraction 1;
+	current_pf 0.97;
+	current_fraction 0;
+	impedance_pf 0.97;
+	impedance_fraction 0;
+};
+}
+
+object triplex_meter {
+	name solar_F1_tpm_rt_B0;
+	parent F1_tpm_rt_B0;
+	phases BS;
+	nominal_voltage 120;
+	groupid inverter_meter;
+	
+	object inverter {
+		name inv_F1_house_B0;
+		phases BS;
+		inverter_type FOUR_QUADRANT;
+		power_factor 1;
+		use_multipoint_efficiency TRUE;
+		inverter_manufacturer XANTREX;
+		maximum_dc_power 6500; 
+		four_quadrant_control_mode CONSTANT_PF;
+		generator_status ONLINE;
+		rated_power 6500;	
+		inverter_efficiency 0.90;
+
+		object solar {
+			name sol_inv_F1_house_B0;
+			generator_mode SUPPLY_DRIVEN;
+			generator_status ONLINE;
+			panel_type SINGLE_CRYSTAL_SILICON;
+			orientation FIXED_AXIS; 
+			rated_power 7500;
+		};
+	};
+}
+
+object recorder {
+	parent F1_tpm_rt_B0;
+	property measured_voltage_1.real,measured_voltage_1.imag,measured_current_1.real,measured_current_1.imag,measured_power.real,measured_power.imag;
+	interval 1.0;
+	file TPM_B0.csv;
+}
+object recorder {
+	parent F1_transformer_meter;
+	property measured_voltage_A,measured_power_A,measured_voltage_B,measured_power_B,measured_voltage_C,measured_power_C;
+	interval 1.0;
+	file Transformer.csv;
+}
+
