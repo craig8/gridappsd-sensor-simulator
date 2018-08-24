@@ -63,14 +63,20 @@ class Sensor(object):
         if self._interval > 0.0:
             offset = random.randint (0, self._interval - 1) # each sensor needs a staggered start
             self.reset_interval (t - offset, val)
+        else:
+            self._n = 1
+            self._tstart = t
+            self._average = val
+            self._min = val
+            self._max = val
         self._initialized = True
 
     def reset_interval(self, t, val):
         self._n = 1
         self._tstart = t
         self._average = val
-        self._min = sys.float_info.max
-        self._max = -sys.float_info.max
+        self._min = val # sys.float_info.max
+        self._max = val # -sys.float_info.max
 
     def add_sample(self, t, val):
         if not self._initialized:
@@ -97,7 +103,7 @@ class Sensor(object):
             if drop <= self.perunit_dropping:
                 self.reset_interval(t, mean_val)
                 return (None, None, None)
-        ret = (mean_val + random.gauss(0.0, self._stddev), # TODO: want the same error on each?
+        ret = (mean_val + random.gauss(0.0, self._stddev), # TODO (Tom, Andy, Andy): do we want the same error on each?
                self._min + random.gauss(0.0, self._stddev), 
                self._max + random.gauss(0.0, self._stddev))
         self.reset_interval(t, mean_val)
@@ -116,16 +122,20 @@ class Sensor(object):
         self.reset_interval(t, mean_val)
         return ret
 
-    def get_new_value(self, value): # this is for the subscription case with _interval == 0
-        if self.perunit_dropping > 0.0:
-            drop = random.uniform(0, 1)
-            if drop <= self.perunit_dropping:
-                return None
-
-        if isinstance(value, bool) or self._stddev <= 0.0:
-            return value
-        else:
-            return value + random.gauss(0.0, self._stddev)
+    def get_new_value(self, t, value):
+        self.add_sample (t, value)
+        if self.ready_to_sample (t):
+            return take_inst_sample(t)
+        return None
+#       if self.perunit_dropping > 0.0:
+#           drop = random.uniform(0, 1)
+#           if drop <= self.perunit_dropping:
+#               return None
+#
+#       if isinstance(value, bool) or self._stddev <= 0.0:
+#           return value
+#       else:
+#           return value + random.gauss(0.0, self._stddev)
 
     def __str__(self):
         return "seed: {}, nominal: {}, stddev: {}, pu dropped: {}, agg interval: {}, output topic: {}".format(
@@ -147,6 +157,8 @@ class Sensor(object):
         mout = mobj.copy()
         mout['measurements'] = []
 
+        t = mobj['timestamp'] # TODO (Craig): this needs to be epoch time (integer seconds)
+
         for measurement in mobj['measurements']:
             remove = False
             mcopy = measurement.copy()
@@ -155,7 +167,7 @@ class Sensor(object):
                     # continue on as strings won't be modified.
                     continue
 
-                new_value = self.get_new_value(value)
+                new_value = self.get_new_value(t, value)
 
                 if not new_value:
                     remove = True
@@ -272,7 +284,7 @@ if __name__ == '__main__':
 
     sensor = Sensor(gapp,
                     seed=opts.random_seed,
-                    nominal=opts.nominal,
+                    nominal=opts.nominal, # TODO (Craig, Tom, Andy F): these 4 parameters will need to be different for each sensor instance
                     perunit_confidence95=opts.perunit_confidence,
                     perunit_dropping=opts.perunit_dropping,
                     interval=opts.interval,
