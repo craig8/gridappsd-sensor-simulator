@@ -28,7 +28,7 @@ class Sensor(object):
         self._gapps = gridappsd
         self._nominal = nominal
         self._perunit_dropping = perunit_dropping
-        self._stddev = nominal * perunit_confidence95 * 1.96  # for normal distribution
+        self._stddev = nominal * perunit_confidence95 / 1.96  # for normal distribution
         self._seed = seed
         self._interval = interval
         self._output_topic = output_topic
@@ -194,7 +194,7 @@ def get_opts():
                         help="Specify the 95% confidence interval, in +/- perunit of nominal range.")
     parser.add_argument("--perunit-dropping", type=float, default=0.01,
                         help="Fraction of measurements that are not republished.")
-    parser.add_argument("--interval", type=float, default=900.0,
+    parser.add_argument("--interval", type=float, default=30.0,
                         help="Interval in seconds for min, max, average aggregation.")
     parser.add_argument("-u", "--username", default="system",
                         help="The username to authenticate with the message bus.")
