@@ -6,23 +6,7 @@ import random
 import time
 
 from gridappsd import GridAPPSD
-from gridappsd.topics import simulation_output_topic
-
-
-def sensor_output_topic(simulation_id):
-    """ create an output topic for the sensor to write to.
-
-    The output topic will be based upon the main simulation_output_topic,
-    and be of the form /topic/goss.gridappsd.simulation.sensors.<simulation_id>.
-
-    :param simulation_id:
-    :return:
-    """
-    original = simulation_output_topic(simulation_id)
-    partitioned = original.split('.')
-    new_topic = '.'.join(partitioned[:-2] + ['sensors'] + [partitioned[-1]])
-    return new_topic
-
+from gridappsd.topics import sensor_output_topic
 
 class Sensor(object):
     def __init__(self, gridappsd, seed, allow_dropping, percent_error, output_topic):
