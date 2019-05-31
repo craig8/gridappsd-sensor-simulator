@@ -157,9 +157,9 @@ class Sensor(object):
         mout = mobj.copy()
         mout['measurements'] = []
 
-        t = mobj['timestamp'] # TODO (Craig): this needs to be epoch time (integer seconds)
+        t = mobj['message']['timestamp'] # TODO (Craig): this needs to be epoch time (integer seconds)
 
-        for measurement in mobj['measurements']:
+        for measurement in mobj['message']['measurements']:
             remove = False
             mcopy = measurement.copy()
             for prop, value in mcopy.items():
