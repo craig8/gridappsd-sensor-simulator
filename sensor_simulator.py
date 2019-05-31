@@ -163,8 +163,9 @@ class Sensor(object):
             remove = False
             mcopy = measurement.copy()
             for prop, value in mcopy.items():
-                if isinstance(value, str):
-                    # continue on as strings won't be modified.
+                # TODO: this only processes 'magnitude' and 'value'
+                #       it needs to also process 'angle' but with different noise
+                if prop in ('measurement_mrid', 'angle'):
                     continue
 
                 new_value = self.get_new_value(t, value)
