@@ -12,7 +12,8 @@ from gridappsd.topics import simulation_output_topic
 def sensor_output_topic(simulation_id):
     """ create an output topic for the sensor to write to.
 
-    The output topic will be based upon the main simulation_output_topic.
+    The output topic will be based upon the main simulation_output_topic,
+    and be of the form /topic/goss.gridappsd.simulation.sensors.<simulation_id>.
 
     :param simulation_id:
     :return:
