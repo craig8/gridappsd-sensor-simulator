@@ -12,6 +12,13 @@ The following topics will be read and written to.  The <simulation_id> is a Grid
 
 ## Message Structure
 
-Both the simulation output message and teh sensor simulation output will have the same structure see 
+Both the simulation output message and the sensor simulation output will have the same structure see 
 (https://gridappsd.readthedocs.io/en/latest/using_gridappsd/index.html#subscribe-to-simulation-output)
+
+## Testing
+
+- run 'gridlabd one_meter.glm'  (this creates two CSV files with 1-second data)
+- run 'python plot_inputs.py'   (this plots the CSV files, and generates a third one called Input.csv for testing the sensor service)
+- run 'python sensor_simulator.py -9999'  (this runs the service in test mode with Input.csv, produces Output.csv)
+- run 'python plot_outputs.py'  (compares Input.csv with Output.csv)
 
