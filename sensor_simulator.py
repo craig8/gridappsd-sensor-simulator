@@ -8,20 +8,8 @@ import sys
 import csv
 
 from gridappsd import GridAPPSD
-from gridappsd.topics import simulation_output_topic
+from gridappsd.topics import service_output_topic
 
-def sensor_output_topic(simulation_id):
-    """ create an output topic for the sensor to write to.
-
-    The output topic will be based upon the main simulation_output_topic.
-
-    :param simulation_id:
-    :return:
-    """
-    original = simulation_output_topic(simulation_id)
-    partitioned = original.split('.')
-    new_topic = '.'.join(partitioned[:-2] + ['sensors'] + [partitioned[-1]])
-    return new_topic
 
 class Sensor(object):
     def __init__(self, gridappsd, seed, nominal, perunit_dropping, perunit_confidence95, interval, output_topic):
@@ -276,7 +264,7 @@ if __name__ == '__main__':
         raise SystemExit
 
     read_topic = simulation_output_topic(opts.simulation_id)
-    write_topic = sensor_output_topic(opts.simulation_id)
+    write_topic = service_output_topic("sensors", opts.simulation_id)
 
     gapp = GridAPPSD(username=opts.username,
                      password=opts.password,
