@@ -6,7 +6,7 @@ import random
 import time
 
 from gridappsd import GridAPPSD
-from gridappsd.topics import sensor_output_topic
+from gridappsd.topics import service_output_topic
 
 class Sensor(object):
     def __init__(self, gridappsd, seed, allow_dropping, percent_error, output_topic):
@@ -119,7 +119,7 @@ if __name__ == '__main__':
     opts = get_opts()
 
     read_topic = simulation_output_topic(opts.simulation_id)
-    write_topic = sensor_output_topic(opts.simulation_id)
+    write_topic = service_output_topic("sensors", opts.simulation_id)
 
     gapp = GridAPPSD(username=opts.username,
                      password=opts.password,
