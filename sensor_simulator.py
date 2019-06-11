@@ -8,7 +8,7 @@ import sys
 import csv
 
 from gridappsd import GridAPPSD
-from gridappsd.topics import service_output_topic
+from gridappsd.topics import service_output_topic, simulation_output_topic
 
 
 class Sensor(object):
