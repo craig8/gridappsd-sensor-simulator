@@ -15,9 +15,10 @@ from gridappsd.topics import service_output_topic, simulation_output_topic
 _log = logging.getLogger(__name__)
 _log.setLevel(logging.DEBUG)
 
-if not os.path.exists("/tmp/debug/debug-sensors"):
-    os.makedirs("/tmp/debug/debug-sensors")
-fh = logging.FileHandler("/tmp/debug-sensors/sensors.log")
+debug_dir = "/tmp/debug/debug-sensors"
+if not os.path.exists(debug_dir):
+    os.makedirs(debug_dir)
+fh = logging.FileHandler(os.path.join(debug_dir, "sensors.log"))
 fh.setLevel(logging.DEBUG)
 _log.addHandler(fh)
 
