@@ -5,6 +5,7 @@ import json
 import random
 import time
 import sys
+import os
 import csv
 import logging
 
@@ -14,7 +15,9 @@ from gridappsd.topics import service_output_topic, simulation_output_topic
 _log = logging.getLogger(__name__)
 _log.setLevel(logging.DEBUG)
 
-fh = logging.FileHandler("/tmp/debug/sensors.log")
+if not os.path.exists("/tmp/debug-sensors"):
+    os.makedirs("/tmp/debug/debug-sensors")
+fh = logging.FileHandler("/tmp/debug-sensors/sensors.log")
 fh.setLevel(logging.DEBUG)
 _log.addHandler(fh)
 
