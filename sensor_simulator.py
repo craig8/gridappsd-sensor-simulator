@@ -5,11 +5,21 @@ import json
 import random
 import time
 import sys
+import os
 import csv
+import logging
 
-from gridappsd import GridAPPSD
-from gridappsd.topics import service_output_topic
+from gridappsd import GridAPPSD, utils
+from gridappsd.topics import service_output_topic, simulation_output_topic
 
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.DEBUG)
+
+if not os.path.exists("/tmp/debug-sensors"):
+    os.makedirs("/tmp/debug/debug-sensors")
+fh = logging.FileHandler("/tmp/debug-sensors/sensors.log")
+fh.setLevel(logging.DEBUG)
+_log.addHandler(fh)
 
 class Sensor(object):
     def __init__(self, gridappsd, seed, nominal, perunit_dropping, perunit_confidence95, interval, output_topic):
@@ -22,6 +32,12 @@ class Sensor(object):
         self._output_topic = output_topic
         self._initialized = False
         random.seed(seed)
+        _log.debug(self)
+
+    def __repr__(self):
+        return f"""
+<Sensor(seed={self.seed}, nominal={self.nominal}, interval={self.interval}, output_topic={self.output_topic},
+        perunit_dropping={self.perunit_dropping})>""" 
 
     @property
     def seed(self):
@@ -113,7 +129,7 @@ class Sensor(object):
     def get_new_value(self, t, value):
         self.add_sample (t, value)
         if self.ready_to_sample (t):
-            return take_inst_sample(t)
+            return self.take_inst_sample(t)
         return None
 #       if self.perunit_dropping > 0.0:
 #           drop = random.uniform(0, 1)
@@ -140,13 +156,12 @@ class Sensor(object):
         :param message:
         :return:
         """
-
-        mobj = json.loads(message)
+        mobj = message.copy()
         mout = mobj.copy()
         mout['measurements'] = []
 
-        t = mobj['message']['timestamp'] # TODO (Craig): this needs to be epoch time (integer seconds)
-
+        t = mobj['message']['timestamp'] 
+        _log.debug(f"Processing Timestamp: {t}")
         for measurement in mobj['message']['measurements']:
             remove = False
             mcopy = measurement.copy()
@@ -185,14 +200,12 @@ def get_opts():
                         help="Fraction of measurements that are not republished.")
     parser.add_argument("--interval", type=float, default=30.0,
                         help="Interval in seconds for min, max, average aggregation.")
-    parser.add_argument("-u", "--username", default="system",
+    parser.add_argument("-u", "--username", default=utils.get_gridappsd_user(),
                         help="The username to authenticate with the message bus.")
-    parser.add_argument("-p", "--password", default="manager",
+    parser.add_argument("-p", "--password", default=utils.get_gridappsd_pass(),
                         help="The password to authenticate with the message bus.")
-    parser.add_argument("-a", "--stomp-address", default="127.0.0.1",
-                        help="tcp address of the mesage bus.")
-    parser.add_argument("--stomp-port", default=61613, type=int,
-                        help="the stomp port on the message bus.")
+    parser.add_argument("-a", "--address", default=utils.get_gridappsd_address(),
+                        help="The tcp://addr:port that gridappsd is located on.") 
     opts = parser.parse_args()
     return opts
 
@@ -268,8 +281,7 @@ if __name__ == '__main__':
 
     gapp = GridAPPSD(username=opts.username,
                      password=opts.password,
-                     stomp_address=opts.stomp_address,
-                     stomp_port=opts.stomp_port)
+                     address=opts.address)
 
     sensor = Sensor(gapp,
                     seed=opts.random_seed,
