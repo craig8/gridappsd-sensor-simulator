@@ -278,7 +278,7 @@ if __name__ == '__main__':
         raise SystemExit
 
     read_topic = simulation_output_topic(opts.simulation_id)
-    write_topic = service_output_topic("sensors", opts.simulation_id)
+    write_topic = service_output_topic("gridappsd-sensor-simulator", opts.simulation_id)
 
     gapp = GridAPPSD(username=opts.username,
                      password=opts.password,
