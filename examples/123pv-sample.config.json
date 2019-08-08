@@ -1,0 +1,10 @@
+{
+  "_001cc221-d6e6-485d-bdcc-b84cb643d1ec": {
+    "nominal-voltage": 100,
+    "perunit-confidence": 0.01
+    "aggregation-interval": 30,
+    "perunit-dropping": 0.01
+  },
+  "_00313f7c-5140-47cf-b750-0146bb3d9024":{},
+  "_cbc569c1-846c-415f-8c27-b2745b52b20a": {}
+}
