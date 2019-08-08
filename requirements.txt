@@ -1,1 +1,1 @@
-gridappsd>=0.7
+gridappsd>=2019.7.0
