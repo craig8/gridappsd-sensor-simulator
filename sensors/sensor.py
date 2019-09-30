@@ -7,15 +7,15 @@ import time
 _log = logging.getLogger(__file__)
 
 DEFAULT_SENSOR_CONFIG = {
-    "nominal-voltage": 100,
-    "perunit-confidence": 0.01,
-    "aggregation-interval": 30,
-    "perunit-dropping": 0.01
+    "default-perunit-confidence-rate": 0.01,
+    "default-aggregation-interval": 30,
+    "default-perunit-drop-rate": 0.01,
+    'default-nominal-voltage': 100
 }
 
 
 class Sensors(object):
-    def __init__(self, gridappsd, read_topic, write_topic, log_statistics=False, seed=None, sensor_config={}):
+    def __init__(self, gridappsd, read_topic, write_topic, log_statistics=False, user_options=None):
         """ initializes sensor objects
 
         sensor_config should be a dictionary of dictionaries to handle
@@ -49,13 +49,17 @@ class Sensors(object):
             Boolean: Log statistics to the gridappsd log
         :param gridappsd:
             The main object used to connect to gridappsd
-        :param seed:
+        :param random_seed:
             A random seed to be used for reproducible results.
         :param sensor_config:
             Configuration of the sensors that should have noise to them.
         """
         super(Sensors, self).__init__()
-        self._seed = seed
+        if user_options is None:
+            user_options = {}
+        else:
+            user_options = deepcopy(user_options)
+        self._random_seed = user_options.get('random-seed', 0)
         self._sensors = {}
         self._gappsd = gridappsd
         self._read_topic = read_topic
@@ -66,13 +70,24 @@ class Sensors(object):
         assert self._read_topic, "Invalid read topic specified, cannot be None"
         assert self._write_topic, "Invalid write topic specified, cannob be None"
 
-        for k, v in sensor_config.items():
-            values = DEFAULT_SENSOR_CONFIG.copy()
-            values.update(v)
-            arg_values = {}
-            for k1, v1 in values.items():
-                arg_values[k1.replace("-", "_")] = v1
-            self._sensors[k] = Sensor(self._seed, **arg_values)
+        sensors_config = user_options.pop("sensors-config", {})
+        self.passthrough_if_not_specified = user_options.pop('passthrough-if-not-specified', True)
+        self.default_perunit_confifidence_rate = user_options.get('default-perunit-confidence-rate',
+                                                                  DEFAULT_SENSOR_CONFIG['default-perunit-confidence-rate'])
+        self.default_drop_rate = user_options.get("default-perunit-drop-rate",
+                                                  DEFAULT_SENSOR_CONFIG['default-perunit-drop-rate'])
+        self.default_aggregation_interval = user_options.get("default-aggregation-interval",
+                                                             DEFAULT_SENSOR_CONFIG['default-aggregation-interval'])
+        self.default_nominal_voltage = user_options.get('default-nominal-voltage',
+                                                        DEFAULT_SENSOR_CONFIG['default-nominal-voltage'])
+        for k, v in sensors_config.items():
+            agg_interval = v.get("aggregation-interval", self.default_aggregation_interval)
+            perunit_drop_rate = v.get("drop-rate", self.default_drop_rate)
+            perunit_confidence_rate = v.get('per-unit-confidence-rate', self.default_perunit_confifidence_rate)
+            nominal_voltage = v.get('nominal-voltage', self.default_nominal_voltage)
+            self._sensors[k] = Sensor(self._random_seed, nominal_voltage=100, aggregation_interval=agg_interval,
+                                      perunit_drop_rate=perunit_drop_rate,
+                                      perunit_confidence_rate=perunit_confidence_rate)
 
     def on_simulation_message(self, headers, message):
         """ Listens for simulation messages off the gridappsd message bus
@@ -87,41 +102,55 @@ class Sensors(object):
 
         configured_sensors = set(self._sensors.keys())
 
-        obj_original = deepcopy(message)
-        obj_out = deepcopy(message)
-        timestep = obj_original['message']['timestamp']
-        # Since measurements are an array we use this as an
-        # array of the output.
-        #
-        # Note an inplace replacement of data would be more efficient, but
-        # for now we will use a loop through all the measurements.
-        obj_measurement_out = []
+        measurement_out = {}
 
-        for measurement in obj_original['message']['measurements']:
-            measurement_mrid = measurement['measurement_mrid']
-            if measurement_mrid in configured_sensors:
-                # replace measurement value based upon the sensor configuration.
-                new_measurement = {}
-                # Create new values for data from the sensor.
-                for prop, value in measurement.items():
-                    # TODO: this only processes 'magnitude' and 'value'
-                    #       it needs to also process 'angle' but with different noise
-                    if prop in ('measurement_mrid', 'angle'):
-                        new_measurement[prop] = value
-                        continue
-                    new_value = self._sensors[measurement_mrid].get_new_value(timestep, value)
-                    new_measurement[prop] = new_value
+        if self.passthrough_if_not_specified:
+            measurement_out = deepcopy(message['message']['measurements'])
 
-                # Gent new values for things
-                configured_sensors.remove(measurement_mrid)
-                obj_measurement_out.append(new_measurement)
-            else:
-                # pass through
-                obj_measurement_out.append(measurement)
+        timestep = message['message']['timestamp']
 
-        obj_out['message']['measurements'] = obj_measurement_out
-        # Publish new data back out to the message bus
-        self._gappsd.send(self._write_topic, json.dumps(obj_out))
+        for mrid in configured_sensors:
+            new_measurement = dict(
+                measurement_mrid=mrid
+            )
+
+            item = message['message']['measurements'][mrid]
+
+            # Create new values for data from the sensor.
+            for prop, value in item.items():
+                # TODO: this only processes 'magnitude' and 'value'
+                #       it needs to also process 'angle' but with different noise
+                if prop in ('measurement_mrid', 'angle'):
+                    new_measurement[prop] = value
+                    continue
+                new_value = self._sensors[mrid].get_new_value(timestep, value)
+                new_measurement[prop] = new_value
+
+            measurement_out[mrid] = new_measurement
+            # measurement_mrid = item['measurement_mrid']
+            # if measurement_mrid in configured_sensors:
+            #     # replace measurement value based upon the sensor configuration.
+            #     new_measurement = {}
+            #     # Create new values for data from the sensor.
+            #     for prop, value in item.items():
+            #         # TODO: this only processes 'magnitude' and 'value'
+            #         #       it needs to also process 'angle' but with different noise
+            #         if prop in ('measurement_mrid', 'angle'):
+            #             new_measurement[prop] = value
+            #             continue
+            #         new_value = self._sensors[measurement_mrid].get_new_value(timestep, value)
+            #         new_measurement[prop] = new_value
+            #
+            #     # Gent new values for things
+            #     configured_sensors.remove(measurement_mrid)
+            #     output_measurements[measurement_mrid] = new_measurement
+            # else:
+            #     # pass through
+            #     output_measurements[measurement_mrid] = item
+
+        message['message']['measurements'] = measurement_out
+        _log.debug(f"Sending to: {self._write_topic}\nmessage: {message}")
+        self._gappsd.send(self._write_topic, json.dumps(message))
 
     def main_loop(self):
         self._gappsd.subscribe(self._read_topic, self.on_simulation_message)
@@ -131,21 +160,20 @@ class Sensors(object):
 
 
 class Sensor(object):
-    def __init__(self, seed, nominal, aggregation_interval, perunit_dropping, perunit_confidence95):
+    def __init__(self, seed, nominal_voltage, aggregation_interval, perunit_drop_rate, perunit_confidence_rate):
         """
 
         :param gridappsd:
         :param seed:
         :param nominal:
         :param perunit_dropping:
-        :param perunit_confidence95:
+        :param perunit_confidence:
         :param interval:
         :param input_topic:
-        :param output_topic:
         """
-        self._nominal = nominal
-        self._perunit_dropping = perunit_dropping
-        self._stddev = nominal * perunit_confidence95 / 1.96  # for normal distribution
+        self._nominal = nominal_voltage
+        self._perunit_dropping = perunit_drop_rate
+        self._stddev = nominal_voltage * perunit_confidence_rate / 1.96  # for normal distribution
         self._seed = seed
         self._interval = aggregation_interval
         # Set default - Uninitialized values for internal properties.
@@ -183,10 +211,6 @@ class Sensor(object):
     @property
     def interval(self):
         return self._interval
-
-    @property
-    def output_topic(self):
-        return self._output_topic
 
     def initialize(self, t, val):
         if self._interval > 0.0:
@@ -258,6 +282,6 @@ class Sensor(object):
         return None
 
     def __str__(self):
-        return "seed: {}, nominal: {}, stddev: {}, pu dropped: {}, agg interval: {}, output topic: {}".format(
-            self.seed, self.nominal, self.stddev, self.perunit_dropping, self.interval, self.output_topic
+        return "seed: {}, nominal: {}, stddev: {}, pu dropped: {}, agg interval: {}".format(
+            self.seed, self.nominal, self.stddev, self.perunit_dropping, self.interval
         )
