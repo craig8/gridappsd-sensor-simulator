@@ -27,8 +27,7 @@ release = '2019.10.0'
 
 # -- General configuration ---------------------------------------------------
 
-# On the rtd server the default is contents so we override that here to be
-# what we have as our default page.
+# The master toctree document.
 master_doc = 'index'
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -51,7 +50,7 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
