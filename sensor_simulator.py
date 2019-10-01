@@ -16,10 +16,6 @@ from sensors import Sensors
 _log = logging.getLogger(__name__)
 _log.setLevel(logging.DEBUG)
 
-fh = logging.FileHandler("/tmp/sensors.log", mode='w', encoding='utf-8')
-fh.setLevel(logging.DEBUG)
-_log.addHandler(fh)
-
 
 def get_opts():
     parser = argparse.ArgumentParser()
@@ -111,6 +107,8 @@ def get_opts():
 
 
 if __name__ == '__main__':
+    import os
+    import shutil
 
     sensors = dict()
     opts = get_opts()
@@ -127,6 +125,12 @@ if __name__ == '__main__':
     read_topic = simulation_output_topic(opts.simulation_id)
     write_topic = service_output_topic("sensors", opts.simulation_id)
 
-    run_sensors = Sensors(gapp, read_topic=read_topic, write_topic=write_topic,
-                          user_options=user_options)
-    run_sensors.main_loop()
+    log_file = "/tmp/gridappsd_tmp/{}/sensors.log".format(opts.simulation_id)
+    if not os.path.exists(os.path.dirname(log_file)):
+        os.makedirs(os.path.dirname(log_file))
+
+    with open(log_file, 'w') as fp:
+        logging.basicConfig(stream=fp, level=logging.DEBUG)
+        run_sensors = Sensors(gapp, read_topic=read_topic, write_topic=write_topic,
+                              user_options=user_options)
+        run_sensors.main_loop()

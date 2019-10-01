@@ -62,6 +62,7 @@ class Sensors(object):
         self._random_seed = user_options.get('random-seed', 0)
         self._sensors = {}
         self._gappsd = gridappsd
+        self._logger = self._gappsd.get_logger()
         self._read_topic = read_topic
         self._write_topic = write_topic
         self._log_statistics = log_statistics
@@ -89,6 +90,8 @@ class Sensors(object):
                                       perunit_drop_rate=perunit_drop_rate,
                                       perunit_confidence_rate=perunit_confidence_rate)
 
+        _log.debug("Created {} sensors".format(len(self._sensors)))
+
     def on_simulation_message(self, headers, message):
         """ Listens for simulation messages off the gridappsd message bus
 
@@ -104,11 +107,14 @@ class Sensors(object):
 
         measurement_out = {}
 
+        # if passthrough set then copy over the measurmments of the entire message
+        # into the output.
         if self.passthrough_if_not_specified:
             measurement_out = deepcopy(message['message']['measurements'])
 
         timestep = message['message']['timestamp']
 
+        # Loop over the configured sensor andding measurements for each of them
         for mrid in configured_sensors:
             new_measurement = dict(
                 measurement_mrid=mrid
@@ -127,30 +133,17 @@ class Sensors(object):
                 new_measurement[prop] = new_value
 
             measurement_out[mrid] = new_measurement
-            # measurement_mrid = item['measurement_mrid']
-            # if measurement_mrid in configured_sensors:
-            #     # replace measurement value based upon the sensor configuration.
-            #     new_measurement = {}
-            #     # Create new values for data from the sensor.
-            #     for prop, value in item.items():
-            #         # TODO: this only processes 'magnitude' and 'value'
-            #         #       it needs to also process 'angle' but with different noise
-            #         if prop in ('measurement_mrid', 'angle'):
-            #             new_measurement[prop] = value
-            #             continue
-            #         new_value = self._sensors[measurement_mrid].get_new_value(timestep, value)
-            #         new_measurement[prop] = new_value
-            #
-            #     # Gent new values for things
-            #     configured_sensors.remove(measurement_mrid)
-            #     output_measurements[measurement_mrid] = new_measurement
-            # else:
-            #     # pass through
-            #     output_measurements[measurement_mrid] = item
 
         message['message']['measurements'] = measurement_out
         _log.debug(f"Sending to: {self._write_topic}\nmessage: {message}")
+        if self._log_statistics:
+            self._log_sensors()
         self._gappsd.send(self._write_topic, json.dumps(message))
+
+    def _log_sensors(self):
+        for s in self._sensors:
+            _log.debug(s)
+            self._logger.debug(s)
 
     def main_loop(self):
         self._gappsd.subscribe(self._read_topic, self.on_simulation_message)
@@ -215,7 +208,7 @@ class Sensor(object):
     def initialize(self, t, val):
         if self._interval > 0.0:
             offset = random.randint(0, self._interval - 1)  # each sensor needs a staggered start
-            self.reset_interval (t - offset, val)
+            self.reset_interval(t - offset, val)
         else:
             self._n = 1
             self._tstart = t
@@ -233,7 +226,7 @@ class Sensor(object):
 
     def add_sample(self, t, val):
         if not self._initialized:
-            self.initialize (t, val)
+            self.initialize(t, val)
         if t - self._tstart <= self._interval:
             if val < self._min:
                 self._min = val
@@ -276,7 +269,7 @@ class Sensor(object):
         return ret
 
     def get_new_value(self, t, value):
-        self.add_sample (t, value)
+        self.add_sample(t, value)
         if self.ready_to_sample (t):
             return self.take_inst_sample(t)
         return None
