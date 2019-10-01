@@ -17,12 +17,12 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'GridAPPSD-Python'
-copyright = '2019, Craig Allwardt'
+project = 'GridAPPSD Sensor Simulator'
+copyright = '2019, Pacific Northwest National Laboratory'
 author = 'Craig Allwardt'
 
 # The full version, including alpha/beta/rc tags
-release = '2019.08.0'
+release = '2019.10.0'
 
 
 # -- General configuration ---------------------------------------------------
