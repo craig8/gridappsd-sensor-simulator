@@ -16,7 +16,7 @@ start the service when it is specified as a dependency of an application or when
 within the `GridAPPSD Visualization <https://gridappsd.readthedocs.io/en/latest/using_gridappsd/index.html>`_.  The image
 below shows a portion of the configuration options available through the service configuration panel.
 
-.. image:: _static/sensor-simulator-service-configuration.png
+.. image:: /_static/sensor-simulator-service-configuration.png
 
 
 Service Options
@@ -51,7 +51,7 @@ The other options for the service are:
  * default-perunit-drop-rate
  * passthrough-if-not-specified
 
-These options will be used when not specified within the sensor-config block.  
+These options will be used when not specified within the sensor-config block.
 
 .. note::
 
