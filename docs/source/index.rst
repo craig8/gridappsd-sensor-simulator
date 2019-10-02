@@ -8,7 +8,6 @@ GridAPPSD's Sensor Simulator
 
 .. toctree::
    :maxdepth: 3
-   :caption: Contents:
 
 The `GridAPPSD's Sensor Simulator` simulates real devices based upon the magnitude of "prestine" simulated values.  This
 service has been specifically designed to work within the gridappsd platform container.  The `GridAPPSD` platform will
@@ -17,12 +16,6 @@ within the `GridAPPSD Visualization <https://gridappsd.readthedocs.io/en/latest/
 below shows a portion of the configuration options available through the service configuration panel.
 
 .. image:: /_static/sensor-simulator-service-configuration.png
-
-
-Service Options
----------------
-
-The :class:`sensors.Sensors`_
 
 Service Configuration
 ---------------------
@@ -56,17 +49,11 @@ These options will be used when not specified within the sensor-config block.
 .. note::
 
    Currently the nominal-voltage is not looked up from the database.  At this time services aren't able to tell
-the platform when they are "ready".  This will be implemented in the near future and then all of the nominal-voltages
-will be queried from the database.
+   the platform when they are "ready".  This will be implemented in the near future and then all of the nominal-voltages
+   will be queried from the database.
 
-Environment
------------
+Further information about the `GridAPPSD <https://gridappsd.readthedocs.org/>`_ platform can be found at
+`https://gridappsd.readthedocs.org <https://gridappsd.readthedocs.org>`_.
 
 
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
