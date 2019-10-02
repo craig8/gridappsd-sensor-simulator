@@ -13,6 +13,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('../'))
 
 
 # -- Project information -----------------------------------------------------
@@ -32,6 +33,8 @@ master_doc = 'index'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+     'sphinx.ext.viewcode',
+     'sphinx.ext.autodoc'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -54,3 +57,66 @@ html_theme = 'sphinx_rtd_theme'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+
+def setup(app):
+    """
+    Registers callback method on sphinx events. callback method used to
+    dynamically generate api-docs rst files which are then converted to html
+    by readthedocs
+    :param app:
+    """
+    # app.connect('builder-inited', generate_apidoc)
+   # app.connect('builder-inited', build_gridappsd_python_api)
+    app.connect('builder-inited', generate_apidocs)
+
+    app.connect('build-finished', clean_apirst)
+
+
+def clean_apirst(app, *args):
+    import shutil
+    shutil.rmtree('source/api', ignore_errors=True)
+
+
+def generate_apidocs(app):
+    # repo_path = os.path.abspath('./griappsd-python')
+    # from git import Repo
+    # import subprocess
+    # url = "https://github.com/gridappsd/gridappsd-python"
+    # was_created = False
+    # if os.path.exists(repo_path):
+    #     repo = Repo(repo_path)
+    # else:
+    #     repo = Repo.clone_from(url, repo_path)
+    #     was_created = True
+    #
+    # if not was_created:
+    #     origin = repo.remote('origin')
+    #     origin.fetch()
+    #     origin.pull()
+    #
+    # exclusions = [
+    #     os.path.join(repo_path, '/setup.py')
+    # ]
+    import subprocess
+    cmd = ["sphinx-apidoc", '-M', '-d 4', '-o', 'source/api', '--force',
+           os.path.abspath("../sensors")]
+
+    subprocess.check_call(cmd)
+
+
+# def generate_apidoc(app):
+#     print('BUILIDING JAVADOCS '+ __file__)
+#     print('CWD: '+os.getcwd())
+#     path_to_src = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../pnnl.goss.gridappsd/src'))
+#     path_to_output = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../source'))
+#     print(path_to_src)
+#     cmd = [
+#         'javasphinx-apidoc',
+#         path_to_src,
+#         '-o',
+#         'source/api_docs',
+#         '-c',
+#         'cache'
+#     ]
+#     subprocess.call(cmd)
