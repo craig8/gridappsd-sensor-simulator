@@ -72,7 +72,7 @@ The following is a full request example for use within the context of the
 the 123 node system with 3 sensors simulated.  Also for this example those are the only measurements that will be
 published to the output sensor output topic.
 
-.. code-block::json
+.. code-block:: json
 
    {
        "power_system_config": {
