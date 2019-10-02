@@ -7,7 +7,7 @@ import time
 _log = logging.getLogger(__file__)
 
 DEFAULT_SENSOR_CONFIG = {
-    "default-perunit-confidence-rate": 0.01,
+    "default-perunit-confidence-rate": 0.95,
     "default-aggregation-interval": 30,
     "default-perunit-drop-rate": 0.01,
     'default-nominal-voltage': 100
@@ -101,6 +101,8 @@ class Sensors(object):
                                                              DEFAULT_SENSOR_CONFIG['default-aggregation-interval'])
         self.default_nominal_voltage = user_options.get('default-nominal-voltage',
                                                         DEFAULT_SENSOR_CONFIG['default-nominal-voltage'])
+
+        _log.debug(f"sensors_config is: {sensors_config}")
         for k, v in sensors_config.items():
             agg_interval = v.get("aggregation-interval", self.default_aggregation_interval)
             perunit_drop_rate = v.get("perunit-drop-rate", self.default_drop_rate)
@@ -111,7 +113,7 @@ class Sensors(object):
                                       perunit_drop_rate=perunit_drop_rate,
                                       perunit_confidence_rate=perunit_confidence_rate)
 
-        _log.debug("Created {} sensors".format(len(self._sensors)))
+        _log.info("Created {} sensors".format(len(self._sensors)))
 
     def on_simulation_message(self, headers, message):
         """
@@ -124,7 +126,7 @@ class Sensors(object):
         :param message:
             Simulation measurement message.
         """
-
+        _log.debug("Measurement Detected")
         configured_sensors = set(self._sensors.keys())
 
         measurement_out = {}
@@ -142,7 +144,12 @@ class Sensors(object):
                 measurement_mrid=mrid
             )
 
-            item = message['message']['measurements'][mrid]
+            _log.debug(f"Getting message from sensor: {mrid}")
+            item = message['message']['measurements'].get(mrid)
+
+            if not item:
+                _log.error(f"Invalid sensor mrid configured {mrid}")
+                continue
 
             # Create new values for data from the sensor.
             for prop, value in item.items():
@@ -155,19 +162,24 @@ class Sensors(object):
                 new_value = self._sensors[mrid].get_new_value(timestamp, value)
                 if new_value is None:
                     new_measurement = None
+                    _log.debug(f"Not reporting measurement for {mrid}")
                     break
 
+                _log.debug(f"mrid: {mrid} prop: {prop} new_value: {new_value}")
                 new_measurement[prop] = new_value
 
             if new_measurement is not None:
+                _log.debug(f"Adding new measurement: {new_measurement}")
                 measurement_out[mrid] = new_measurement
 
         if len(measurement_out) > 0:
             message['message']['measurements'] = measurement_out
             if self._log_statistics:
                 self._log_sensors()
-
+            _log.info(f"Sensor Measurements:\n{measurement_out}")
             self._gappsd.send(self._write_topic, json.dumps(message))
+        else:
+            _log.info("No sensor output.")
 
     def _log_sensors(self):
         for s in self._sensors:
@@ -194,6 +206,7 @@ class Sensor(object):
         """
         self._nominal = nominal_voltage
         self._perunit_dropping = perunit_drop_rate
+        self._perunit_confidence_rate = perunit_confidence_rate
         self._stddev = nominal_voltage * perunit_confidence_rate / 1.96  # for normal distribution
         self._seed = random_seed
         self._interval = aggregation_interval
@@ -210,8 +223,8 @@ class Sensor(object):
 
     def __repr__(self):
         return f"""
-<Sensor(seed={self.seed}, nominal={self.nominal}, interval={self.interval}, output_topic={self.output_topic},
-        perunit_dropping={self.perunit_dropping})>"""
+<Sensor(seed={self.seed}, nominal={self.nominal}, interval={self.interval}, perunit_drop_rate={self.perunit_dropping}, 
+    perunit_confidence_rate={self._perunit_confidence_rate})>"""
 
     @property
     def seed(self):

@@ -21,20 +21,20 @@ Service Configuration
 ---------------------
 
 The sensor-config in the above image shows an example of how to configure a portion of the system to have sensor output.
-Each mrid (`_001cc221-d6e6-485d-bdcc-b84cb643d1ec`) will be monitored by this service and either use the default values
+Each mrid (`_99db0dc7-ccda-4ed5-a772-a7db362e9818`) will be monitored by this service and either use the default values
 or use the specified values during the service runtime.
 
 .. code-block:: json
 
    {
-      "_001cc221-d6e6-485d-bdcc-b84cb643d1ec": {
+      "_99db0dc7-ccda-4ed5-a772-a7db362e9818": {
          "nominal-voltage": 100,
          "perunit-confidence-rate": 0.95,
          "aggregation-interval": 30,
          "perunit-drop-rate": 0.01
       },
-      "_00313f7c-5140-47cf-b750-0146bb3d9024":{},
-      "_cbc569c1-846c-415f-8c27-b2745b52b20a": {}
+      "_ee65ee31-a900-4f98-bf57-e752be924c4d":{},
+      "_f2673c22-654b-452a-8297-45dae11b1e14": {}
    }
 
 The other options for the service are:

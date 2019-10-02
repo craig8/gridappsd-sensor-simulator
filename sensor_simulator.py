@@ -130,7 +130,8 @@ if __name__ == '__main__':
         os.makedirs(os.path.dirname(log_file))
 
     with open(log_file, 'w') as fp:
-        logging.basicConfig(stream=fp, level=logging.DEBUG)
+        logging.basicConfig(stream=fp, level=logging.INFO)
+        logging.getLogger().info(f"user options: {user_options}")
         run_sensors = Sensors(gapp, read_topic=read_topic, write_topic=write_topic,
                               user_options=user_options)
         run_sensors.main_loop()
