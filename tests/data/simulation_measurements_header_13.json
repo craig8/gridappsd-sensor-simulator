@@ -1,0 +1,11 @@
+{
+  "content-length": "28127",
+  "expires": "0",
+  "destination": "/topic/goss.gridappsd.simulation.output.1626155865",
+  "GOSS_SUBJECT": "system",
+  "subscription": "345339",
+  "priority": "4",
+  "GOSS_HAS_SUBJECT": "True",
+  "message-id": "ID:46644b243f42-38179-1569771353347-4:33:-1:1:177",
+  "timestamp": "1569772437865"
+}

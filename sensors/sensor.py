@@ -115,8 +115,6 @@ class Sensors(object):
 
         _log.info("Created {} sensors".format(len(self._sensors)))
 
-        self.configured_sensors = set(self._sensors.keys())
-
     def on_simulation_message(self, headers, message):
         """
         Listen for simulation measurement messages off the gridappsd message bus.
@@ -140,7 +138,7 @@ class Sensors(object):
         timestamp = message['message']['timestamp']
 
         # Loop over the configured sensor andding measurements for each of them
-        for mrid in self.configured_sensors:
+        for mrid in self._sensors.keys():
             new_measurement = dict(
                 measurement_mrid=mrid
             )
@@ -195,14 +193,25 @@ class Sensors(object):
 
 
 class Sensor(object):
-    def __init__(self, random_seed, nominal_voltage, aggregation_interval, perunit_drop_rate, perunit_confidence_rate):
+    def __init__(self, random_seed: int, nominal_voltage: float,
+                 aggregation_interval: float, perunit_drop_rate: float,
+                 perunit_confidence_rate: float):
         """
         An object modeling an individual sensor.
 
-        :param random_seed:
-        :param nominal_voltage:
-        :param aggregation_interval:
-        :param perunit_drop_rate:
+        :param random_seed: Number used to seed the random number
+            generator.
+        :param nominal_voltage: Nominal value of the quantity which the
+            sensor is measuring. E.g. 120 or 240 if measuring voltage
+            magnitude of a typical home in the U.S.
+            TODO: Not all measurements will be voltage magnitude, so
+                this parameter should be renamed.
+        :param aggregation_interval: Interval (seconds) for which
+            measurements are collected before aggregation is performed.
+        :param perunit_drop_rate: Number on interval [0, 1), indicating
+            the chance (from uniform distribution) measurements will be
+            dropped. E.g. if perunit_drop_rate = 0.1, 10% of
+            measurements will be dropped over the long run.
         :param perunit_confidence_rate:
         """
         self._nominal = nominal_voltage
@@ -219,6 +228,10 @@ class Sensor(object):
         self._max = 0
         self._initialized = False
 
+        # TODO/note: Seeding each sensor object could lead to unexpected
+        #   behavior. A better implementation would use something like
+        #   numpy's RandomState class.
+        #   https://docs.scipy.org/doc/numpy-1.15.1/reference/generated/numpy.random.RandomState.html
         random.seed(random_seed)
         _log.debug(self)
 
