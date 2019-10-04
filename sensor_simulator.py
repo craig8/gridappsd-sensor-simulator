@@ -117,13 +117,14 @@ if __name__ == '__main__':
         raise SystemExit
 
     user_options = opts.request['service_configs'][0]['user_options']
+    service_id = "gridappsd-sensor-simulator"
 
     gapp = GridAPPSD(username=opts.username,
                      password=opts.password,
                      address=opts.address)
 
     read_topic = simulation_output_topic(opts.simulation_id)
-    write_topic = service_output_topic("sensors", opts.simulation_id)
+    write_topic = service_output_topic(service_id, opts.simulation_id)
 
     log_file = "/tmp/gridappsd_tmp/{}/sensors.log".format(opts.simulation_id)
     if not os.path.exists(os.path.dirname(log_file)):
@@ -131,6 +132,7 @@ if __name__ == '__main__':
 
     with open(log_file, 'w') as fp:
         logging.basicConfig(stream=fp, level=logging.INFO)
+        logging.getLogger().info(f"read topic: {read_topic}\nwrite topic: {write_topic}")
         logging.getLogger().info(f"user options: {user_options}")
         run_sensors = Sensors(gapp, read_topic=read_topic, write_topic=write_topic,
                               user_options=user_options)
