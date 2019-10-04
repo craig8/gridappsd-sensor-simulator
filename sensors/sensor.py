@@ -115,6 +115,8 @@ class Sensors(object):
 
         _log.info("Created {} sensors".format(len(self._sensors)))
 
+        self.configured_sensors = set(self._sensors.keys())
+
     def on_simulation_message(self, headers, message):
         """
         Listen for simulation measurement messages off the gridappsd message bus.
@@ -127,7 +129,6 @@ class Sensors(object):
             Simulation measurement message.
         """
         _log.debug("Measurement Detected")
-        configured_sensors = set(self._sensors.keys())
 
         measurement_out = {}
 
@@ -139,7 +140,7 @@ class Sensors(object):
         timestamp = message['message']['timestamp']
 
         # Loop over the configured sensor andding measurements for each of them
-        for mrid in configured_sensors:
+        for mrid in self.configured_sensors:
             new_measurement = dict(
                 measurement_mrid=mrid
             )
