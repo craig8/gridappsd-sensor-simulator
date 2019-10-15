@@ -1,1 +1,7 @@
+sphinx_rtd_theme
+sphinx-autobuild
+sphinx
+recommonmark
 -e git+https://github.com/GRIDAPPSD/gridappsd-python.git#egg=gridappsd
+numpy
+pandas
