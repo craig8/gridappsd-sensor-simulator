@@ -3,8 +3,6 @@ import json
 import logging
 import random
 import time
-import cmath
-import numpy as np
 
 _log = logging.getLogger(__file__)
 
@@ -378,17 +376,6 @@ class Sensor(object):
         if self.ready_to_sample(t):
             return self.take_inst_sample(t)
         return None
-
-    def get_new_value_complex(self, t, mag, angle):
-        self._complex = True
-        rad_angle = angle * np.pi / 180
-        cplx = cmath.rect(mag, rad_angle)
-        self.add_sample(t, cplx)
-        new_mag, new_angle = None, None
-        if self.ready_to_sample(t):
-            cplx_sample = self.take_inst_sample(t)
-
-        return new_mag, new_angle
 
     def __str__(self):
         return "nominal: {}, stddev: {}, pu dropped: {}, agg interval: {}".format(
