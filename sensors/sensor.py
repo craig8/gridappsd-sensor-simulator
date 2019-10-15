@@ -262,7 +262,7 @@ class Sensor(object):
         self._perunit_dropping = perunit_drop_rate
         self._perunit_confidence_band_95pct = perunit_confidence_band
         # 3.92 = 1.96 * 2.0
-        self._stddev = normal_value * perunit_confidence_band / 100 / 3.92   # for normal two sided distribution
+        self._stddev = normal_value * perunit_confidence_band / 3.92   # for normal two sided distribution
         self._interval = aggregation_interval
         # Set default - Uninitialized values for internal properties.
         self._n = 0
