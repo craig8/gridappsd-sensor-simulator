@@ -27,7 +27,7 @@ the following python code shows how to get the correct topic for the service.
 
    from gridappsd import topics
 
-   read_topic = topic.service_output_topic("sensors", simulation_id)
+   read_topic = topic.service_output_topic("gridappsd-sensor-simulator", simulation_id)
 
 Service Configuration
 ---------------------
@@ -40,8 +40,8 @@ or use the specified values during the service runtime.
 
    {
       "_99db0dc7-ccda-4ed5-a772-a7db362e9818": {
-         "nominal-voltage": 100,
-         "perunit-confidence-rate": 0.95,
+         "nominal-value": 100,
+         "perunit-confidence-band": 0.01,
          "aggregation-interval": 30,
          "perunit-drop-rate": 0.01
       },
@@ -51,7 +51,7 @@ or use the specified values during the service runtime.
 
 The other options for the service are:
 
- * default-perunit-confidence-rate
+ * default-perunit-confidence-band
  * default-aggregation-interval
  * default-perunit-drop-rate
  * passthrough-if-not-specified
@@ -60,8 +60,8 @@ These options will be used when not specified within the sensor-config block.
 
 .. note::
 
-   Currently the nominal-voltage is not looked up from the database.  At this time services aren't able to tell
-   the platform when they are "ready".  This will be implemented in the near future and then all of the nominal-voltages
+   Currently the nominal-value is not looked up from the database.  At this time services aren't able to tell
+   the platform when they are "ready".  This will be implemented in the near future and then all of the nominal-values
    will be queried from the database.
 
 Request Example
@@ -111,8 +111,8 @@ published to the output sensor output topic.
            "user_options": {
                "sensors-config": {
                    "_99db0dc7-ccda-4ed5-a772-a7db362e9818": {
-                       "nominal-voltage": 100,
-                       "perunit-confidence-rate": 0.95,
+                       "nominal-value": 100,
+                       "perunit-confidence-band": 0.02,
                        "aggregation-interval": 5,
                        "perunit-drop-rate": 0.01
                    },
@@ -122,7 +122,7 @@ published to the output sensor output topic.
                "random-seed": 0,
                "default-aggregation-interval": 30,
                "passthrough-if-not-specified": false,
-               "default-perunit-confidence-rate": 0.95,
+               "default-perunit-confidence-band": 0.01,
                "default-perunit-drop-rate": 0.05
            }
        }]

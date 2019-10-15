@@ -10,7 +10,7 @@ DEFAULT_SENSOR_CONFIG = {
     "default-perunit-confidence-band": 2,
     "default-aggregation-interval": 30,
     "default-perunit-drop-rate": 0.01,
-    'default-nominal-voltage': 100
+    'default-normal-value': 100
 }
 
 
@@ -23,14 +23,14 @@ class Sensors(object):
             {
                 "sensors-config": {
                     "_001cc221-d6e6-485d-bdcc-b84cb643d1ec": {
-                        "nominal-voltage": 100,
+                        "normal-value": 100,
                         "perunit-confidence-band": 0.01,
                         "aggregation-interval": 30,
                         "perunit-drop-rate": 0.01
                     },
                     "_0031ff7c-5140-47cf-b750-0146bb3d9024": {},
                     "_00313f7c-5140-47cf-b750-0146bb3d9024": {
-                        "nominal-voltage": 35
+                        "normal-value": 35
                     },
                     "default-perunit-confidence-band": 0.01,
                     "default-aggregation-interval": 30,
@@ -99,8 +99,8 @@ class Sensors(object):
                                                   DEFAULT_SENSOR_CONFIG['default-perunit-drop-rate'])
         self.default_aggregation_interval = user_options.get("default-aggregation-interval",
                                                              DEFAULT_SENSOR_CONFIG['default-aggregation-interval'])
-        self.default_normal_value = user_options.get('default-nominal-voltage',
-                                                     DEFAULT_SENSOR_CONFIG['default-nominal-voltage'])
+        self.default_normal_value = user_options.get('default-normal-value',
+                                                     DEFAULT_SENSOR_CONFIG['default-normal-value'])
 
         _log.debug(f"sensors_config is: {sensors_config}")
         random.seed(self._random_seed)
@@ -169,8 +169,6 @@ class Sensors(object):
 
             # Create new values for data from the sensor.
             for prop, value in item.items():
-                # TODO: this only processes 'magnitude' and 'value'
-                #       it needs to also process 'angle' but with different noise
                 if prop in ('measurement_mrid',):
                     new_measurement[prop] = value
                     continue
