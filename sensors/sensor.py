@@ -3,11 +3,13 @@ import json
 import logging
 import random
 import time
+import cmath
+import numpy as np
 
 _log = logging.getLogger(__file__)
 
 DEFAULT_SENSOR_CONFIG = {
-    "default-perunit-confidence-rate": 0.95,
+    "default-perunit-confidence-band": 2,
     "default-aggregation-interval": 30,
     "default-perunit-drop-rate": 0.01,
     'default-nominal-voltage': 100
@@ -24,7 +26,7 @@ class Sensors(object):
                 "sensors-config": {
                     "_001cc221-d6e6-485d-bdcc-b84cb643d1ec": {
                         "nominal-voltage": 100,
-                        "perunit-confidence-rate": 0.01,
+                        "perunit-confidence-band": 0.01,
                         "aggregation-interval": 30,
                         "perunit-drop-rate": 0.01
                     },
@@ -32,10 +34,10 @@ class Sensors(object):
                     "_00313f7c-5140-47cf-b750-0146bb3d9024": {
                         "nominal-voltage": 35
                     },
-                    "default-perunit-confidence-rate": 0.01,
+                    "default-perunit-confidence-band": 0.01,
                     "default-aggregation-interval": 30,
                     "default-perunit-drop-rate": 0.01,
-                    "passthrough-if-not-specified": true,
+                    "passthrough-if-not-specified": false,
                     "random-seed": 0,
                     "log-statistics": false
                 }
@@ -49,7 +51,7 @@ class Sensors(object):
                                 nominal-voltage         - Normal voltage level for the sensor (note this will become
                                                           automated when querying for this from blazegraph is
                                                           implemented)
-                                perunit-confidence-rate - Confidence level that the mean value is within this range
+                                perunit-confidence-band - Confidence level that the mean value is within this range
                                 aggregation-interval    - Number of samples to collect before emitting a measurement
                                 perunit-drop-rate       - Rate to drop the measurement value
 
@@ -60,7 +62,7 @@ class Sensors(object):
             The following values are used as defaults for each sensor listed in sensor-config but does not specify
             the value for the parameter
 
-                default-perunit-confidence-rate
+                default-perunit-confidence-band
                 default-aggregation-interval
                 default-perunit-drop-rate
 
@@ -91,29 +93,39 @@ class Sensors(object):
         assert self._write_topic, "Invalid write topic specified, cannob be None"
 
         sensors_config = user_options.pop("sensors-config", {})
-        self.passthrough_if_not_specified = user_options.pop('passthrough-if-not-specified', True)
-        self.default_perunit_confifidence_rate = user_options.get('default-perunit-confidence-rate',
+        self.passthrough_if_not_specified = user_options.pop('passthrough-if-not-specified', False)
+        self.default_perunit_confifidence_band = user_options.get('default-perunit-confidence-band',
                                                                   DEFAULT_SENSOR_CONFIG[
-                                                                      'default-perunit-confidence-rate'])
+                                                                            'default-perunit-confidence-band'])
         self.default_drop_rate = user_options.get("default-perunit-drop-rate",
                                                   DEFAULT_SENSOR_CONFIG['default-perunit-drop-rate'])
         self.default_aggregation_interval = user_options.get("default-aggregation-interval",
                                                              DEFAULT_SENSOR_CONFIG['default-aggregation-interval'])
-        self.default_nominal_voltage = user_options.get('default-nominal-voltage',
-                                                        DEFAULT_SENSOR_CONFIG['default-nominal-voltage'])
+        self.default_normal_value = user_options.get('default-nominal-voltage',
+                                                     DEFAULT_SENSOR_CONFIG['default-nominal-voltage'])
 
         _log.debug(f"sensors_config is: {sensors_config}")
+        random.seed(self._random_seed)
         for k, v in sensors_config.items():
             agg_interval = v.get("aggregation-interval", self.default_aggregation_interval)
             perunit_drop_rate = v.get("perunit-drop-rate", self.default_drop_rate)
-            perunit_confidence_rate = v.get('perunit-confidence-rate', self.default_perunit_confifidence_rate)
-            nominal_voltage = v.get('nominal-voltage', self.default_nominal_voltage)
-            self._sensors[k] = Sensor(self._random_seed, nominal_voltage=nominal_voltage,
+            perunit_confidence_rate = v.get('perunit-confidence-band', self.default_perunit_confifidence_band)
+            normal_value = v.get('normal-value', self.default_normal_value)
+            self._sensors[k] = Sensor(normal_value=normal_value,
                                       aggregation_interval=agg_interval,
                                       perunit_drop_rate=perunit_drop_rate,
-                                      perunit_confidence_rate=perunit_confidence_rate)
+                                      perunit_confidence_band=perunit_confidence_rate)
 
         _log.info("Created {} sensors".format(len(self._sensors)))
+        self._first_time_through = True
+        self.sensor_file = open("/tmp/sensor.data.txt", 'w')
+        self.measurement_file = open("/tmp/measurement.data.txt", 'w')
+        self._simulation_complete = False
+        self.measurement_in_file = open("/tmp/measurement.infile.txt", 'w')
+        self.measurement_out_file = open("/tmp/measurement.outfile.txt", 'w')
+
+    def simulation_complete(self):
+        self._simulation_complete = True
 
     def on_simulation_message(self, headers, message):
         """
@@ -127,9 +139,15 @@ class Sensors(object):
             Simulation measurement message.
         """
         _log.debug("Measurement Detected")
-        configured_sensors = set(self._sensors.keys())
-
         measurement_out = {}
+
+        if self._first_time_through:
+            with open("/tmp/measurement_list.txt", 'w') as mef:
+                for x in message['message']['measurements']:
+                    mef.write(f'"{x}": '+'{},\n')
+            self._first_time_through = False
+
+        self.measurement_in_file.write(f"{json.dumps(message)}\n")
 
         # if passthrough set then copy over the measurmments of the entire message
         # into the output.
@@ -139,7 +157,7 @@ class Sensors(object):
         timestamp = message['message']['timestamp']
 
         # Loop over the configured sensor andding measurements for each of them
-        for mrid in configured_sensors:
+        for mrid in self._sensors:
             new_measurement = dict(
                 measurement_mrid=mrid
             )
@@ -155,17 +173,40 @@ class Sensors(object):
             for prop, value in item.items():
                 # TODO: this only processes 'magnitude' and 'value'
                 #       it needs to also process 'angle' but with different noise
-                if prop in ('measurement_mrid', 'angle'):
+                if prop in ('measurement_mrid',):
                     new_measurement[prop] = value
                     continue
+                new_value = None
 
-                new_value = self._sensors[mrid].get_new_value(timestamp, value)
+                if prop == 'magnitude':
+                    self.measurement_file.write(f"{timestamp} {mrid}, magnitude: {value}\n")
+                elif prop == 'angle':
+                    self.measurement_file.write(f"{timestamp} {mrid}, angle: {value}\n")
+
+                sensor = self._sensors[mrid]
+
+                if prop in ('angle', 'magnitude'):
+                    sensor_prop = sensor.get_property_sensor(prop)
+                    if sensor_prop is None:
+                        # sensor is normally 0
+                        sensor.add_property_sensor(prop, 180, sensor.interval, sensor.perunit_dropping,
+                                                   sensor._perunit_confidence_band_95pct)
+                        sensor_prop = sensor.get_property_sensor(prop)
+                    new_value = sensor_prop.get_new_value(timestamp, value)
+                else:
+                    # Keep values other than angle and magnitued the same for now.
+                    new_measurement[prop] = value
+
                 if new_value is None:
                     new_measurement = None
-                    _log.debug(f"Not reporting measurement for {mrid}")
+                    _log.debug(f"Not reporting measurement for ts: {timestamp} {mrid}")
                     break
 
-                _log.debug(f"mrid: {mrid} prop: {prop} new_value: {new_value}")
+                _log.debug(f"mrid: {mrid} timestamp: {timestamp} prop: {prop} new_value: {new_value}")
+                if prop == 'magnitude':
+                    self.sensor_file.write(f"{timestamp} {mrid}, {new_value}\n")
+                elif prop == 'angle':
+                    self.sensor_file.write(f"{timestamp} {mrid}, {value}\n")
                 new_measurement[prop] = new_value
 
             if new_measurement is not None:
@@ -177,7 +218,8 @@ class Sensors(object):
             if self._log_statistics:
                 self._log_sensors()
             _log.info(f"Sensor Measurements:\n{measurement_out}")
-            self._gappsd.send(self._write_topic, json.dumps(message))
+            self.measurement_out_file.write(f"{json.dumps(message)}\n")
+            self._gappsd.send(self._write_topic, message)
         else:
             _log.info("No sensor output.")
 
@@ -189,26 +231,38 @@ class Sensors(object):
     def main_loop(self):
         self._gappsd.subscribe(self._read_topic, self.on_simulation_message)
 
-        while True:
+        while True and not self._simulation_complete:
             time.sleep(0.001)
+
+        self.measurement_file.close()
+        self.sensor_file.close()
+        self.measurement_in_file.close()
 
 
 class Sensor(object):
-    def __init__(self, random_seed, nominal_voltage, aggregation_interval, perunit_drop_rate, perunit_confidence_rate):
+    def __init__(self, normal_value, aggregation_interval, perunit_drop_rate,
+                 perunit_confidence_band):
         """
         An object modeling an individual sensor.
 
-        :param random_seed:
-        :param nominal_voltage:
-        :param aggregation_interval:
-        :param perunit_drop_rate:
-        :param perunit_confidence_rate:
+        :param normal_value: Nominal value of the quantity which the
+            sensor is measuring. E.g. 120 or 240 if measuring voltage
+            magnitude of a typical home in the U.S.
+        :param aggregation_interval: Interval (seconds) for which
+            measurements are collected before aggregation is performed.
+        :param perunit_drop_rate: Number on interval [0, 1), indicating
+            the chance (from uniform distribution) measurements will be
+            dropped. E.g. if perunit_drop_rate = 0.1, 10% of
+            measurements will be dropped over the long run.
+        :param perunit_confidence_band: with a 95 % confidence interval, we are 95 % certain
+            that the true value lies within an interval this wide, centered on the measured value.
+
         """
-        self._nominal = nominal_voltage
+        self._normal_value = normal_value
         self._perunit_dropping = perunit_drop_rate
-        self._perunit_confidence_rate = perunit_confidence_rate
-        self._stddev = nominal_voltage * perunit_confidence_rate / 1.96  # for normal distribution
-        self._seed = random_seed
+        self._perunit_confidence_band_95pct = perunit_confidence_band
+        # 3.92 = 1.96 * 2.0
+        self._stddev = normal_value * perunit_confidence_band / 100 / 3.92   # for normal two sided distribution
         self._interval = aggregation_interval
         # Set default - Uninitialized values for internal properties.
         self._n = 0
@@ -217,22 +271,32 @@ class Sensor(object):
         self._min = 0
         self._max = 0
         self._initialized = False
+        self._complex = False
+        # A secondary list of sensors
+        self._properties = {}
 
-        random.seed(random_seed)
         _log.debug(self)
+
+    def add_property_sensor(self, key, normal_value, aggregation_interval, perunit_drop_rate,
+                            perunit_confidence_band):
+        if key in self._properties:
+            raise KeyError(f"key {key} already exists in the sensor properties")
+
+        self._properties[key] = Sensor(normal_value, aggregation_interval, perunit_drop_rate, perunit_confidence_band)
+
+    def get_property_sensor(self, key):
+        if key == 'magnitude':
+            return self
+        return self._properties.get(key)
 
     def __repr__(self):
         return f"""
-<Sensor(seed={self.seed}, nominal={self.nominal}, interval={self.interval}, perunit_drop_rate={self.perunit_dropping}, 
-    perunit_confidence_rate={self._perunit_confidence_rate})>"""
+<Sensor(nominal={self.normal_value}, interval={self.interval}, perunit_drop_rate={self.perunit_dropping}, 
+    perunit_confidence_rate={self._perunit_confidence_band_95pct})>"""
 
     @property
-    def seed(self):
-        return self._seed
-
-    @property
-    def nominal(self):
-        return self._nominal
+    def normal_value(self):
+        return self._normal_value
 
     @property
     def perunit_dropping(self):
@@ -315,7 +379,18 @@ class Sensor(object):
             return self.take_inst_sample(t)
         return None
 
+    def get_new_value_complex(self, t, mag, angle):
+        self._complex = True
+        rad_angle = angle * np.pi / 180
+        cplx = cmath.rect(mag, rad_angle)
+        self.add_sample(t, cplx)
+        new_mag, new_angle = None, None
+        if self.ready_to_sample(t):
+            cplx_sample = self.take_inst_sample(t)
+
+        return new_mag, new_angle
+
     def __str__(self):
-        return "seed: {}, nominal: {}, stddev: {}, pu dropped: {}, agg interval: {}".format(
-            self.seed, self.nominal, self.stddev, self.perunit_dropping, self.interval
+        return "nominal: {}, stddev: {}, pu dropped: {}, agg interval: {}".format(
+            self.normal_value, self.stddev, self.perunit_dropping, self.interval
         )
