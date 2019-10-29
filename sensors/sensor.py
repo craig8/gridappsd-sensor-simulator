@@ -4,6 +4,8 @@ import logging
 import random
 import time
 
+from .measurements import get_sensors_config
+
 _log = logging.getLogger(__file__)
 
 DEFAULT_SENSOR_CONFIG = {
@@ -15,7 +17,7 @@ DEFAULT_SENSOR_CONFIG = {
 
 
 class Sensors(object):
-    def __init__(self, gridappsd, read_topic, write_topic, user_options: dict = None):
+    def __init__(self, gridappsd, read_topic, write_topic, feeder, user_options: dict = None):
         """
         Create sensors based upon thee user_options dictionary
 
@@ -37,7 +39,8 @@ class Sensors(object):
                     "default-perunit-drop-rate": 0.01,
                     "passthrough-if-not-specified": false,
                     "random-seed": 0,
-                    "log-statistics": false
+                    "log-statistics": false,
+                    "simulate-all": false
                 }
             }
 
@@ -70,6 +73,8 @@ class Sensors(object):
             The topic to write the measurement data to
         :param gridappsd:
             The main object used to connect to gridappsd
+        :param feeder:
+            The feeder model that is being used in this simulation.
         :param user_options:
             A dictionary of options to specify how the service will run.
         """
@@ -92,6 +97,7 @@ class Sensors(object):
 
         sensors_config = user_options.pop("sensors-config", {})
         self.passthrough_if_not_specified = user_options.pop('passthrough-if-not-specified', False)
+        self.simulate_all = user_options.pop('simulate-all', False)
         self.default_perunit_confifidence_band = user_options.get('default-perunit-confidence-band',
                                                                   DEFAULT_SENSOR_CONFIG[
                                                                             'default-perunit-confidence-band'])
@@ -101,6 +107,8 @@ class Sensors(object):
                                                              DEFAULT_SENSOR_CONFIG['default-aggregation-interval'])
         self.default_normal_value = user_options.get('default-normal-value',
                                                      DEFAULT_SENSOR_CONFIG['default-normal-value'])
+        if self.simulate_all:
+            sensors_config = get_sensors_config(feeder)
 
         _log.debug(f"sensors_config is: {sensors_config}")
         random.seed(self._random_seed)

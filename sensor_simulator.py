@@ -47,63 +47,6 @@ def get_opts():
     opts.request = json.loads(opts.request)
 
     return opts
-#
-# def run_test (iname, oname, opts):
-#     ip = open (iname, 'r', newline='')
-#
-#     # create a sensor for each input signal column
-#     rdr = csv.reader (ip, delimiter=',')
-#     colnames = next (rdr)
-#     colnames[0] = 't'
-#     ncol = len(colnames) - 1
-#     sensors = {}
-#     outnames = []
-#     outnames.append ('t')
-#     for i in range(ncol):
-#         column_name=colnames[i+1]
-#         sensors[i] = Sensor(None,
-#                             seed=opts.random_seed,
-#                             nominal=opts.nominal,
-#                             perunit_confidence95=opts.perunit_confidence,
-#                             perunit_dropping=opts.perunit_dropping,
-#                             interval=opts.interval,
-#                             output_topic=column_name)
-#         outnames.append (column_name + '_avg')
-#         outnames.append (column_name + '_min')
-#         outnames.append (column_name + '_max')
-#     for i in sensors:
-#         print ('Sensor', i, '=', sensors[i])
-#
-#     op = open (oname, 'w')
-#     wrt = csv.writer (op, delimiter=',')
-#     wrt.writerow (outnames)
-#
-#     # write average, minimum and maximum for each sensor
-#     outputs = [0.0] * (3 * ncol + 1)
-#     # loop through the input rows, add samples, write the outputs
-#     for row in rdr:
-#         t = int(row[0])
-#         outputs[0] = t
-#         have_output = False
-#         for i in sensors:
-#             val = float(row[i+1])
-#             sensors[i].add_sample(t, val)
-#             if sensors[i].ready_to_sample(t):
-#                 sample = sensors[i].take_range_sample(t)
-#                 if sample[0] is not None:
-#                     outputs[3*i + 1] = sample[0]
-#                     outputs[3*i + 2] = sample[1]
-#                     outputs[3*i + 3] = sample[2]
-#                 else:
-#                     outputs[3*i + 1] = 0.0
-#                     outputs[3*i + 2] = 0.0
-#                     outputs[3*i + 3] = 0.0
-#                 have_output = True
-#         if have_output:
-#             wrt.writerow (['{:.3f}'.format(x) for x in outputs])
-#
-#     ip.close()
-#     op.close()
 
 
 if __name__ == '__main__':
@@ -116,7 +59,57 @@ if __name__ == '__main__':
     if opts.simulation_id == '-9999':
         raise SystemExit
 
+    if 'test' in opts.request:
+        opts.request = {
+            "power_system_config": {
+                "GeographicalRegion_name": "_73C512BD-7249-4F50-50DA-D93849B89C43",
+                "SubGeographicalRegion_name": "_A1170111-942A-6ABD-D325-C64886DC4D7D",
+                "Line_name": "_AAE94E4A-2465-6F5E-37B1-3E72183A4E44"
+            },
+            "application_config": {
+                "applications": []
+            },
+            "simulation_config": {
+                "start_time": "1563932301",
+                "duration": "120",
+                "simulator": "GridLAB-D",
+                "timestep_frequency": "1000",
+                "timestep_increment": "1000",
+                "run_realtime": False,
+                "simulation_name": "test9500new",
+                "power_flow_solver_method": "NR",
+                "model_creation_config": {
+                    "load_scaling_factor": "1",
+                    "schedule_name": "ieeezipload",
+                    "z_fraction": "0",
+                    "i_fraction": "1",
+                    "p_fraction": "0",
+                    "randomize_zipload_fractions": False,
+                    "use_houses": False
+                }
+            },
+            "test_config": {
+                "events": [],
+                "appId": ""
+            },
+            "service_configs": [{
+                "id": "gridappsd-sensor-simulator",
+                "user_options": {
+                    "default-perunit-confidence-band": 0.02,
+                    "sensors-config": {},
+                    "default-normal-value": 208,
+                    "random-seed": 0,
+                    "default-aggregation-interval": 30,
+                    "passthrough-if-not-specified": False,
+                    "default-perunit-drop-rate": 0.05,
+                    "simulate-all": True
+                }
+            }]
+        }
+    from pprint import pprint
+    pprint(opts.request)
     user_options = opts.request['service_configs'][0]['user_options']
+    feeder = opts.request['power_system_config']['Line_name']
     service_id = "gridappsd-sensor-simulator"
 
     gapp = GridAPPSD(username=opts.username,
@@ -135,5 +128,5 @@ if __name__ == '__main__':
         logging.getLogger().info(f"read topic: {read_topic}\nwrite topic: {write_topic}")
         logging.getLogger().info(f"user options: {user_options}")
         run_sensors = Sensors(gapp, read_topic=read_topic, write_topic=write_topic,
-                              user_options=user_options)
+                              user_options=user_options, feeder=feeder)
         run_sensors.main_loop()
