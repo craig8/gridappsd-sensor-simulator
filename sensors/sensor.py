@@ -1,13 +1,15 @@
 from copy import deepcopy
 import json
 import logging
+import sys
 import random
 import time
 
 from .measurements import get_sensors_config
 
-_log = logging.getLogger(__file__)
+_log = logging.getLogger(__name__)
 
+_log.setLevel(logging.DEBUG)
 DEFAULT_SENSOR_CONFIG = {
     "default-perunit-confidence-band": 2,
     "default-aggregation-interval": 30,
@@ -110,18 +112,51 @@ class Sensors(object):
         if self.simulate_all:
             sensors_config = get_sensors_config(feeder)
 
-        _log.debug(f"sensors_config is: {sensors_config}")
+        # _log.debug(f"sensors_config is: {sensors_config}")
         random.seed(self._random_seed)
+        _log.debug("measurement_id,normal_value,class,type,power,eqtype")
         for k, v in sensors_config.items():
+            cn_nomv = ''
+            try:
+                has_cn_pnv = True
+                cn_nomv = v['cn_nomv']
+            except KeyError:
+                has_cn_pnv = False
+
+            amp = ''
+            eqtype = ''
+            try:
+                has_va = True
+                amp = v['current_nomv']['val']
+                eqtype = v['current_nomv']['eqtype']
+                va_normal = v['current_nomv']['va_normal']
+            except KeyError:
+                has_va = False
+
+            normal_value = None
+            if v['type'] == 'VA' and has_va:
+                normal_value = va_normal
+            elif v['type'] == 'PNV' and has_cn_pnv:
+                normal_value = cn_nomv
             agg_interval = v.get("aggregation-interval", self.default_aggregation_interval)
             perunit_drop_rate = v.get("perunit-drop-rate", self.default_drop_rate)
             perunit_confidence_rate = v.get('perunit-confidence-band', self.default_perunit_confifidence_band)
-            normal_value = v.get('normal-value', self.default_normal_value)
-            self._sensors[k] = Sensor(normal_value=normal_value,
-                                      aggregation_interval=agg_interval,
-                                      perunit_drop_rate=perunit_drop_rate,
-                                      perunit_confidence_band=perunit_confidence_rate)
 
+            if not normal_value:
+                normal_value = v.get('normal-value', self.default_normal_value)
+            _log.debug("{measurement_id},{normal_value}{class_name},{type},{power},{eqtype}".format(measurement_id=k,
+                                                                                                    class_name=v['class'],
+                                                                                                    type=v['type'],
+                                                                                                    power=cn_nomv,
+                                                                                                    eqtype=eqtype,
+                                                                                                    normal_value=normal_value))
+            if v['class'] == 'Discrete':
+                self._sensors[k] = DiscreteSensor(perunit_drop_rate, agg_interval)
+            else:
+                self._sensors[k] = Sensor(normal_value=normal_value,
+                                          aggregation_interval=agg_interval,
+                                          perunit_drop_rate=perunit_drop_rate,
+                                          perunit_confidence_band=perunit_confidence_rate)
         _log.info("Created {} sensors".format(len(self._sensors)))
         self._first_time_through = True
         self.sensor_file = open("/tmp/sensor.data.txt", 'w')
@@ -157,8 +192,8 @@ class Sensors(object):
 
         # if passthrough set then copy over the measurmments of the entire message
         # into the output.
-        if self.passthrough_if_not_specified:
-            measurement_out = deepcopy(message['message']['measurements'])
+        #if self.passthrough_if_not_specified:
+        measurement_out = deepcopy(message['message']['measurements'])
 
         timestamp = message['message']['timestamp']
 
@@ -263,7 +298,7 @@ class Sensor(object):
 
         """
         self._normal_value = normal_value
-        self._perunit_dropping = perunit_drop_rate
+        self._perunit_drop_rate = perunit_drop_rate
         self._perunit_confidence_band_95pct = perunit_confidence_band
         # 3.92 = 1.96 * 2.0
         self._stddev = normal_value * perunit_confidence_band / 3.92   # for normal two sided distribution
@@ -279,7 +314,7 @@ class Sensor(object):
         # A secondary list of sensors
         self._properties = {}
 
-        _log.debug(self)
+        #_log.debug(self)
 
     def add_property_sensor(self, key, normal_value, aggregation_interval, perunit_drop_rate,
                             perunit_confidence_band):
@@ -304,7 +339,7 @@ class Sensor(object):
 
     @property
     def perunit_dropping(self):
-        return self._perunit_dropping
+        return self._perunit_drop_rate
 
     @property
     def stddev(self):
@@ -387,3 +422,38 @@ class Sensor(object):
         return "nominal: {}, stddev: {}, pu dropped: {}, agg interval: {}".format(
             self.normal_value, self.stddev, self.perunit_dropping, self.interval
         )
+
+
+class DiscreteSensor(Sensor):
+
+    def __init__(self, perunit_drop_rate, aggregation_interval):
+        super(DiscreteSensor, self).__init__(0, aggregation_interval, perunit_drop_rate, 0)
+        self._perunit_drop_rate = perunit_drop_rate
+        self._value = None
+
+    def add_sample(self, t, val):
+        if not self._initialized:
+            self.initialize(t, val)
+        if t - self._tstart <= self._interval:
+            self._n = self._n + 1
+        self._value = val
+
+    def take_inst_sample(self, t):
+        if self._perunit_drop_rate > 0.0:
+            drop = random.uniform(0, 1)
+            if drop <= self._perunit_drop_rate:
+                # reset the interval back to initial state.
+                self._n = 1
+                return None
+        return self._value
+
+    def get_new_value(self, t, value):
+        _log.debug("Discrete get_new_value()")
+        self.add_sample(t, value)
+        if self.ready_to_sample(t):
+            return self.take_inst_sample(t)
+        return None
+
+    def __str__(self):
+        return "DiscreteSensor <perunit_drop_rate: {perunit_drop_rate}, aggregation_interval: {aggregation_interval}>" \
+            .format(perunit_drop_rate=self._perunit_drop_rate, aggregation_interval=self._interval)

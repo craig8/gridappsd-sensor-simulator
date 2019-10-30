@@ -138,7 +138,7 @@ def get_fullscale_current(feeder: str, cn_nomv: dict):
         try:
             data = dict(eqtype=r['eqtype'].value, eqname=r['eqname'].value,
                         eqid=r['eqid'].value, val=r['val'].value, cn1id=r['cn1id'].value,
-                        power=float(r['val'].value) * cn_nomv[r['cn1id'].value])
+                        va_normal=float(r['val'].value) * cn_nomv[r['cn1id'].value])
             results[r['cn1id'].value] = data
         except KeyError as e:
             print(f'{r}')
@@ -181,19 +181,28 @@ def get_nomv(fdr, eqset):
 
 def get_sensors_config(fdr):
     # get measurement dictionary and set of equipment that is for measurments
+    the_measurements = get_measurements(fdr)
+
     nomv_by_cnid = get_cn_nomv(fdr)
-    cn1_power = get_fullscale_current(fdr, nomv_by_cnid)
+    power_nomv = get_fullscale_current(fdr, nomv_by_cnid)
     # # get nominal voltage across the equipment set of id
     # vnoms = get_vnoms(fdr, eqset)
     #
     # # finally loop over measurements list and add nominal voltageg (normal_value)
     # # for the configuration of the measurement.
     #
-    # for k, v in measurements.items():
-    #     if v['eqid'] in vnoms:
-    #         v['normal_value'] = vnoms[v['eqid']]
-    #
-    return nomv_by_cnid, cn1_power
+    for k1, v1 in the_measurements.items():
+        try:
+            v1['cn_nomv'] = nomv_by_cnid[v1['cnid']]
+        except KeyError:
+            pass
+            # print(f"{v}")
+        try:
+            v1['current_nomv'] = power_nomv[v1['cnid']]
+        except KeyError:
+            pass
+            # print(f"current_nomv key error for {v}")
+    return the_measurements
 
 
 if __name__ == '__main__':
