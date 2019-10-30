@@ -134,23 +134,31 @@ class Sensors(object):
                 has_va = False
 
             normal_value = None
-            if v['type'] == 'VA' and has_va:
-                normal_value = va_normal
-            elif v['type'] == 'PNV' and has_cn_pnv:
-                normal_value = cn_nomv
+            type_name = None
+            # Only if queried from db will these be valid.
+            if 'type' in v:
+                type_name = v['type']
+                if v['type'] == 'VA' and has_va:
+                    normal_value = va_normal
+                elif v['type'] == 'PNV' and has_cn_pnv:
+                    normal_value = cn_nomv
             agg_interval = v.get("aggregation-interval", self.default_aggregation_interval)
             perunit_drop_rate = v.get("perunit-drop-rate", self.default_drop_rate)
             perunit_confidence_rate = v.get('perunit-confidence-band', self.default_perunit_confifidence_band)
 
             if not normal_value:
                 normal_value = v.get('normal-value', self.default_normal_value)
+            class_name = None
+            # Only available when loading from database
+            if 'class' in v:
+                class_name = v['class']
             _log.debug("{measurement_id},{normal_value}{class_name},{type},{power},{eqtype}".format(measurement_id=k,
-                                                                                                    class_name=v['class'],
-                                                                                                    type=v['type'],
+                                                                                                    class_name=class_name,
+                                                                                                    type=type_name,
                                                                                                     power=cn_nomv,
                                                                                                     eqtype=eqtype,
                                                                                                     normal_value=normal_value))
-            if v['class'] == 'Discrete':
+            if class_name == 'Discrete':
                 self._sensors[k] = DiscreteSensor(perunit_drop_rate, agg_interval)
             else:
                 self._sensors[k] = Sensor(normal_value=normal_value,
