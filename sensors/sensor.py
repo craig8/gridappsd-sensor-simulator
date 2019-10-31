@@ -9,7 +9,7 @@ from .measurements import get_sensors_config
 
 _log = logging.getLogger(__name__)
 
-_log.setLevel(logging.DEBUG)
+_log.setLevel(logging.INFO)
 DEFAULT_SENSOR_CONFIG = {
     "default-perunit-confidence-band": 2,
     "default-aggregation-interval": 30,
@@ -264,7 +264,7 @@ class Sensors(object):
             message['message']['measurements'] = measurement_out
             if self._log_statistics:
                 self._log_sensors()
-            _log.info(f"Sensor Measurements:\n{measurement_out}")
+            # _log.info(f"Sensor Measurements:\n{measurement_out}")
             self.measurement_out_file.write(f"{json.dumps(message)}\n")
             self._gappsd.send(self._write_topic, message)
         else:
