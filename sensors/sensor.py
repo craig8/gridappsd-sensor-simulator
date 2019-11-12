@@ -43,7 +43,8 @@ class Sensor(object):
         self._interval = aggregation_interval if aggregation_interval is not None \
             else parent.user_config.aggregation_interval
         # Do this so that we don't have to worry about the fact that gridappsd reports every 3 seconds.
-        self._interval *= 3
+        self._interval = math.floor(self._interval / 3.0)
+
         # Set default - Uninitialized values for internal properties.
         self._n = 0
         self._tstart = 0
