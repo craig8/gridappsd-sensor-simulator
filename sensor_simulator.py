@@ -1,20 +1,22 @@
-from __future__ import absolute_import, print_function
-
 import argparse
 import calendar
 import csv
 import json
 import logging
+import math
+import sys
 import time
 from datetime import datetime
 
-from gridappsd import GridAPPSD, utils
+from gridappsd import GridAPPSD, utils, topics as t
 from gridappsd.topics import service_output_topic, simulation_output_topic
 
 from sensors import Sensors
+from sensors.measurements import SparqlMeasurements
+from sensors.sensordao import SensorDao
+from sensors.user_config import UserConfig
 
 _log = logging.getLogger(__name__)
-_log.setLevel(logging.DEBUG)
 
 
 def get_opts():
@@ -44,6 +46,7 @@ def get_opts():
 
     assert opts.request, "request must be passed."
 
+    print(opts.request)
     opts.request = json.loads(opts.request)
 
     return opts
@@ -53,80 +56,74 @@ if __name__ == '__main__':
     import os
     import shutil
 
-    sensors = dict()
     opts = get_opts()
 
     if opts.simulation_id == '-9999':
         raise SystemExit
 
-    if 'test' in opts.request:
-        opts.request = {
-            "power_system_config": {
-                "GeographicalRegion_name": "_73C512BD-7249-4F50-50DA-D93849B89C43",
-                "SubGeographicalRegion_name": "_A1170111-942A-6ABD-D325-C64886DC4D7D",
-                "Line_name": "_AAE94E4A-2465-6F5E-37B1-3E72183A4E44"
-            },
-            "application_config": {
-                "applications": []
-            },
-            "simulation_config": {
-                "start_time": "1563932301",
-                "duration": "120",
-                "simulator": "GridLAB-D",
-                "timestep_frequency": "1000",
-                "timestep_increment": "1000",
-                "run_realtime": False,
-                "simulation_name": "test9500new",
-                "power_flow_solver_method": "NR",
-                "model_creation_config": {
-                    "load_scaling_factor": "1",
-                    "schedule_name": "ieeezipload",
-                    "z_fraction": "0",
-                    "i_fraction": "1",
-                    "p_fraction": "0",
-                    "randomize_zipload_fractions": False,
-                    "use_houses": False
-                }
-            },
-            "test_config": {
-                "events": [],
-                "appId": ""
-            },
-            "service_configs": [{
-                "id": "gridappsd-sensor-simulator",
-                "user_options": {
-                    "default-perunit-confidence-band": 0.02,
-                    "sensors-config": {},
-                    "default-normal-value": 208,
-                    "random-seed": 0,
-                    "default-aggregation-interval": 30,
-                    "passthrough-if-not-specified": False,
-                    "default-perunit-drop-rate": 0.05,
-                    "simulate-all": True
-                }
-            }]
-        }
-    from pprint import pprint
-    pprint(opts.request)
+    # Need to build a class for parsing configs from json.
     user_options = opts.request['service_configs'][0]['user_options']
     feeder = opts.request['power_system_config']['Line_name']
+    # Take care of conversion from the simulation to the correct number
+    # of seconds by using time_multiple, note this is
     service_id = "gridappsd-sensor-simulator"
+
+    logfile = f"/tmp/gridappsd_tmp/{opts.simulation_id}/sensor-simulator.log"
+
+    logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
+    fh = logging.FileHandler(logfile)
+    logging.getLogger().addHandler(fh)
+
+    os.environ['GRIDAPPSD_APPLICATION_STATUS'] = 'RUNNING'
+    os.environ["GRIDAPPSD_APPLICATION_ID"] = service_id
 
     gapp = GridAPPSD(username=opts.username,
                      password=opts.password,
                      address=opts.address)
 
+    logger = gapp.get_logger()
+    logger.debug("{service_id} starting with sim id {sim_id}".format(
+        service_id=service_id, sim_id=opts.simulation_id))
     read_topic = simulation_output_topic(opts.simulation_id)
     write_topic = service_output_topic(service_id, opts.simulation_id)
 
-    log_file = "/tmp/gridappsd_tmp/{}/sensors.log".format(opts.simulation_id)
-    if not os.path.exists(os.path.dirname(log_file)):
-        os.makedirs(os.path.dirname(log_file))
+    sparql_queries = SparqlMeasurements(gapp, feeder)
+    t0 = time.time()
+    equipment_nomv = sparql_queries.get_nominal_voltages()
+    t1 = time.time()
+    energy_measurements = sparql_queries.get_energy_consumer_measurements()
+    t2 = time.time()
 
-    with open(log_file, 'w') as fp:
-        logging.basicConfig(stream=fp, level=logging.INFO)
-        logging.getLogger().info(f"read topic: {read_topic}\nwrite topic: {write_topic}")
-        logging.getLogger().info(f"user options: {user_options}")
-        run_sensors = Sensors(gapp, read_topic=read_topic, write_topic=write_topic,
-                              user_options=user_options, feeder=feeder)
-        run_sensors.main_loop()
+    print(f"""
+        Time to get measurements {t1 - t0}
+        Time to get consumers {t2 - t1}
+        """)
+        #Time to get cim dictionary {t3 - t2}
+        #""")
+
+    if os.path.exists("/tmp/sensors.sqlite"):
+        os.remove("/tmp/sensors.sqlite")
+    user_config = UserConfig(user_options)
+    #dao = SensorDao("/tmp/sensors.sqlite")
+    sensors = Sensors(gridappsd=gapp, read_topic=read_topic, write_topic=write_topic,
+                      feeder=feeder, user_config=user_config)
+
+    for meas_mrid, v in energy_measurements.items():
+        try:
+            equipment = equipment_nomv[v['eqid']]
+            p = float(equipment['p'])
+            q = float(equipment['q'])
+            mag = float(math.sqrt(p**2 + q**2))
+            angle = math.degrees(math.atan(q / p))
+
+            # Always add magnitude first!
+            sensor = sensors.add_sensor(meas_mrid, mag)
+            sensor.add_property_sensor("angle", math.atan(p/q))
+
+        except KeyError:
+            print(f"Missing {v['eqid']} in cons")
+
+    try:
+        sensors.main_loop()
+    except KeyboardInterrupt:
+        pass
