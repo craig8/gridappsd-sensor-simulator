@@ -357,31 +357,58 @@ ENERGY_CONSUMER_NOMV_QUERY = PREFIX + """
     ORDER by ?name
 """
 
-ENERGY_CONSUMER_MEASUREMENT_QUERY = """   
-SELECT ?class ?type ?name ?node ?phases ?load ?eqid ?trmid ?id 
+ENERGY_CONSUMER_MEASUREMENT_QUERY = """
+SELECT ?class ?type ?name ?bus ?phases ?eqtype ?eqname ?eqid ?trmid ?id 
 WHERE { 
- VALUES ?fdrid {"%s"} 
   ?eq c:Equipment.EquipmentContainer ?fdr. 
-  VALUES ?type {"VA"}
   ?fdr c:IdentifiedObject.mRID ?fdrid. 
-  { ?s r:type c:Discrete. bind ("Discrete" as ?class)} 
+  VALUES ?fdrid {"%s"} 
+  { ?s r:type c:Discrete. bind ("Discrete" as ?class)}   
   UNION 
-  { ?s r:type c:Analog. bind ("Analog" as ?class)} 
-  ?s c:IdentifiedObject.name ?name . 
-  ?s c:IdentifiedObject.mRID ?id . 
-  ?s c:Measurement.PowerSystemResource ?eq . 
-  ?s c:Measurement.Terminal ?trm . 
-  ?s c:Measurement.measurementType ?type . 
-  ?trm c:IdentifiedObject.mRID ?trmid. 
-  ?eq c:IdentifiedObject.mRID ?eqid. 
-  ?eq c:IdentifiedObject.name ?load. 
-  ?eq r:type c:EnergyConsumer. 
-  ?trm c:Terminal.ConnectivityNode ?cn. 
-  ?cn c:IdentifiedObject.name ?node. 
-  ?s c:Measurement.phases ?phsraw . 
-  {bind(strafter(str(?phsraw),"PhaseCode.") as ?phases)} 
-} ORDER BY ?eqid
+  { ?s r:type c:Analog. bind ("Analog" as ?class)}  
+  ?s c:IdentifiedObject.name ?name .  
+  ?s c:IdentifiedObject.mRID ?id .  
+  ?s c:Measurement.PowerSystemResource ?eq .  
+  ?s c:Measurement.Terminal ?trm .  
+  ?s c:Measurement.measurementType ?type .  
+  ?trm c:IdentifiedObject.mRID ?trmid.  
+  ?eq c:IdentifiedObject.mRID ?eqid.  
+  ?eq c:IdentifiedObject.name ?eqname.  
+  ?eq r:type ?typeraw.   
+  bind(strafter(str(?typeraw),"#") as ?eqtype)  
+  ?trm c:Terminal.ConnectivityNode ?cn.  
+  ?cn c:IdentifiedObject.name ?bus.  
+  ?s c:Measurement.phases ?phsraw .    
+  {bind(strafter(str(?phsraw),"PhaseCode.") as ?phases)} } 
+ORDER BY ?class ?type ?name
 """
+# Sent by brandon below, however using the same as what is in gridappsd DistMeasurements query
+# is above
+# ENERGY_CONSUMER_MEASUREMENT_QUERY = """
+# SELECT ?class ?type ?name ?node ?phases ?load ?eqid ?trmid ?id
+# WHERE {
+#  VALUES ?fdrid {"%s"}
+#   ?eq c:Equipment.EquipmentContainer ?fdr.
+#   VALUES ?type {"VA"}
+#   ?fdr c:IdentifiedObject.mRID ?fdrid.
+#   { ?s r:type c:Discrete. bind ("Discrete" as ?class)}
+#   UNION
+#   { ?s r:type c:Analog. bind ("Analog" as ?class)}
+#   ?s c:IdentifiedObject.name ?name .
+#   ?s c:IdentifiedObject.mRID ?id .
+#   ?s c:Measurement.PowerSystemResource ?eq .
+#   ?s c:Measurement.Terminal ?trm .
+#   ?s c:Measurement.measurementType ?type .
+#   ?trm c:IdentifiedObject.mRID ?trmid.
+#   ?eq c:IdentifiedObject.mRID ?eqid.
+#   ?eq c:IdentifiedObject.name ?load.
+#   ?eq r:type c:EnergyConsumer.
+#   ?trm c:Terminal.ConnectivityNode ?cn.
+#   ?cn c:IdentifiedObject.name ?node.
+#   ?s c:Measurement.phases ?phsraw .
+#   {bind(strafter(str(?phsraw),"PhaseCode.") as ?phases)}
+# } ORDER BY ?class ?type ?name
+# """
 
 
 CONNECTIVITY_NODE_NOMINAL_VOLTAGE_QUERY = """

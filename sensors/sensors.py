@@ -1,19 +1,21 @@
 from copy import deepcopy
 import json
 import logging
+import math
+import threading
+from threading import Lock
 import time
 
 from . sensor import Sensor
 from .sensordao import SensorDao
 from . user_config import UserConfig
+from gridappsd import utils, GridAPPSD
 _log = logging.getLogger(__name__)
-
-_log.setLevel(logging.DEBUG)
 
 
 class Sensors(object):
-    def __init__(self, gridappsd, read_topic, write_topic, feeder, user_config: UserConfig,
-                 logger=None, dao: SensorDao = None):
+    def __init__(self, gridappsd: GridAPPSD, read_topic, write_topic, user_config: UserConfig,
+                 logger=None, sensor_store: SensorDao = None):
         """
         Create sensors based upon thee user_options dictionary
 
@@ -90,7 +92,7 @@ class Sensors(object):
         self._sensors = {}
         self._gappsd = gridappsd
         self._logger = self._gappsd.get_logger()
-        self._feeder = feeder
+        self._feeder = None
         self._read_topic = read_topic
         self._write_topic = write_topic
         self._log_statistics = False
@@ -103,9 +105,13 @@ class Sensors(object):
         self._possible_measurement_sensors = {}
         self._simulation_complete = False
 
+        # specifies whether or not it's the first time through the simulated measurement
+        self._initialized = False
+
         self._measurement_number = 0
-        self._dao = dao
+        self._sensor_outputs = sensor_store
         self._user_config = user_config
+        self._has_reported_sensor_error = set()
         # if self.simulate_all:
         #     sensors_all = get_sensors_config(feeder)
         #     sensors_config.update(sensors_all)
@@ -117,8 +123,8 @@ class Sensors(object):
         return self._user_config
 
     def add_sensor(self, mesurement_mrid, normal_value, aggregation_interval=None) -> Sensor:
-        if self._dao:
-            self._dao.create_measurement(mesurement_mrid)
+        if self._sensor_outputs:
+            self._sensor_outputs.create_measurement(mesurement_mrid)
 
         cfg = {}
         if mesurement_mrid in self._user_config.sensors_config:
@@ -218,110 +224,112 @@ class Sensors(object):
         :param message:
             Simulation measurement message.
         """
-        self._measurement_number += 1
-        _log.debug(f"Measurement Detected {self._measurement_number}")
-        measurement_out = {}
+        try:
+            self._measurement_number += 1
 
-        current_measurements = message['message']['measurements']
+            timestamp = message['message']['timestamp']
+            _log.debug(f"Message number {self._measurement_number} for timestamp {timestamp}")
+            message_out = deepcopy(message)
+            current_measurements = message_out['message']['measurements']
+            # if pass-through set then copy over the measurements of the entire message
+            # into the output.
+            if self._user_config.pass_through_unspecified:
+                measurement_out = current_measurements
+            else:
+                measurement_out = {}
 
-        # if not self._initialized:
-        #     # Build sensors for the current payload
-        #     for meas_mrid, measurement in current_measurements.items():
-        #         if measurement['eqtype'] == 'EnergyConsumer':
-        #             self._sensors[measurement_number] = EnergyConsumer()
-        #
-        #
-        #
-        # #if self._first_time_through:
-        # try:
-        #     with open(f"/tmp/measurement_list{measurement_number}.txt", 'w') as mef:
-        #         for x, v in message['message']['measurements'].items():
-        #             mef.write(f'"{x}": '+f'{v},\n')
-        #     self._first_time_through = False
-        # except Exception as e:
-        #     with open("/tmp/sensor_error.txt", 'w') as issue:
-        #         issue.write(f"{e.args}\n")
-        # self.measurement_in_file.write(f"{json.dumps(message)}\n")
+            timestamp = message['message']['timestamp']
+            updated = set()
+            # Loop over the configured sensor adding measurements for each of them
+            for mrid in self._sensors:
 
-        # if passthrough set then copy over the measurmments of the entire message
-        # into the output.
-        # if self.passthrough_if_not_specified:
-        measurement_out = deepcopy(message['message']['measurements'])
+                _log.debug(f"Getting message from sensor: {mrid}")
+                item = current_measurements.get(mrid)
 
-        timestamp = message['message']['timestamp']
-
-        # Loop over the configured sensor anding measurements for each of them
-        for mrid in self._sensors:
-            new_measurement = dict(
-                measurement_mrid=mrid
-            )
-
-            _log.debug(f"Getting message from sensor: {mrid}")
-            item = message['message']['measurements'].get(mrid)
-
-            if not item:
-                _log.error(f"Invalid sensor mrid configured {mrid}")
-                continue
-
-            # Create new values for data from the sensor.
-            for prop, value in item.items():
-                if prop in ('measurement_mrid',):
-                    new_measurement[prop] = value
+                if not item:
+                    if mrid not in self._has_reported_sensor_error:
+                        _log.error(f"Invalid sensor mrid configured {mrid}")
+                        self._has_reported_sensor_error.add(mrid)
                     continue
-                new_value = None
 
-                # if prop == 'magnitude':
-                #     self.measurement_file.write(f"{timestamp} {mrid}, magnitude: {value}\n")
-                # elif prop == 'angle':
-                #     self.measurement_file.write(f"{timestamp} {mrid}, angle: {value}\n")
+                new_measurement = {}
 
-                sensor = self._sensors[mrid]
+                # Create new values for data from the sensor.
+                for prop, value in item.items():
+                    new_value = None
+                    sensor = self._sensors[mrid]
 
-                if prop in ('angle', 'magnitude'):
-                    sensor_prop = sensor.get_property_sensor(prop)
-                    if sensor_prop is None:
-                        # sensor is normally 0
-                        sensor.add_property_sensor(prop, 180, sensor.interval, sensor.perunit_dropping,
-                                                   sensor._perunit_confidence_band_95pct)
+                    if prop in ('angle', 'magnitude'):
                         sensor_prop = sensor.get_property_sensor(prop)
-                    new_value = sensor_prop.get_new_value(timestamp, value)
-                else:
-                    # Keep values other than angle and magnitued the same for now.
-                    new_measurement[prop] = value
+                        # Handle case where property wasn't set on the sensor
+                        # during sensor createion.
+                        if sensor_prop is None:
+                            if prop == 'angle':
+                                sensor.add_property_sensor(prop, 0)
+                            elif prop == 'magnitude':
+                                sensor.add_property_sensor(prop, 120)
+                            else:
+                                raise ValueError(f"Property {prop} does not have a default normal value.")
+                            sensor_prop = sensor.get_property_sensor(prop)
+                        _log.debug(f"for property {prop}")
+                        new_value = sensor_prop.get_new_value(timestamp, value)
+                    else:
+                        # Keep values other than angle and magnitued the same for now.
+                        new_measurement[prop] = value
+                        continue
 
-                if new_value is None:
-                    new_measurement = None
-                    _log.debug(f"Not reporting measurement for ts: {timestamp} {mrid}")
-                    break
+                    if new_value is not None:
+                        updated.add((mrid, prop, value, new_value))
+                        if self._sensor_outputs:
+                            value = float(value)
+                            new_value = float(new_value)
+                            _log.debug(f"value is {value}, newvalue is {new_value}")
+                            percent_diff = math.fabs(value - new_value) / math.fabs(value + new_value) / 2 * 100
+                            self._sensor_outputs.add_to_batch(measurement_mrid=item['measurement_mrid'],
+                                                              sensor_prop=prop,
+                                                              ts=timestamp,
+                                                              original_value=value,
+                                                              sensor_value=new_value,
+                                                              percent_diff=percent_diff)
+                        new_measurement[prop] = new_value
 
-                _log.debug(f"mrid: {mrid} timestamp: {timestamp} prop: {prop} new_value: {new_value}")
-                # if prop == 'magnitude':
-                #     self.sensor_file.write(f"{timestamp} {mrid}, {new_value}\n")
-                # elif prop == 'angle':
-                #     self.sensor_file.write(f"{timestamp} {mrid}, {value}\n")
-                if self._dao:
-                    self._dao.add_to_batch(measurement_mrid=item['measurement_mrid'],
-                                           sensor_prop=prop,
-                                           ts=timestamp,
-                                           original_value=value,
-                                           sensor_value=new_value)
-                new_measurement[prop] = new_value
+                # make sure we have more than just the mrid for the measurement
+                if len(new_measurement) > 1:
+                    measurement_out[mrid] = new_measurement
+                    _log.debug(f"sensor update for {mrid}: {new_measurement}")
 
-            if new_measurement is not None:
-                _log.debug(f"Adding new measurement: {new_measurement}")
-                measurement_out[mrid] = new_measurement
+            if len(measurement_out) > 0:
+                if self._sensor_outputs:
+                    self._sensor_outputs.submit_batch()
+                message_out['message']['measurements'] = measurement_out
+                if self._log_statistics:
+                    self._log_sensors()
 
-        if len(measurement_out) > 0:
-            if self._dao:
-                self._dao.submit_batch()
-            message['message']['measurements'] = measurement_out
-            if self._log_statistics:
-                self._log_sensors()
-            # _log.info(f"Sensor Measurements:\n{measurement_out}")
-            # self.measurement_out_file.write(f"{json.dumps(message)}\n")
-            self._gappsd.send(self._write_topic, message)
-        else:
-            _log.info("No sensor output.")
+                # Only perform the string operations if in debug mode.
+                if _log.level == logging.DEBUG:
+                    out_debug = f"mrid,prop,old,new\n"
+                    for mrid, prop, oldval, newval in updated:
+                        out_debug += f"{mrid},{prop:<10},{oldval:>20},{newval:>20}\n"
+
+                    _log.debug(f"Sensor Measurement Updates:\n{out_debug}")
+                #_log.debug(f"Publishing to {self._write_topic} {message_out}")
+                #_log.debug(f"Message keys out {list(message_out.items())} message_items {list(message_out['message'].items())}  ")
+                msg = f"Publishing {len(message_out['message']['measurements'])} from sensor service."
+                self._logger.info(msg)
+                _log.info(msg)
+                self._gappsd.send(self._write_topic, message_out)
+            _log.debug(f"Completed: {timestamp}")
+            self._log_sensor_internals()
+        except Exception as e:
+            _log.exception("Error in handler!")
+
+    def _log_sensor_internals(self):
+        with_values=0
+        for s, v in self._sensors.items():
+            if v._n > 0:
+                with_values += 1
+                _log.debug(f"n={v._n}, t={v._tstart}, avg={v._average}, min={v._min}, max={v._max}")
+        _log.debug(f"{with_values} of the {len(self._sensors)} have at least one sample taken.")
 
     def _log_sensors(self):
         for s in self._sensors:
@@ -329,13 +337,15 @@ class Sensors(object):
             self._logger.debug(s)
 
     def main_loop(self):
+        self._log_sensor_internals()
         _log.debug("Begining main loop")
         _log.info(f"Listening to {self._read_topic} for simulation messages.")
         self._gappsd.subscribe(self._read_topic, self.on_simulation_message)
 
         while True and not self._simulation_complete:
-            time.sleep(0.001)
+            time.sleep(0.1)
 
+        time.sleep(20)
         # self.measurement_file.close()
         # self.sensor_file.close()
         # self.measurement_in_file.close()

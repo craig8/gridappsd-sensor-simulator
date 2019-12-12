@@ -69,9 +69,20 @@ if __name__ == '__main__':
     service_id = "gridappsd-sensor-simulator"
 
     logfile = f"/tmp/gridappsd_tmp/{opts.simulation_id}/sensor-simulator.log"
+    if not os.path.exists(os.path.dirname(logfile)):
+        os.makedirs(os.path.dirname(logfile))
 
-    logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
+    #logging.basicConfig(level=logging.WARNING,
+    #                    stream=sys.stdout,
+    #                    format="%(asctime)s;%(levelname)s;%(message)s")
+    sh = logging.StreamHandler()
     fh = logging.FileHandler(logfile)
+    fmter = logging.Formatter("%(asctime)s;%(levelname)s;%(message)s")
+    sh.setFormatter(fmter)
+    fh.setFormatter(fmter)
+    sh.setLevel(logging.INFO)
+    fh.setLevel(logging.DEBUG)
+    logging.getLogger().addHandler(sh)
     logging.getLogger().addHandler(fh)
 
     os.environ['GRIDAPPSD_APPLICATION_STATUS'] = 'RUNNING'
@@ -101,29 +112,53 @@ if __name__ == '__main__':
         #Time to get cim dictionary {t3 - t2}
         #""")
 
+    _log.debug("Setting up for sqlite sensor data.")
     if os.path.exists("/tmp/sensors.sqlite"):
         os.remove("/tmp/sensors.sqlite")
     user_config = UserConfig(user_options)
     #dao = SensorDao("/tmp/sensors.sqlite")
     sensors = Sensors(gridappsd=gapp, read_topic=read_topic, write_topic=write_topic,
-                      feeder=feeder, user_config=user_config)
-
+                      user_config=user_config, sensor_store=dao)
+    added = set()
     for meas_mrid, v in energy_measurements.items():
         try:
-            equipment = equipment_nomv[v['eqid']]
-            p = float(equipment['p'])
-            q = float(equipment['q'])
-            mag = float(math.sqrt(p**2 + q**2))
-            angle = math.degrees(math.atan(q / p))
+            if v['class'] == 'Analog':
+                if len(user_config.sensors_config) > 0:
+                    cfg = user_config.sensors_config.get(meas_mrid)
+                    agg_int = cfg.get('aggregation-interval', user_config.aggregation_interval)
+                    equipment = equipment_nomv[v['eqid']]
+                    p = float(equipment['p'])
+                    q = float(equipment['q'])
+                    mag = float(math.sqrt(p ** 2 + q ** 2))
+                    angle = math.degrees(math.atan(q / p))
 
-            # Always add magnitude first!
-            sensor = sensors.add_sensor(meas_mrid, mag)
-            sensor.add_property_sensor("angle", math.atan(p/q))
+                    # Always add magnitude first!
+                    sensor = sensors.add_sensor(meas_mrid, mag, aggregation_interval=agg_int)
+                    # note property sensors have the same aggregation period as the main sensor.
+                    sensor.add_property_sensor("angle", math.atan(p / q))
+                else:
+                    # Only add one per measurement mrid
+                    if meas_mrid in added:
+                        continue
+                    equipment = equipment_nomv[v['eqid']]
+                    p = float(equipment['p'])
+                    q = float(equipment['q'])
+                    mag = float(math.sqrt(p**2 + q**2))
+                    angle = math.degrees(math.atan(q / p))
+
+                    # Always add magnitude first!
+                    _log.debug(f"Adding {meas_mrid} {v['name']} to sensors")
+                    sensor = sensors.add_sensor(meas_mrid, mag)
+                    sensor.add_property_sensor("angle", math.atan(p/q))
+                    added.add(meas_mrid)
+            else:
+                _log.debug(f"Skipping non-analog {v}")
 
         except KeyError:
-            print(f"Missing {v['eqid']} in cons")
+            _log.error(f"Missing {v['eqid']} {v['name']} from equipment_nomv query")
 
     try:
+        _log.info(f"Num sensors: {len(sensors._sensors)}")
         sensors.main_loop()
     except KeyboardInterrupt:
         pass

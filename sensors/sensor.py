@@ -5,10 +5,15 @@ import math
 import sys
 import random
 import time
+from enum import Enum
 
 from .measurements import get_sensors_config
 
 _log = logging.getLogger(__name__)
+
+class SensorType(Enum):
+    pass
+
 
 class Sensor(object):
     def __init__(self, parent, normal_value: float = None, aggregation_interval: int = None,
@@ -43,7 +48,7 @@ class Sensor(object):
         self._interval = aggregation_interval if aggregation_interval is not None \
             else parent.user_config.aggregation_interval
         # Do this so that we don't have to worry about the fact that gridappsd reports every 3 seconds.
-        self._interval = math.floor(self._interval / 3.0)
+        # self._interval = math.floor(self._interval / 3.0)
 
         # Set default - Uninitialized values for internal properties.
         self._n = 0
@@ -55,6 +60,10 @@ class Sensor(object):
         self._complex = False
         # A secondary list of sensors
         self._properties = {}
+        self._offset = 0
+        #self.tag = tag
+        #self.type = type
+        #self.property = property
 
         #_log.debug(self)
 
@@ -92,19 +101,24 @@ class Sensor(object):
         return self._interval
 
     @property
+    def offset(self):
+        return self._offset
+
+    @property
     def perunit_confidence_band(self):
         return self._perunit_confidence_band_95pct
 
     def initialize(self, t, val):
-        if self._interval > 0.0:
-            offset = random.randint(0, self._interval - 1)  # each sensor needs a staggered start
-            self.reset_interval(t - offset, val)
-        else:
-            self._n = 1
-            self._tstart = t
-            self._average = val
-            self._min = val
-            self._max = val
+        # if self._interval > 0.0:
+        #     # offset = random.randint(0, self._interval - 1)  # each sensor needs a staggered start
+        #     offset = self._interval  # This is temporary offset is always set.
+        #     self.reset_interval(t - offset, val)
+        # else:
+        self._n = 1
+        self._tstart = t
+        self._average = val
+        self._min = val
+        self._max = val
         self._initialized = True
 
     def reset_interval(self, t, val):
@@ -115,9 +129,12 @@ class Sensor(object):
         self._max = val  # -sys.float_info.max
 
     def add_sample(self, t, val):
+        # if not initialized then add the first sample and continue.
         if not self._initialized:
             self.initialize(t, val)
-        if t - self._tstart <= self._interval:
+            return
+
+        if t - self._tstart < self._interval:
             if val < self._min:
                 self._min = val
             if val > self._max:
@@ -126,10 +143,26 @@ class Sensor(object):
             self._n = self._n + 1
 
     def ready_to_sample(self, t):
-        #_log.debug("ready_to_sample(t={t})")
-        _log.debug("t {t} >= self._tstart {tstart} + self._interval {interval} is {tf}".format(
-            t=t, tstart=self._tstart, interval=self._interval, tf=t >= self._tstart + self._interval))
-        if t >= self._tstart + self._interval:
+        """
+        Determines if the current timestep shoudl return a sample or not.
+
+        Example single second timestep:
+
+            t: 0, 1, 2, 3, 4
+
+            if interval is 5 then on the t == 4 timestep this function would return
+            True
+
+        Another example multi-second timestep:
+
+            t: 0, 3, 6
+
+            if the interval is 5 then on the t == 6 timestep this function would return
+            True
+
+        @param t: timestep
+        """
+        if t >= self._tstart + self._interval - 1:
             _log.debug("ready_to_sample(True)")
             return True
         return False
@@ -169,8 +202,8 @@ class Sensor(object):
         return None
 
     def __str__(self):
-        return "nominal: {}, stddev: {}, pu dropped: {}, agg interval: {}".format(
-            self.normal_value, self.stddev, self.perunit_dropping, self.interval
+        return "nominal: {}, stddev: {}, pu dropped: {}, agg interval: {}, n: {}, avg: {}, min: {}, max: {}".format(
+            self.normal_value, self.stddev, self.perunit_dropping, self.interval, self._n, self._average, self._min, self._max
         )
 
 #

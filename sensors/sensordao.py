@@ -70,6 +70,7 @@ class SensorDao(object):
             ts integer,
             original text,
             sensed text,
+            percent_diff text,
             FOREIGN KEY(measurement_mrid) REFERENCES measurement(measurement_mrid)
         );
         """
@@ -100,13 +101,13 @@ class SensorDao(object):
             self._insert_measurement(measurement_mrid)
             self._measurements[measurement_mrid] = {}
 
-    def add_to_batch(self, measurement_mrid, sensor_prop, ts, original_value, sensor_value):
+    def add_to_batch(self, measurement_mrid, sensor_prop, ts, original_value, sensor_value, percent_diff):
         self.create_measurement(measurement_mrid)
-        self._batch.append([measurement_mrid, sensor_prop, ts, original_value, sensor_value])
+        self._batch.append([measurement_mrid, sensor_prop, ts, original_value, sensor_value, percent_diff])
 
     def _insert_batch(self, batch, conn):
-        sql = """INSERT INTO record(measurement_mrid, property, ts, original, sensed)
-                                    VALUES(?, ?, ?, ?, ?);"""
+        sql = """INSERT INTO record(measurement_mrid, property, ts, original, sensed, percent_diff)
+                                    VALUES(?, ?, ?, ?, ?, ?);"""
         cur = None
         try:
             cur = conn.cursor()
