@@ -72,17 +72,17 @@ if __name__ == '__main__':
     if not os.path.exists(os.path.dirname(logfile)):
         os.makedirs(os.path.dirname(logfile))
 
-    #logging.basicConfig(level=logging.WARNING,
-    #                    stream=sys.stdout,
-    #                    format="%(asctime)s;%(levelname)s;%(message)s")
-    sh = logging.StreamHandler()
+    logging.basicConfig(level=logging.INFO,
+                        stream=sys.stdout,
+                        format="%(asctime)s;%(levelname)s;%(message)s")
+    #sh = logging.StreamHandler()
     fh = logging.FileHandler(logfile)
     fmter = logging.Formatter("%(asctime)s;%(levelname)s;%(message)s")
-    sh.setFormatter(fmter)
+    #sh.setFormatter(fmter)
     fh.setFormatter(fmter)
-    sh.setLevel(logging.INFO)
+    #sh.setLevel(logging.INFO)
     fh.setLevel(logging.DEBUG)
-    logging.getLogger().addHandler(sh)
+    #logging.getLogger().addHandler(sh)
     logging.getLogger().addHandler(fh)
 
     os.environ['GRIDAPPSD_APPLICATION_STATUS'] = 'RUNNING'
@@ -116,7 +116,7 @@ if __name__ == '__main__':
     if os.path.exists("/tmp/sensors.sqlite"):
         os.remove("/tmp/sensors.sqlite")
     user_config = UserConfig(user_options)
-    #dao = SensorDao("/tmp/sensors.sqlite")
+    dao = SensorDao("/tmp/sensors.sqlite")
     sensors = Sensors(gridappsd=gapp, read_topic=read_topic, write_topic=write_topic,
                       user_config=user_config, sensor_store=dao)
     added = set()
