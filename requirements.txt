@@ -1,2 +1,2 @@
 SPARQLWrapper
--e git+https://github.com/GRIDAPPSD/gridappsd-python.git#egg=gridappsd
+git+https://github.com/GRIDAPPSD/gridappsd-python.git#egg=gridappsd
