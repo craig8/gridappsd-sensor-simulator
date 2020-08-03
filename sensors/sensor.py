@@ -5,7 +5,7 @@ import sys
 import random
 import time
 
-from .measurements import get_sensors_config
+from .measurements import Measurements
 
 _log = logging.getLogger(__name__)
 
@@ -109,8 +109,9 @@ class Sensors(object):
                                                              DEFAULT_SENSOR_CONFIG['default-aggregation-interval'])
         self.default_normal_value = user_options.get('default-normal-value',
                                                      DEFAULT_SENSOR_CONFIG['default-normal-value'])
+        self._measurements = Measurements()
         if self.simulate_all:
-            sensors_config = get_sensors_config(feeder)
+            sensors_config = self._measurements.get_sensors_config(feeder)
 
         # _log.debug(f"sensors_config is: {sensors_config}")
         random.seed(self._random_seed)
