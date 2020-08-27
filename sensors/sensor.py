@@ -9,7 +9,7 @@ from .measurements import Measurements
 
 _log = logging.getLogger(__name__)
 
-_log.setLevel(logging.INFO)
+#_log.setLevel(logging.INFO)
 DEFAULT_SENSOR_CONFIG = {
     "default-perunit-confidence-band": 2,
     "default-aggregation-interval": 30,
@@ -171,7 +171,7 @@ class Sensors(object):
         self.sensor_file = open("/tmp/sensor.data.txt", 'w')
         self.measurement_file = open("/tmp/measurement.data.txt", 'w')
         self._simulation_complete = False
-        self.measurement_in_file = open("/tmp/measurement.infile.txt", 'w')
+        self.measurement_in_file = open("/tmp/measusrement.infile.txt", 'w')
         self.measurement_out_file = open("/tmp/measurement.outfile.txt", 'w')
 
     def simulation_complete(self):
@@ -205,7 +205,7 @@ class Sensors(object):
         measurement_out = deepcopy(message['message']['measurements'])
 
         timestamp = message['message']['timestamp']
-
+        print(f"MY SENSOR TIMESTAMP {timestamp}")
         # Loop over the configured sensor andding measurements for each of them
         for mrid in self._sensors:
             new_measurement = dict(

@@ -111,14 +111,31 @@ def ontimestep(simulation: Simulation, timestep):
 
 def onmeasurement(simulation: Simulation, timestep, measurements):
     print(f"Measurement {timestep}")
-    fh_sim_measurement.write(f"{json.dumps(measurements)}\n")
+    track = ("_00ff72f5-628c-462b-bdd1-2dcc1bd519b5",)
+    track_mrid = {}
+    track_mrid[int(timestep)] = measurements
+    # for x in track:
+    #     print(f"Tracking add")
+    #     track_mrid[x] = measurements[x]
+
+    print(f"Dumping track {track_mrid}")
+    #fh_sim_measurement.write(f"{timestep}\n")
+    fh_sim_measurement.write(f"{json.dumps(track_mrid)}\n")
+    print(f"After dump!")
     #pprint(measurements)
 
 
 def onsensoroutput(headers, message):
     ts = headers['timestamp'] # int(int(headers['timestamp']) / 10e6)
     print(f"Sensor timestep: {ts}")
-    fh_sensor_measurement.write(f"{json.dumps(message['message']['measurements'])}\n")
+    track = ("_00ff72f5-628c-462b-bdd1-2dcc1bd519b5",)
+    track_mrid = {}
+    for x in track:
+        print(f"Tracking add")
+        track_mrid[x] = message['message']['measurements'][x]
+    fh_sensor_measurement.write(f"{ts}\n")
+    fh_sensor_measurement.write(f"{json.dumps(track_mrid)}\n")
+    #fh_sensor_measurement.write(f"{json.dumps(message['message']['measurements'])}\n")
     # pprint(headers)
     # pprint(message)
 
@@ -129,7 +146,7 @@ for cfile in data_tests:
 
     # from pprint import pprint
     # pprint(config['gridappsd'])
-    with run_containers(config, stop_after=True) as containers:
+    with run_containers(config, stop_after=False) as containers:
         # Watches the log on the container for the MYSQL data.
         containers.wait_for_log_pattern("gridappsd", "MYSQL")
 
@@ -151,6 +168,8 @@ for cfile in data_tests:
         sim.resume()
         sim.run_loop()
         print("Shutting down")
-
-    fh_sim_measurement.close()
-    fh_sensor_measurement.close()
+        time.sleep(5)
+print("Closing files!")
+fh_sim_measurement.close()
+fh_sensor_measurement.close()
+print("Done closing files!")
