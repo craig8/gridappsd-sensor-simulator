@@ -108,7 +108,14 @@ if __name__ == '__main__':
         }
     from pprint import pprint
     pprint(opts.request)
-    user_options = opts.request['service_configs'][0]['user_options']
+
+    # find the user_options specifically for sensor-simulator
+    user_options = None
+    for configs in opts.request['service_configs']:
+        if configs['id'] == 'gridappsd-sensor-simulator':
+            user_options = configs['user_options']
+            break
+      
     feeder = opts.request['power_system_config']['Line_name']
     service_id = "gridappsd-sensor-simulator"
 
