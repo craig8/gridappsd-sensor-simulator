@@ -9,7 +9,7 @@ from .measurements import Measurements
 
 _log = logging.getLogger(__name__)
 
-_log.setLevel(logging.INFO)
+_log.setLevel(logging.DEBUG)
 DEFAULT_SENSOR_CONFIG = {
     "default-perunit-confidence-band": 2,
     "default-aggregation-interval": 30,
@@ -19,7 +19,7 @@ DEFAULT_SENSOR_CONFIG = {
 
 
 class Sensors(object):
-    def __init__(self, gridappsd, read_topic, write_topic, feeder, user_options: dict = None):
+    def __init__(self, gridappsd, read_topic, write_topic, measurements, user_options: dict = None):
         """
         Create sensors based upon thee user_options dictionary
 
@@ -80,6 +80,7 @@ class Sensors(object):
         :param user_options:
             A dictionary of options to specify how the service will run.
         """
+        global _log
         super(Sensors, self).__init__()
         if user_options is None:
             user_options = {}
@@ -88,18 +89,20 @@ class Sensors(object):
         self._random_seed = user_options.get('random-seed', 0)
         self._sensors = {}
         self._gappsd = gridappsd
-        self._logger = self._gappsd.get_logger()
+        # note we are using the gridappsd based logger here because we are
+        # replacing the global _log that's defined outside the class.
+        _log = self._gappsd.get_logger()
         self._read_topic = read_topic
         self._write_topic = write_topic
         self._log_statistics = False
-
+        _log.debug(f"I AM HERE!")
         assert self._gappsd, "Invalid gridappsd object specified, cannot be None"
         assert self._read_topic, "Invalid read topic specified, cannot be None"
         assert self._write_topic, "Invalid write topic specified, cannob be None"
-
+        _log.debug(f"user_options is: {user_options}")
         sensors_config = user_options.pop("sensors-config", {})
         self.passthrough_if_not_specified = user_options.pop('passthrough-if-not-specified', False)
-        self.simulate_all = user_options.pop('simulate-all', False)
+        self.simulate_all = user_options.pop('simulate-all', True)
         self.default_perunit_confifidence_band = user_options.get('default-perunit-confidence-band',
                                                                   DEFAULT_SENSOR_CONFIG[
                                                                             'default-perunit-confidence-band'])
@@ -109,19 +112,23 @@ class Sensors(object):
                                                              DEFAULT_SENSOR_CONFIG['default-aggregation-interval'])
         self.default_normal_value = user_options.get('default-normal-value',
                                                      DEFAULT_SENSOR_CONFIG['default-normal-value'])
-        self._measurements = Measurements()
+        self._measurements = deepcopy(measurements) # Measurements()
         if self.simulate_all:
-            sensors_config = self._measurements.get_sensors_config(feeder)
-
+            _log.debug("Using passed 'measurements' as configurations")
+            sensors_config = self._measurements # self._measurements.get_sensors_config(feeder)
+        
         # _log.debug(f"sensors_config is: {sensors_config}")
         random.seed(self._random_seed)
+        _log.debug(f"Sensors config: {sensors_config}")
         _log.debug("measurement_id,normal_value,class,type,power,eqtype")
         for k, v in sensors_config.items():
+            _log.debug(f"key={k},v={v}")
             cn_nomv = ''
             try:
                 has_cn_pnv = True
                 cn_nomv = v['cn_nomv']
             except KeyError:
+                _log.debug(f"Has no cn_nomv")
                 has_cn_pnv = False
 
             amp = ''
@@ -132,6 +139,7 @@ class Sensors(object):
                 eqtype = v['current_nomv']['eqtype']
                 va_normal = v['current_nomv']['va_normal']
             except KeyError:
+                _log.debug("No val, eqtype and/or va_normal")
                 has_va = False
 
             normal_value = None
@@ -190,22 +198,14 @@ class Sensors(object):
         """
         _log.debug("Measurement Detected")
         measurement_out = {}
-
-        if self._first_time_through:
-            with open("/tmp/measurement_list.txt", 'w') as mef:
-                for x in message['message']['measurements']:
-                    mef.write(f'"{x}": '+'{},\n')
-            self._first_time_through = False
-
-        self.measurement_in_file.write(f"{json.dumps(message)}\n")
-
         # if passthrough set then copy over the measurmments of the entire message
-        # into the output.
-        #if self.passthrough_if_not_specified:
-        measurement_out = deepcopy(message['message']['measurements'])
+        # into the output, then we will update the ones that are specified as 
+        # sensors input.
+        if self.passthrough_if_not_specified:
+            measurement_out = deepcopy(message['message']['measurements'])
 
         timestamp = message['message']['timestamp']
-
+        _log.debug("Looping over sensors next")
         # Loop over the configured sensor andding measurements for each of them
         for mrid in self._sensors:
             new_measurement = dict(
@@ -218,18 +218,14 @@ class Sensors(object):
             if not item:
                 _log.error(f"Invalid sensor mrid configured {mrid}")
                 continue
-
+            _log.debug(f"Item is: {item}")
             # Create new values for data from the sensor.
             for prop, value in item.items():
+                # transfer mrid to new_measurement dictionary
                 if prop in ('measurement_mrid',):
                     new_measurement[prop] = value
                     continue
                 new_value = None
-
-                if prop == 'magnitude':
-                    self.measurement_file.write(f"{timestamp} {mrid}, magnitude: {value}\n")
-                elif prop == 'angle':
-                    self.measurement_file.write(f"{timestamp} {mrid}, angle: {value}\n")
 
                 sensor = self._sensors[mrid]
 
@@ -246,18 +242,13 @@ class Sensors(object):
                     new_measurement[prop] = value
 
                 if new_value is None:
-                    new_measurement = None
-                    _log.debug(f"Not reporting measurement for ts: {timestamp} {mrid}")
-                    break
+                    continue
 
                 _log.debug(f"mrid: {mrid} timestamp: {timestamp} prop: {prop} new_value: {new_value}")
-                if prop == 'magnitude':
-                    self.sensor_file.write(f"{timestamp} {mrid}, {new_value}\n")
-                elif prop == 'angle':
-                    self.sensor_file.write(f"{timestamp} {mrid}, {value}\n")
                 new_measurement[prop] = new_value
 
-            if new_measurement is not None:
+            # Make sure there is more properties than just the mrid
+            if len(list(new_measurement.keys())) > 1:
                 _log.debug(f"Adding new measurement: {new_measurement}")
                 measurement_out[mrid] = new_measurement
 
@@ -265,8 +256,6 @@ class Sensors(object):
             message['message']['measurements'] = measurement_out
             if self._log_statistics:
                 self._log_sensors()
-            # _log.info(f"Sensor Measurements:\n{measurement_out}")
-            self.measurement_out_file.write(f"{json.dumps(message)}\n")
             self._gappsd.send(self._write_topic, message)
         else:
             _log.info("No sensor output.")
@@ -306,6 +295,7 @@ class Sensor(object):
             that the true value lies within an interval this wide, centered on the measured value.
 
         """
+        self._LOG = logging.getLogger('sensor')
         self._normal_value = normal_value
         self._perunit_drop_rate = perunit_drop_rate
         self._perunit_confidence_band_95pct = perunit_confidence_band
@@ -323,10 +313,11 @@ class Sensor(object):
         # A secondary list of sensors
         self._properties = {}
 
-        #_log.debug(self)
+        self._LOG.debug(self)
 
     def add_property_sensor(self, key, normal_value, aggregation_interval, perunit_drop_rate,
                             perunit_confidence_band):
+        self._LOG.debug(f"Adding new property_sensor {key}")
         if key in self._properties:
             raise KeyError(f"key {key} already exists in the sensor properties")
 
@@ -359,6 +350,7 @@ class Sensor(object):
         return self._interval
 
     def initialize(self, t, val):
+        self._LOG.debug(f"initialize({t}, {val})")
         if self._interval > 0.0:
             offset = random.randint(0, self._interval - 1)  # each sensor needs a staggered start
             self.reset_interval(t - offset, val)
@@ -371,6 +363,7 @@ class Sensor(object):
         self._initialized = True
 
     def reset_interval(self, t, val):
+        self._LOG.debug(f"reset_interval({t}, {val})")
         self._n = 1
         self._tstart = t
         self._average = val
@@ -378,6 +371,7 @@ class Sensor(object):
         self._max = val  # -sys.float_info.max
 
     def add_sample(self, t, val):
+        self._LOG.debug(f"add_sample({t}, {val})")
         if not self._initialized:
             self.initialize(t, val)
         if t - self._tstart <= self._interval:
@@ -422,6 +416,8 @@ class Sensor(object):
         return ret
 
     def get_new_value(self, t, value):
+        #import pdb; pdb.set_trace()
+        self._LOG.debug(f"get_new_value({t}, {value})")
         self.add_sample(t, value)
         if self.ready_to_sample(t):
             return self.take_inst_sample(t)

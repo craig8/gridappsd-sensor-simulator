@@ -32,7 +32,7 @@ class Measurements:
 
         self._sparql = SPARQLWrapper2(self._blazegraph_url)
 
-    def get_sensors_config(self, feeder):
+    def get_sensors_meta(self, feeder):
         # get measurement dictionary and set of equipment that is for measurments
         the_measurements = self.get_measurements(feeder)
 
