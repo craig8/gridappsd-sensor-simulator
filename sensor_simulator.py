@@ -123,10 +123,17 @@ if __name__ == '__main__':
     if not os.path.exists(os.path.dirname(log_file)):
         os.makedirs(os.path.dirname(log_file))
 
+    import sys
+    from pprint import pprint
+    from sensors.measurements import Measurements
+
+    meas = Measurements()
+    #pprint(meas.get_sensors_config(feeder))
+    
     with open(log_file, 'w') as fp:
         logging.basicConfig(stream=fp, level=logging.INFO)
         logging.getLogger().info(f"read topic: {read_topic}\nwrite topic: {write_topic}")
         logging.getLogger().info(f"user options: {user_options}")
         run_sensors = Sensors(gapp, read_topic=read_topic, write_topic=write_topic,
-                              user_options=user_options, feeder=feeder)
+                              user_options=user_options, measurements=meas.get_sensors_config(feeder))
         run_sensors.main_loop()
