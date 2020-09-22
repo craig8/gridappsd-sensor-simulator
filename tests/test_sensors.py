@@ -7,7 +7,7 @@ import sys
 import pytest
 
 from sensors.measurements import Measurements
-from sensors.sensor import Sensors
+from sensors.sensor import Sensors, Sensor
 
 
 TEST_DATA_PATH = Path(__file__).parent.joinpath("test_data")
@@ -81,6 +81,40 @@ def aggregate_sensor_prop(messages_in, mrid, prop):
     for m in messages_in:
         value += m['message']['message']['measurements'][mrid][prop]
     return value
+
+
+def test_sensor():
+    # Each take call to get_new_value should get a new value.
+    s = Sensor(normal_value=10, 
+               aggregation_interval=1, 
+               perunit_drop_rate=0.0, 
+               perunit_confidence_band=0.05)
+    assert s._n == 0
+    assert s.normal_value == 10
+    assert s.perunit_dropping == 0.0
+    assert 1 == s.interval 
+    assert s.get_new_value(120, 10) is None
+    assert s.get_new_value(121, 10)
+
+    # must do 3 calls to get_new_value to get a value.
+    s = Sensor(normal_value=10, 
+               aggregation_interval=3, 
+               perunit_drop_rate=0.0, 
+               perunit_confidence_band=0.05)
+    assert 3 == s.interval, f"The interval is not 3 it was {s.interval}"
+    # For 0, 1, 2 is None, the next will be the real value.
+    for r in range(3):
+        v = s.get_new_value(130+r, 10)
+        assert v is None, f"The {r}th item was not None"
+    v = s.get_new_value(133, 10)
+    assert v is not None
+    
+    for r in range(3):
+        v = s.get_new_value(130+r, 10)
+        assert v is None, f"The {r}th item was not None"
+    v = s.get_new_value(137, 10)
+    assert v is not None
+
 
 def test_simulate_all():
     # customize options for this test
