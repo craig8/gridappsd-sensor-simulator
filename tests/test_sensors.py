@@ -77,7 +77,6 @@ def next_measurement():
 
 def aggregate_sensor_prop(messages_in, mrid, prop):
     value = 0
-    #import pdb; pdb.set_trace()
     for m in messages_in:
         value += m['message']['message']['measurements'][mrid][prop]
     return value
@@ -172,7 +171,6 @@ def test_single_sensor_single_publish():
     
     # number of lines to read from the file.
     num_pub_messages = 1
-    # import pdb; pdb.set_trace()
     gappsd, sensors, messages_in = run_simulation(opts, num_pub_messages)
 
     # since we only configure a single sensor and we have simulate-all = False
@@ -181,7 +179,6 @@ def test_single_sensor_single_publish():
 
     measurements = gappsd.get_measurements_published()
     timestamps = gappsd.get_timestamps_published()
-    # import pdb; pdb.set_trace() 
     # We should have 2 measurements, and timestamps now due to the publishing 2x
     # assert num_pub_messages - 1
     assert num_pub_messages == len(timestamps)
@@ -210,7 +207,7 @@ def test_aggregation_non_evenly_divisible_interval():
     }
     
     # number of lines to read from the file.
-    num_pub_messages = 5
+    num_pub_messages = 4
     gappsd, sensors, messages_in = run_simulation(opts, num_pub_messages)
 
     # since we only configure a single sensor and we have simulate-all = False
@@ -219,7 +216,6 @@ def test_aggregation_non_evenly_divisible_interval():
 
     measurements = gappsd.get_measurements_published()
     timestamps = gappsd.get_timestamps_published()
-    #import pdb; pdb.set_trace()   
     # in this setup we expect a single message to be published with
     # aggregation
     assert 1 == len(timestamps)
