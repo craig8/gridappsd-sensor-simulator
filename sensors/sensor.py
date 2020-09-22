@@ -251,7 +251,6 @@ class Sensors(object):
             if len(list(new_measurement.keys())) > 1:
                 _log.debug(f"Adding new measurement: {new_measurement}")
                 measurement_out[mrid] = new_measurement
-
         if len(measurement_out) > 0:
             message['message']['measurements'] = measurement_out
             if self._log_statistics:
@@ -416,7 +415,6 @@ class Sensor(object):
         return ret
 
     def get_new_value(self, t, value):
-        #import pdb; pdb.set_trace()
         self._LOG.debug(f"get_new_value({t}, {value})")
         self.add_sample(t, value)
         if self.ready_to_sample(t):

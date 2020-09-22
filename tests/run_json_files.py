@@ -92,6 +92,7 @@ config = deepcopy(DEFAULT_GRIDAPPSD_DOCKER_CONFIG)
 config['gridappsd']['volumes'][str(LOCAL_MOUNT_POINT_FOR_SERVICE)] = dict(
     bind=str(SERVICE_MOUNT_POINT),
     mode="rw")
+fncs_measurements = open("fncs_measurements.json", "w")
 
 fh_sim_measurement = open("measurement.txt", 'w')
 fh_sensor_measurement = open("sensor.txt", 'w')
@@ -111,8 +112,13 @@ def ontimestep(simulation: Simulation, timestep):
 
 def onmeasurement(simulation: Simulation, timestep, measurements):
     print(f"Measurement {timestep}")
-    fh_sim_measurement.write(f"{json.dumps(measurements)}\n")
+    msg = dict(timestamp=timestep, measurements=measurements)
+    fh_sim_measurement.write(f"{json.dumps(msg)}\n")
     #pprint(measurements)
+
+def onsimulationoutput(headers, message):
+    print(f"fncs sim message {headers}")
+    fncs_measurements.write(f"{json.dumps(dict(headers=headers, message=message))}\n") 
 
 
 def onsensoroutput(headers, message):
@@ -147,10 +153,13 @@ for cfile in data_tests:
 
         sim.start_simulation()
         sim.pause()
+        gappsd.subscribe(t.simulation_output_topic(sim.simulation_id), onsimulationoutput)
         gappsd.subscribe(t.application_output_topic(GRIDAPPSD_SERVICE_ID, sim.simulation_id), onsensoroutput)
+        time.sleep(10)
         sim.resume()
         sim.run_loop()
         print("Shutting down")
 
     fh_sim_measurement.close()
     fh_sensor_measurement.close()
+    fncs_measurements.close()
