@@ -119,10 +119,10 @@ class Sensors(object):
         
         # _log.debug(f"sensors_config is: {sensors_config}")
         random.seed(self._random_seed)
-        _log.debug(f"Sensors config: {sensors_config}")
-        _log.debug("measurement_id,normal_value,class,type,power,eqtype")
+        #_log.debug(f"Sensors config: {sensors_config}")
+        #_log.debug("measurement_id,normal_value,class,type,power,eqtype")
         for k, v in sensors_config.items():
-            _log.debug(f"key={k},v={v}")
+            #_log.debug(f"key={k},v={v}")
             cn_nomv = ''
             try:
                 has_cn_pnv = True
@@ -176,12 +176,8 @@ class Sensors(object):
                                           perunit_confidence_band=perunit_confidence_rate)
         _log.info("Created {} sensors".format(len(self._sensors)))
         self._first_time_through = True
-        self.sensor_file = open("/tmp/sensor.data.txt", 'w')
-        self.measurement_file = open("/tmp/measurement.data.txt", 'w')
         self._simulation_complete = False
-        self.measurement_in_file = open("/tmp/measurement.infile.txt", 'w')
-        self.measurement_out_file = open("/tmp/measurement.outfile.txt", 'w')
-
+        
     def simulation_complete(self):
         self._simulation_complete = True
 
@@ -270,11 +266,7 @@ class Sensors(object):
         while True and not self._simulation_complete:
             time.sleep(0.001)
 
-        self.measurement_file.close()
-        self.sensor_file.close()
-        self.measurement_in_file.close()
-
-
+            
 class Sensor(object):
     def __init__(self, normal_value, aggregation_interval, perunit_drop_rate,
                  perunit_confidence_band):
