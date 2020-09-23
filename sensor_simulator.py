@@ -108,7 +108,8 @@ if __name__ == '__main__':
         }
     from pprint import pprint
     pprint(opts.request)
-
+    os.environ['GRIDAPPSD_APPLICATION_ID'] = 'gridappsd-sensor-simulator'
+    os.environ['GRIDAPPSD_APPLICATION_STATUS'] = 'STARTED'
     # find the user_options specifically for sensor-simulator
     user_options = None
     for configs in opts.request['service_configs']:
@@ -142,5 +143,5 @@ if __name__ == '__main__':
         logging.getLogger().info(f"read topic: {read_topic}\nwrite topic: {write_topic}")
         logging.getLogger().info(f"user options: {user_options}")
         run_sensors = Sensors(gapp, read_topic=read_topic, write_topic=write_topic,
-                              user_options=user_options, measurements=meas.get_sensors_config(feeder))
+                              user_options=user_options, measurements=meas.get_sensors_meta(feeder))
         run_sensors.main_loop()
