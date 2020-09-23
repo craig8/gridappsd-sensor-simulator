@@ -177,6 +177,9 @@ class Sensors(object):
         _log.info("Created {} sensors".format(len(self._sensors)))
         self._first_time_through = True
         self._simulation_complete = False
+        # Should we report this as an invalid sensor if it isn't shown up in the
+        # sensor item then don't continue to report it.
+        self._reported_invalid = set()
         
     def simulation_complete(self):
         self._simulation_complete = True
@@ -212,7 +215,9 @@ class Sensors(object):
             item = message['message']['measurements'].get(mrid)
 
             if not item:
-                _log.error(f"Invalid sensor mrid configured {mrid}")
+                if mrid not in self._reported_invalid:
+                    _log.error(f"Invalid sensor mrid configured {mrid}")
+                    self._reported_invalid.add(mrid)
                 continue
             _log.debug(f"Item is: {item}")
             # Create new values for data from the sensor.
