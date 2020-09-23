@@ -110,6 +110,7 @@ if __name__ == '__main__':
     pprint(opts.request)
     os.environ['GRIDAPPSD_APPLICATION_ID'] = 'gridappsd-sensor-simulator'
     os.environ['GRIDAPPSD_APPLICATION_STATUS'] = 'STARTED'
+    os.environ['GRIDAPPSD_SIMULATION_ID'] = opts.simulation_id
     # find the user_options specifically for sensor-simulator
     user_options = None
     for configs in opts.request['service_configs']:
