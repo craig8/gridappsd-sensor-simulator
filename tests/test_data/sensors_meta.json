@@ -1,0 +1,2319 @@
+{
+  "_392f7130-efe9-493c-bd42-3a31a556b20d": {
+    "class": "Analog",
+    "type": "A",
+    "cnid": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+    "measurement_mrid": "_392f7130-efe9-493c-bd42-3a31a556b20d",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Breaker",
+      "eqname": "brkr1",
+      "eqid": "_52DE9189-20DC-4C73-BDEE-E960FE1F9493",
+      "val": "400",
+      "cn1id": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_309d665e-b3dd-46b1-9a94-366628cabc42": {
+    "class": "Analog",
+    "type": "A",
+    "cnid": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+    "measurement_mrid": "_309d665e-b3dd-46b1-9a94-366628cabc42",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Breaker",
+      "eqname": "brkr1",
+      "eqid": "_52DE9189-20DC-4C73-BDEE-E960FE1F9493",
+      "val": "400",
+      "cn1id": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_ceb0ca47-3fed-4e17-9668-9ab813d73ede": {
+    "class": "Analog",
+    "type": "A",
+    "cnid": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+    "measurement_mrid": "_ceb0ca47-3fed-4e17-9668-9ab813d73ede",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Breaker",
+      "eqname": "brkr1",
+      "eqid": "_52DE9189-20DC-4C73-BDEE-E960FE1F9493",
+      "val": "400",
+      "cn1id": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_1a0ef275-fbdd-46b3-acdd-de643f6168ab": {
+    "class": "Analog",
+    "type": "A",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_1a0ef275-fbdd-46b3-acdd-de643f6168ab",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_b60dc6a5-90ae-4c96-bdf0-d4968156e13d": {
+    "class": "Analog",
+    "type": "A",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_b60dc6a5-90ae-4c96-bdf0-d4968156e13d",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_5e915fa7-a0c2-4d38-8a7d-2de423b396e7": {
+    "class": "Analog",
+    "type": "A",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_5e915fa7-a0c2-4d38-8a7d-2de423b396e7",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_62ee3f81-c7c6-439a-89fe-8fe30daa3bff": {
+    "class": "Analog",
+    "type": "A",
+    "cnid": "_8E99F99D-FE8F-420B-AC49-0B52DF5362AB",
+    "measurement_mrid": "_62ee3f81-c7c6-439a-89fe-8fe30daa3bff",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "sect1",
+      "eqid": "_2858B6C2-0886-4269-884C-06FA8B887319",
+      "val": "400",
+      "cn1id": "_8E99F99D-FE8F-420B-AC49-0B52DF5362AB",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_bfc5ab56-2fb5-4016-a73e-412708e56077": {
+    "class": "Analog",
+    "type": "A",
+    "cnid": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+    "measurement_mrid": "_bfc5ab56-2fb5-4016-a73e-412708e56077",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Recloser",
+      "eqname": "rec1",
+      "eqid": "_CE5D0651-676B-4AF3-8D67-41BF1B33E30C",
+      "val": "400",
+      "cn1id": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_72ccaae8-52e9-4237-86ec-1e5bc4dc328f": {
+    "class": "Analog",
+    "type": "A",
+    "cnid": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+    "measurement_mrid": "_72ccaae8-52e9-4237-86ec-1e5bc4dc328f",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Recloser",
+      "eqname": "rec1",
+      "eqid": "_CE5D0651-676B-4AF3-8D67-41BF1B33E30C",
+      "val": "400",
+      "cn1id": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_cbb0db9a-3cb0-4a2b-a6c1-f20ea121409b": {
+    "class": "Analog",
+    "type": "A",
+    "cnid": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+    "measurement_mrid": "_cbb0db9a-3cb0-4a2b-a6c1-f20ea121409b",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Recloser",
+      "eqname": "rec1",
+      "eqid": "_CE5D0651-676B-4AF3-8D67-41BF1B33E30C",
+      "val": "400",
+      "cn1id": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_806d5de7-541b-4944-8825-c7afffa5abc2": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_C6256170-E6ED-4F91-8EBD-748090C3FDD5",
+    "measurement_mrid": "_806d5de7-541b-4944-8825-c7afffa5abc2",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Fuse",
+      "eqname": "fuse1",
+      "eqid": "_43EF8365-F932-409B-A51E-FBED3F6DFFAA",
+      "val": "400",
+      "cn1id": "_C6256170-E6ED-4F91-8EBD-748090C3FDD5",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_bd5f3945-5d16-4694-896e-92da8a0e4895": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_C6256170-E6ED-4F91-8EBD-748090C3FDD5",
+    "measurement_mrid": "_bd5f3945-5d16-4694-896e-92da8a0e4895",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Fuse",
+      "eqname": "fuse1",
+      "eqid": "_43EF8365-F932-409B-A51E-FBED3F6DFFAA",
+      "val": "400",
+      "cn1id": "_C6256170-E6ED-4F91-8EBD-748090C3FDD5",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_5bc367a5-f771-494a-83bd-b4560d538df7": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_C6256170-E6ED-4F91-8EBD-748090C3FDD5",
+    "measurement_mrid": "_5bc367a5-f771-494a-83bd-b4560d538df7",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Fuse",
+      "eqname": "fuse1",
+      "eqid": "_43EF8365-F932-409B-A51E-FBED3F6DFFAA",
+      "val": "400",
+      "cn1id": "_C6256170-E6ED-4F91-8EBD-748090C3FDD5",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_110eb93f-4227-4411-91b7-01c284484423": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0124E881-B82D-4206-BBDF-37D585159872",
+    "measurement_mrid": "_110eb93f-4227-4411-91b7-01c284484423",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "645646",
+      "eqid": "_0BBD0EA3-F665-465B-86FD-FC8B8466AD53",
+      "val": "230",
+      "cn1id": "_0124E881-B82D-4206-BBDF-37D585159872",
+      "va_normal": 552408.7375606339
+    }
+  },
+  "_a6cf3a73-cf4b-440a-a7f9-90bd41a55778": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0124E881-B82D-4206-BBDF-37D585159872",
+    "measurement_mrid": "_a6cf3a73-cf4b-440a-a7f9-90bd41a55778",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "645646",
+      "eqid": "_0BBD0EA3-F665-465B-86FD-FC8B8466AD53",
+      "val": "230",
+      "cn1id": "_0124E881-B82D-4206-BBDF-37D585159872",
+      "va_normal": 552408.7375606339
+    }
+  },
+  "_87a43339-1324-40c3-807c-f9f601839c71": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+    "measurement_mrid": "_87a43339-1324-40c3-807c-f9f601839c71",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "tpoletop",
+      "eqid": "_7FF12CEF-1C4D-4CD2-8FCC-662530A7BA33",
+      "val": "2.2916667",
+      "cn1id": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+      "va_normal": 5504.07264633367
+    }
+  },
+  "_fc8c789d-752a-413e-94e6-6bc34728fa5b": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+    "measurement_mrid": "_fc8c789d-752a-413e-94e6-6bc34728fa5b",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "tpoletop",
+      "eqid": "_7FF12CEF-1C4D-4CD2-8FCC-662530A7BA33",
+      "val": "2.2916667",
+      "cn1id": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+      "va_normal": 5504.07264633367
+    }
+  },
+  "_55f6b5ef-d9b6-489b-ac11-4fac69aad17c": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+    "measurement_mrid": "_55f6b5ef-d9b6-489b-ac11-4fac69aad17c",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "tpoletop",
+      "eqid": "_7FF12CEF-1C4D-4CD2-8FCC-662530A7BA33",
+      "val": "2.2916667",
+      "cn1id": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+      "va_normal": 5504.07264633367
+    }
+  },
+  "_32ed617f-263f-4bfe-93ac-a189e0e5d171": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_8C58660F-C62C-4903-BE72-22F1255B1E62",
+    "measurement_mrid": "_32ed617f-263f-4bfe-93ac-a189e0e5d171",
+    "cn_nomv": 2401.7771198288433
+  },
+  "_8b549f6b-9c61-419f-8315-5af53d6d1fcb": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_8C58660F-C62C-4903-BE72-22F1255B1E62",
+    "measurement_mrid": "_8b549f6b-9c61-419f-8315-5af53d6d1fcb",
+    "cn_nomv": 2401.7771198288433
+  },
+  "_2e09270d-ba65-4243-ac20-7501f63c9bf0": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+    "measurement_mrid": "_2e09270d-ba65-4243-ac20-7501f63c9bf0",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "650632",
+      "eqid": "_A04CDFB1-E951-4FC4-8882-0323CD70AE3C",
+      "val": "730",
+      "cn1id": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+      "va_normal": 1753297.2974750556
+    }
+  },
+  "_c6335ec4-f447-4e04-ac5a-2053fd9cc7c9": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+    "measurement_mrid": "_c6335ec4-f447-4e04-ac5a-2053fd9cc7c9",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "650632",
+      "eqid": "_A04CDFB1-E951-4FC4-8882-0323CD70AE3C",
+      "val": "730",
+      "cn1id": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+      "va_normal": 1753297.2974750556
+    }
+  },
+  "_c4957103-316a-4e6b-b121-b37034c54dfd": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+    "measurement_mrid": "_c4957103-316a-4e6b-b121-b37034c54dfd",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "650632",
+      "eqid": "_A04CDFB1-E951-4FC4-8882-0323CD70AE3C",
+      "val": "730",
+      "cn1id": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+      "va_normal": 1753297.2974750556
+    }
+  },
+  "_fc17a174-ca71-4af1-bb86-c9fda7ec7eca": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_76D6D03C-967C-4E12-836D-A98DF3552BC7",
+    "measurement_mrid": "_fc17a174-ca71-4af1-bb86-c9fda7ec7eca",
+    "cn_nomv": 2401.7771198288433
+  },
+  "_b291ff81-6813-4d4f-849f-b3d2bc1ba2e9": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_76D6D03C-967C-4E12-836D-A98DF3552BC7",
+    "measurement_mrid": "_b291ff81-6813-4d4f-849f-b3d2bc1ba2e9",
+    "cn_nomv": 2401.7771198288433
+  },
+  "_bf97187c-553c-4816-a2e2-991c6fe63383": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_76D6D03C-967C-4E12-836D-A98DF3552BC7",
+    "measurement_mrid": "_bf97187c-553c-4816-a2e2-991c6fe63383",
+    "cn_nomv": 2401.7771198288433
+  },
+  "_d6bd533e-889d-4c2d-a349-89f56f886363": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_8E99F99D-FE8F-420B-AC49-0B52DF5362AB",
+    "measurement_mrid": "_d6bd533e-889d-4c2d-a349-89f56f886363",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "sect1",
+      "eqid": "_2858B6C2-0886-4269-884C-06FA8B887319",
+      "val": "400",
+      "cn1id": "_8E99F99D-FE8F-420B-AC49-0B52DF5362AB",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_c08480ec-4d45-4315-bcd6-eee8a194220d": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0F1E28C3-6C44-4F88-B79C-2FDBCA4487B2",
+    "measurement_mrid": "_c08480ec-4d45-4315-bcd6-eee8a194220d",
+    "cn_nomv": 2401.7771198288433
+  },
+  "_7772ef3a-ca5c-44a8-9fc9-c88d318e851c": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+    "measurement_mrid": "_7772ef3a-ca5c-44a8-9fc9-c88d318e851c",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Breaker",
+      "eqname": "brkr1",
+      "eqid": "_52DE9189-20DC-4C73-BDEE-E960FE1F9493",
+      "val": "400",
+      "cn1id": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_9164bc46-2b05-4270-ae85-3d4bb96d6701": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_94F822E0-7130-4205-8597-B47110BBEF4B",
+    "measurement_mrid": "_9164bc46-2b05-4270-ae85-3d4bb96d6701",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "Reg",
+      "eqid": "_67B57539-590B-4158-9CBB-9DBA2FE6C1F0",
+      "val": "763.58333",
+      "cn1id": "_94F822E0-7130-4205-8597-B47110BBEF4B",
+      "va_normal": 1833956.9710767174
+    }
+  },
+  "_a8cf16f8-1240-4438-a416-ea7d0e1f7065": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+    "measurement_mrid": "_a8cf16f8-1240-4438-a416-ea7d0e1f7065",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Breaker",
+      "eqname": "brkr1",
+      "eqid": "_52DE9189-20DC-4C73-BDEE-E960FE1F9493",
+      "val": "400",
+      "cn1id": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_d9c3d91b-6ac2-4927-aaa7-16b85b2c5241": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_94F822E0-7130-4205-8597-B47110BBEF4B",
+    "measurement_mrid": "_d9c3d91b-6ac2-4927-aaa7-16b85b2c5241",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "Reg",
+      "eqid": "_67B57539-590B-4158-9CBB-9DBA2FE6C1F0",
+      "val": "763.58333",
+      "cn1id": "_94F822E0-7130-4205-8597-B47110BBEF4B",
+      "va_normal": 1833956.9710767174
+    }
+  },
+  "_c4d0cbd6-0087-43b7-b8d3-41215f4486d8": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+    "measurement_mrid": "_c4d0cbd6-0087-43b7-b8d3-41215f4486d8",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Breaker",
+      "eqname": "brkr1",
+      "eqid": "_52DE9189-20DC-4C73-BDEE-E960FE1F9493",
+      "val": "400",
+      "cn1id": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_ce725f7b-341f-44ee-9f83-dfca4a0dc4ca": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_94F822E0-7130-4205-8597-B47110BBEF4B",
+    "measurement_mrid": "_ce725f7b-341f-44ee-9f83-dfca4a0dc4ca",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "Reg",
+      "eqid": "_67B57539-590B-4158-9CBB-9DBA2FE6C1F0",
+      "val": "763.58333",
+      "cn1id": "_94F822E0-7130-4205-8597-B47110BBEF4B",
+      "va_normal": 1833956.9710767174
+    }
+  },
+  "_edf4deaa-1850-46c8-8f4e-1b3a4dca9615": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_DBFA8EFA-B397-40DA-9642-60E8DE4B3471",
+    "measurement_mrid": "_edf4deaa-1850-46c8-8f4e-1b3a4dca9615",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap2",
+      "eqid": "_9D725810-BFD6-44C6-961A-2BC027F6FC95",
+      "val": "56.25",
+      "cn1id": "_DBFA8EFA-B397-40DA-9642-60E8DE4B3471",
+      "va_normal": 135099.96299037244
+    }
+  },
+  "_634b1b30-e4b4-4ab6-9b19-3d5153df2313": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_634b1b30-e4b4-4ab6-9b19-3d5153df2313",
+    "cn_nomv": 277.1281292110204
+  },
+  "_1bcc8391-d8ce-4c32-9131-163ff1eada50": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_1bcc8391-d8ce-4c32-9131-163ff1eada50",
+    "cn_nomv": 277.1281292110204
+  },
+  "_632cbbe7-057c-4106-9197-2c70f709e5a5": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_632cbbe7-057c-4106-9197-2c70f709e5a5",
+    "cn_nomv": 277.1281292110204
+  },
+  "_711494f2-af31-4b64-bc60-876f364fbb74": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0124E881-B82D-4206-BBDF-37D585159872",
+    "measurement_mrid": "_711494f2-af31-4b64-bc60-876f364fbb74",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "645646",
+      "eqid": "_0BBD0EA3-F665-465B-86FD-FC8B8466AD53",
+      "val": "230",
+      "cn1id": "_0124E881-B82D-4206-BBDF-37D585159872",
+      "va_normal": 552408.7375606339
+    }
+  },
+  "_9555f572-c16e-4492-9c7a-b297195f1980": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_8C58660F-C62C-4903-BE72-22F1255B1E62",
+    "measurement_mrid": "_9555f572-c16e-4492-9c7a-b297195f1980",
+    "cn_nomv": 2401.7771198288433
+  },
+  "_4c5466c3-71b6-4491-96f2-e2fac89301ca": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0F1E28C3-6C44-4F88-B79C-2FDBCA4487B2",
+    "measurement_mrid": "_4c5466c3-71b6-4491-96f2-e2fac89301ca",
+    "cn_nomv": 2401.7771198288433
+  },
+  "_65398be0-9abe-44d6-9ef7-359238a371e8": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+    "measurement_mrid": "_65398be0-9abe-44d6-9ef7-359238a371e8",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "tpoletop",
+      "eqid": "_7FF12CEF-1C4D-4CD2-8FCC-662530A7BA33",
+      "val": "2.2916667",
+      "cn1id": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+      "va_normal": 5504.07264633367
+    }
+  },
+  "_373565da-5ef8-490e-8b42-4a29686c8427": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+    "measurement_mrid": "_373565da-5ef8-490e-8b42-4a29686c8427",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "tpoletop",
+      "eqid": "_7FF12CEF-1C4D-4CD2-8FCC-662530A7BA33",
+      "val": "2.2916667",
+      "cn1id": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+      "va_normal": 5504.07264633367
+    }
+  },
+  "_bea2439d-6beb-4222-9c66-5f5ef80504c5": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+    "measurement_mrid": "_bea2439d-6beb-4222-9c66-5f5ef80504c5",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "tpoletop",
+      "eqid": "_7FF12CEF-1C4D-4CD2-8FCC-662530A7BA33",
+      "val": "2.2916667",
+      "cn1id": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+      "va_normal": 5504.07264633367
+    }
+  },
+  "_1c575353-e825-4bab-8ca1-04f64602244c": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_1c575353-e825-4bab-8ca1-04f64602244c",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_3892f276-5fcb-44cc-ab7c-1cbb272af2fd": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_3892f276-5fcb-44cc-ab7c-1cbb272af2fd",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_f2064797-04d7-4f5d-bf49-e8ce80261cce": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_f2064797-04d7-4f5d-bf49-e8ce80261cce",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_c38705d2-c899-4e4f-b1b2-41c72b248f52": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+    "measurement_mrid": "_c38705d2-c899-4e4f-b1b2-41c72b248f52",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap1",
+      "eqid": "_A9DE8829-58CB-4750-B2A2-672846A89753",
+      "val": "112.41676",
+      "cn1id": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+      "va_normal": 270000.0020532903
+    }
+  },
+  "_0f40449d-eacd-4929-8972-1b02646a1ab3": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+    "measurement_mrid": "_0f40449d-eacd-4929-8972-1b02646a1ab3",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap1",
+      "eqid": "_A9DE8829-58CB-4750-B2A2-672846A89753",
+      "val": "112.41676",
+      "cn1id": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+      "va_normal": 270000.0020532903
+    }
+  },
+  "_56ec1537-6ded-4851-8c45-ad8bacde74b0": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+    "measurement_mrid": "_56ec1537-6ded-4851-8c45-ad8bacde74b0",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap1",
+      "eqid": "_A9DE8829-58CB-4750-B2A2-672846A89753",
+      "val": "112.41676",
+      "cn1id": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+      "va_normal": 270000.0020532903
+    }
+  },
+  "_0793bcc6-eab5-45d1-891a-973379c5cdec": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_E5B2888B-B60D-4DA6-A4F7-17EB849D28B2",
+    "measurement_mrid": "_0793bcc6-eab5-45d1-891a-973379c5cdec",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "692675",
+      "eqid": "_7060D0BB-B30D-4932-8FA1-40820A0FC4D0",
+      "val": "260",
+      "cn1id": "_E5B2888B-B60D-4DA6-A4F7-17EB849D28B2",
+      "va_normal": 624462.0511554993
+    }
+  },
+  "_c1da6db6-8258-460d-868a-751b21cdfdb2": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0A98A62D-7642-4F03-8317-A8605CBDBA37",
+    "measurement_mrid": "_c1da6db6-8258-460d-868a-751b21cdfdb2",
+    "cn_nomv": 120.08885599144216
+  },
+  "_379cc9ba-b6d7-4739-b8b4-7fbe8768834a": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0A98A62D-7642-4F03-8317-A8605CBDBA37",
+    "measurement_mrid": "_379cc9ba-b6d7-4739-b8b4-7fbe8768834a",
+    "cn_nomv": 120.08885599144216
+  },
+  "_448ef334-0751-4a27-b168-c9a9bf5d4cb4": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+    "measurement_mrid": "_448ef334-0751-4a27-b168-c9a9bf5d4cb4",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap1",
+      "eqid": "_A9DE8829-58CB-4750-B2A2-672846A89753",
+      "val": "112.41676",
+      "cn1id": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+      "va_normal": 270000.0020532903
+    }
+  },
+  "_13e6fb7e-d41c-4366-a97c-f33543b4b801": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+    "measurement_mrid": "_13e6fb7e-d41c-4366-a97c-f33543b4b801",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap1",
+      "eqid": "_A9DE8829-58CB-4750-B2A2-672846A89753",
+      "val": "112.41676",
+      "cn1id": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+      "va_normal": 270000.0020532903
+    }
+  },
+  "_d6aabda3-6dcd-4f8e-b9d5-314c112e1bc9": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+    "measurement_mrid": "_d6aabda3-6dcd-4f8e-b9d5-314c112e1bc9",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap1",
+      "eqid": "_A9DE8829-58CB-4750-B2A2-672846A89753",
+      "val": "112.41676",
+      "cn1id": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+      "va_normal": 270000.0020532903
+    }
+  },
+  "_91c1c7d7-e0f5-44ce-9986-2042a4e6a29e": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_DBFA8EFA-B397-40DA-9642-60E8DE4B3471",
+    "measurement_mrid": "_91c1c7d7-e0f5-44ce-9986-2042a4e6a29e",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap2",
+      "eqid": "_9D725810-BFD6-44C6-961A-2BC027F6FC95",
+      "val": "56.25",
+      "cn1id": "_DBFA8EFA-B397-40DA-9642-60E8DE4B3471",
+      "va_normal": 135099.96299037244
+    }
+  },
+  "_ed98c9d7-62c1-4c14-b7b8-724e248cdd1b": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_ed98c9d7-62c1-4c14-b7b8-724e248cdd1b",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_7746f8fa-be50-4100-970e-4f19d8597eb8": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_E5B2888B-B60D-4DA6-A4F7-17EB849D28B2",
+    "measurement_mrid": "_7746f8fa-be50-4100-970e-4f19d8597eb8",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "692675",
+      "eqid": "_7060D0BB-B30D-4932-8FA1-40820A0FC4D0",
+      "val": "260",
+      "cn1id": "_E5B2888B-B60D-4DA6-A4F7-17EB849D28B2",
+      "va_normal": 624462.0511554993
+    }
+  },
+  "_f4459247-b69b-416a-853e-6021b8747597": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_f4459247-b69b-416a-853e-6021b8747597",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_abb9b6c5-0a60-413f-a8b9-a7ae6c7166a5": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_E5B2888B-B60D-4DA6-A4F7-17EB849D28B2",
+    "measurement_mrid": "_abb9b6c5-0a60-413f-a8b9-a7ae6c7166a5",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "692675",
+      "eqid": "_7060D0BB-B30D-4932-8FA1-40820A0FC4D0",
+      "val": "260",
+      "cn1id": "_E5B2888B-B60D-4DA6-A4F7-17EB849D28B2",
+      "va_normal": 624462.0511554993
+    }
+  },
+  "_e8a3c4f5-e7c7-402e-bfc1-59ddae5bf6a9": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_e8a3c4f5-e7c7-402e-bfc1-59ddae5bf6a9",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_0769c269-2a4f-4e30-a5ae-fa30f7dc271b": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_E5B2888B-B60D-4DA6-A4F7-17EB849D28B2",
+    "measurement_mrid": "_0769c269-2a4f-4e30-a5ae-fa30f7dc271b",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "692675",
+      "eqid": "_7060D0BB-B30D-4932-8FA1-40820A0FC4D0",
+      "val": "260",
+      "cn1id": "_E5B2888B-B60D-4DA6-A4F7-17EB849D28B2",
+      "va_normal": 624462.0511554993
+    }
+  },
+  "_da33e6e4-b008-4a45-938b-008c9255c49e": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_8E99F99D-FE8F-420B-AC49-0B52DF5362AB",
+    "measurement_mrid": "_da33e6e4-b008-4a45-938b-008c9255c49e",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "sect1",
+      "eqid": "_2858B6C2-0886-4269-884C-06FA8B887319",
+      "val": "400",
+      "cn1id": "_8E99F99D-FE8F-420B-AC49-0B52DF5362AB",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_8f6a24ef-83d6-4207-8419-0e076350c51d": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_2A6DC4DD-D3DC-434D-A187-D2C58A0A72C8",
+    "measurement_mrid": "_8f6a24ef-83d6-4207-8419-0e076350c51d",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "684611",
+      "eqid": "_8E180773-2A9B-4136-BC9A-132A52C8E276",
+      "val": "230",
+      "cn1id": "_2A6DC4DD-D3DC-434D-A187-D2C58A0A72C8",
+      "va_normal": 552408.7375606339
+    }
+  },
+  "_b4423af0-dfe0-4524-b5eb-bf18d447909a": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0A98A62D-7642-4F03-8317-A8605CBDBA37",
+    "measurement_mrid": "_b4423af0-dfe0-4524-b5eb-bf18d447909a",
+    "cn_nomv": 120.08885599144216
+  },
+  "_e1881b77-3cad-408b-8b1f-2149f3e02577": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0A98A62D-7642-4F03-8317-A8605CBDBA37",
+    "measurement_mrid": "_e1881b77-3cad-408b-8b1f-2149f3e02577",
+    "cn_nomv": 120.08885599144216
+  },
+  "_e7659ef6-cd75-4924-822c-8280793cc206": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_e7659ef6-cd75-4924-822c-8280793cc206",
+    "cn_nomv": 277.1281292110204
+  },
+  "_d6bd74bb-8d1f-464e-80aa-b5e96e27a0fa": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_d6bd74bb-8d1f-464e-80aa-b5e96e27a0fa",
+    "cn_nomv": 277.1281292110204
+  },
+  "_e250f84f-0131-45cb-a9fe-a9f07ec05250": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_e250f84f-0131-45cb-a9fe-a9f07ec05250",
+    "cn_nomv": 277.1281292110204
+  },
+  "_9b6d0140-9fc7-4fb0-ada1-ae0ba8d0d822": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0A98A62D-7642-4F03-8317-A8605CBDBA37",
+    "measurement_mrid": "_9b6d0140-9fc7-4fb0-ada1-ae0ba8d0d822",
+    "cn_nomv": 120.08885599144216
+  },
+  "_3fe5535c-8533-4c43-a741-ade81f143cc6": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0A98A62D-7642-4F03-8317-A8605CBDBA37",
+    "measurement_mrid": "_3fe5535c-8533-4c43-a741-ade81f143cc6",
+    "cn_nomv": 120.08885599144216
+  },
+  "_1550b167-a168-44ef-ba67-8e029f22b433": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_1550b167-a168-44ef-ba67-8e029f22b433",
+    "cn_nomv": 277.1281292110204
+  },
+  "_a5dca590-c8e8-4c09-afc0-ddf636d945bb": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_a5dca590-c8e8-4c09-afc0-ddf636d945bb",
+    "cn_nomv": 277.1281292110204
+  },
+  "_8502efde-b8ce-47b4-afde-b9661485bc0f": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_8502efde-b8ce-47b4-afde-b9661485bc0f",
+    "cn_nomv": 277.1281292110204
+  },
+  "_f08eb586-8207-4662-a6bb-7ff60f505a55": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_A8A25B50-3AE3-4A31-A18B-B3FA13397ED3",
+    "measurement_mrid": "_f08eb586-8207-4662-a6bb-7ff60f505a55",
+    "cn_nomv": 66395.28095680696,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "sub3",
+      "eqid": "_259E820F-B4AF-4E1A-8271-687534EDAECC",
+      "val": "27.612404",
+      "cn1id": "_A8A25B50-3AE3-4A31-A18B-B3FA13397ED3",
+      "va_normal": 1833333.3214728606
+    }
+  },
+  "_d43b62ec-137c-4887-92f2-5536062954bb": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_A8A25B50-3AE3-4A31-A18B-B3FA13397ED3",
+    "measurement_mrid": "_d43b62ec-137c-4887-92f2-5536062954bb",
+    "cn_nomv": 66395.28095680696,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "sub3",
+      "eqid": "_259E820F-B4AF-4E1A-8271-687534EDAECC",
+      "val": "27.612404",
+      "cn1id": "_A8A25B50-3AE3-4A31-A18B-B3FA13397ED3",
+      "va_normal": 1833333.3214728606
+    }
+  },
+  "_4ea65778-8d96-41b8-9352-00c63d0f337a": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_A8A25B50-3AE3-4A31-A18B-B3FA13397ED3",
+    "measurement_mrid": "_4ea65778-8d96-41b8-9352-00c63d0f337a",
+    "cn_nomv": 66395.28095680696,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "sub3",
+      "eqid": "_259E820F-B4AF-4E1A-8271-687534EDAECC",
+      "val": "27.612404",
+      "cn1id": "_A8A25B50-3AE3-4A31-A18B-B3FA13397ED3",
+      "va_normal": 1833333.3214728606
+    }
+  },
+  "_d0cf9cd9-bc5b-4665-a39c-3b47b3a7fa88": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_04984C4D-CC29-477A-9AF4-61AC7D74F16F",
+    "measurement_mrid": "_d0cf9cd9-bc5b-4665-a39c-3b47b3a7fa88"
+  },
+  "_ab4f355f-2872-4a6d-824b-180ee0002601": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_04984C4D-CC29-477A-9AF4-61AC7D74F16F",
+    "measurement_mrid": "_ab4f355f-2872-4a6d-824b-180ee0002601"
+  },
+  "_ca8de879-89fb-44c4-a8c5-97889e0dbffd": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_04984C4D-CC29-477A-9AF4-61AC7D74F16F",
+    "measurement_mrid": "_ca8de879-89fb-44c4-a8c5-97889e0dbffd"
+  },
+  "_48aa1067-ee1d-4763-9845-3ad80be775a0": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_ADDB7A30-5A3C-4179-AF5D-5C9A7213B0E7",
+    "measurement_mrid": "_48aa1067-ee1d-4763-9845-3ad80be775a0",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "xfm1",
+      "eqid": "_1E6B5C97-C4E8-4CED-B9A5-6E69F389DA93",
+      "val": "76.332367",
+      "cn1id": "_ADDB7A30-5A3C-4179-AF5D-5C9A7213B0E7",
+      "va_normal": 183333.33256297826
+    }
+  },
+  "_aee33dac-79ae-4b41-871f-6009b9a0f389": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_ADDB7A30-5A3C-4179-AF5D-5C9A7213B0E7",
+    "measurement_mrid": "_aee33dac-79ae-4b41-871f-6009b9a0f389",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "xfm1",
+      "eqid": "_1E6B5C97-C4E8-4CED-B9A5-6E69F389DA93",
+      "val": "76.332367",
+      "cn1id": "_ADDB7A30-5A3C-4179-AF5D-5C9A7213B0E7",
+      "va_normal": 183333.33256297826
+    }
+  },
+  "_3a304c71-d5ec-4bc1-b118-8f2ace903adc": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_ADDB7A30-5A3C-4179-AF5D-5C9A7213B0E7",
+    "measurement_mrid": "_3a304c71-d5ec-4bc1-b118-8f2ace903adc",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "xfm1",
+      "eqid": "_1E6B5C97-C4E8-4CED-B9A5-6E69F389DA93",
+      "val": "76.332367",
+      "cn1id": "_ADDB7A30-5A3C-4179-AF5D-5C9A7213B0E7",
+      "va_normal": 183333.33256297826
+    }
+  },
+  "_f6ab2b5f-d5be-4a6c-b8b5-5baa808956de": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+    "measurement_mrid": "_f6ab2b5f-d5be-4a6c-b8b5-5baa808956de",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Recloser",
+      "eqname": "rec1",
+      "eqid": "_CE5D0651-676B-4AF3-8D67-41BF1B33E30C",
+      "val": "400",
+      "cn1id": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_6e2444b6-606a-4ab6-9db1-29dec0be69bc": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_421E99BE-A834-4809-B924-84D88F634A45",
+    "measurement_mrid": "_6e2444b6-606a-4ab6-9db1-29dec0be69bc",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "632670",
+      "eqid": "_ABF53597-A808-422A-B7EE-552F24D83A5F",
+      "val": "730",
+      "cn1id": "_421E99BE-A834-4809-B924-84D88F634A45",
+      "va_normal": 1753297.2974750556
+    }
+  },
+  "_53d39eb5-4602-454f-9fd1-66540399cc39": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+    "measurement_mrid": "_53d39eb5-4602-454f-9fd1-66540399cc39",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Recloser",
+      "eqname": "rec1",
+      "eqid": "_CE5D0651-676B-4AF3-8D67-41BF1B33E30C",
+      "val": "400",
+      "cn1id": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_fcfe2f82-3062-4f2a-bcfb-0fb7d2b45e8a": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_421E99BE-A834-4809-B924-84D88F634A45",
+    "measurement_mrid": "_fcfe2f82-3062-4f2a-bcfb-0fb7d2b45e8a",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "632670",
+      "eqid": "_ABF53597-A808-422A-B7EE-552F24D83A5F",
+      "val": "730",
+      "cn1id": "_421E99BE-A834-4809-B924-84D88F634A45",
+      "va_normal": 1753297.2974750556
+    }
+  },
+  "_017f359e-77e5-48ca-9a02-eaa59d14a941": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+    "measurement_mrid": "_017f359e-77e5-48ca-9a02-eaa59d14a941",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Recloser",
+      "eqname": "rec1",
+      "eqid": "_CE5D0651-676B-4AF3-8D67-41BF1B33E30C",
+      "val": "400",
+      "cn1id": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_9e521176-ce36-4e35-9cd8-9c571a809e87": {
+    "class": "Analog",
+    "type": "PNV",
+    "cnid": "_421E99BE-A834-4809-B924-84D88F634A45",
+    "measurement_mrid": "_9e521176-ce36-4e35-9cd8-9c571a809e87",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "632670",
+      "eqid": "_ABF53597-A808-422A-B7EE-552F24D83A5F",
+      "val": "730",
+      "cn1id": "_421E99BE-A834-4809-B924-84D88F634A45",
+      "va_normal": 1753297.2974750556
+    }
+  },
+  "_4044e33a-ecc2-4d3d-8584-f65643c4eea2": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+    "measurement_mrid": "_4044e33a-ecc2-4d3d-8584-f65643c4eea2",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Recloser",
+      "eqname": "rec1",
+      "eqid": "_CE5D0651-676B-4AF3-8D67-41BF1B33E30C",
+      "val": "400",
+      "cn1id": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_ebd287b8-bceb-4471-a709-c82fbd34bd30": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+    "measurement_mrid": "_ebd287b8-bceb-4471-a709-c82fbd34bd30",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Recloser",
+      "eqname": "rec1",
+      "eqid": "_CE5D0651-676B-4AF3-8D67-41BF1B33E30C",
+      "val": "400",
+      "cn1id": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_11bf885c-b677-42ba-859c-d1a013a9f36e": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+    "measurement_mrid": "_11bf885c-b677-42ba-859c-d1a013a9f36e",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Recloser",
+      "eqname": "rec1",
+      "eqid": "_CE5D0651-676B-4AF3-8D67-41BF1B33E30C",
+      "val": "400",
+      "cn1id": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_23b10aed-23da-4911-8be7-55e1d722d4cf": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+    "measurement_mrid": "_23b10aed-23da-4911-8be7-55e1d722d4cf",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Recloser",
+      "eqname": "rec1",
+      "eqid": "_CE5D0651-676B-4AF3-8D67-41BF1B33E30C",
+      "val": "400",
+      "cn1id": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_db63dc39-157b-4f71-b239-38880b5fcc8d": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+    "measurement_mrid": "_db63dc39-157b-4f71-b239-38880b5fcc8d",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Recloser",
+      "eqname": "rec1",
+      "eqid": "_CE5D0651-676B-4AF3-8D67-41BF1B33E30C",
+      "val": "400",
+      "cn1id": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_dabc5297-9462-4faf-80a4-768042918a41": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_421E99BE-A834-4809-B924-84D88F634A45",
+    "measurement_mrid": "_dabc5297-9462-4faf-80a4-768042918a41",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "632670",
+      "eqid": "_ABF53597-A808-422A-B7EE-552F24D83A5F",
+      "val": "730",
+      "cn1id": "_421E99BE-A834-4809-B924-84D88F634A45",
+      "va_normal": 1753297.2974750556
+    }
+  },
+  "_7e7b8d30-4b84-4305-bfd7-de577f9d98c7": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_421E99BE-A834-4809-B924-84D88F634A45",
+    "measurement_mrid": "_7e7b8d30-4b84-4305-bfd7-de577f9d98c7",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "632670",
+      "eqid": "_ABF53597-A808-422A-B7EE-552F24D83A5F",
+      "val": "730",
+      "cn1id": "_421E99BE-A834-4809-B924-84D88F634A45",
+      "va_normal": 1753297.2974750556
+    }
+  },
+  "_66bb7d46-33ff-41e1-b58c-9b404e0ab21b": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_421E99BE-A834-4809-B924-84D88F634A45",
+    "measurement_mrid": "_66bb7d46-33ff-41e1-b58c-9b404e0ab21b",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "632670",
+      "eqid": "_ABF53597-A808-422A-B7EE-552F24D83A5F",
+      "val": "730",
+      "cn1id": "_421E99BE-A834-4809-B924-84D88F634A45",
+      "va_normal": 1753297.2974750556
+    }
+  },
+  "_a497b2aa-65f8-42bb-bfcf-cdcf7897c2da": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0124E881-B82D-4206-BBDF-37D585159872",
+    "measurement_mrid": "_a497b2aa-65f8-42bb-bfcf-cdcf7897c2da",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "645646",
+      "eqid": "_0BBD0EA3-F665-465B-86FD-FC8B8466AD53",
+      "val": "230",
+      "cn1id": "_0124E881-B82D-4206-BBDF-37D585159872",
+      "va_normal": 552408.7375606339
+    }
+  },
+  "_1408fa1f-9dc3-4ea9-9240-ddfac7f23864": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0124E881-B82D-4206-BBDF-37D585159872",
+    "measurement_mrid": "_1408fa1f-9dc3-4ea9-9240-ddfac7f23864",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "645646",
+      "eqid": "_0BBD0EA3-F665-465B-86FD-FC8B8466AD53",
+      "val": "230",
+      "cn1id": "_0124E881-B82D-4206-BBDF-37D585159872",
+      "va_normal": 552408.7375606339
+    }
+  },
+  "_f7024843-072d-43ab-ac84-48f6deb5b70f": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+    "measurement_mrid": "_f7024843-072d-43ab-ac84-48f6deb5b70f",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "650632",
+      "eqid": "_A04CDFB1-E951-4FC4-8882-0323CD70AE3C",
+      "val": "730",
+      "cn1id": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+      "va_normal": 1753297.2974750556
+    }
+  },
+  "_2f6db582-9ee9-469b-85ea-ad75e0f9fd7d": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+    "measurement_mrid": "_2f6db582-9ee9-469b-85ea-ad75e0f9fd7d",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "650632",
+      "eqid": "_A04CDFB1-E951-4FC4-8882-0323CD70AE3C",
+      "val": "730",
+      "cn1id": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+      "va_normal": 1753297.2974750556
+    }
+  },
+  "_a6a91863-2e4a-4bd1-98f2-a31a12daebfb": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+    "measurement_mrid": "_a6a91863-2e4a-4bd1-98f2-a31a12daebfb",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "650632",
+      "eqid": "_A04CDFB1-E951-4FC4-8882-0323CD70AE3C",
+      "val": "730",
+      "cn1id": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+      "va_normal": 1753297.2974750556
+    }
+  },
+  "_ed258ce0-a14c-4cdf-8795-800acc5f5ad4": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+    "measurement_mrid": "_ed258ce0-a14c-4cdf-8795-800acc5f5ad4",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "tpoletop",
+      "eqid": "_7FF12CEF-1C4D-4CD2-8FCC-662530A7BA33",
+      "val": "2.2916667",
+      "cn1id": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+      "va_normal": 5504.07264633367
+    }
+  },
+  "_9e3dfe03-12b4-4643-a17e-0c2158004a51": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+    "measurement_mrid": "_9e3dfe03-12b4-4643-a17e-0c2158004a51",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "tpoletop",
+      "eqid": "_7FF12CEF-1C4D-4CD2-8FCC-662530A7BA33",
+      "val": "2.2916667",
+      "cn1id": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+      "va_normal": 5504.07264633367
+    }
+  },
+  "_a8e42300-16e7-4024-be50-4a7dc46857cd": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+    "measurement_mrid": "_a8e42300-16e7-4024-be50-4a7dc46857cd",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "tpoletop",
+      "eqid": "_7FF12CEF-1C4D-4CD2-8FCC-662530A7BA33",
+      "val": "2.2916667",
+      "cn1id": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+      "va_normal": 5504.07264633367
+    }
+  },
+  "_99d5cba2-4faf-40a9-ac4c-2e27d29b41fa": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_99d5cba2-4faf-40a9-ac4c-2e27d29b41fa",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_ba58f48b-42f3-40b1-a6ce-fa4ae2baddb5": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_ba58f48b-42f3-40b1-a6ce-fa4ae2baddb5",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_32de2bad-ad0c-4686-9869-94ea00616138": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_32de2bad-ad0c-4686-9869-94ea00616138",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_c4f39806-439c-4143-80bc-bb5c4a28d4fc": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_c4f39806-439c-4143-80bc-bb5c4a28d4fc",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_0e3593f1-b1ee-443c-a350-3d89fb29c51e": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_0e3593f1-b1ee-443c-a350-3d89fb29c51e",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_65d1b173-43d6-4927-b495-bb61f11518c5": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_2A6DC4DD-D3DC-434D-A187-D2C58A0A72C8",
+    "measurement_mrid": "_65d1b173-43d6-4927-b495-bb61f11518c5",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "684611",
+      "eqid": "_8E180773-2A9B-4136-BC9A-132A52C8E276",
+      "val": "230",
+      "cn1id": "_2A6DC4DD-D3DC-434D-A187-D2C58A0A72C8",
+      "va_normal": 552408.7375606339
+    }
+  },
+  "_8a558465-50bf-4b1b-95b7-2a11c228fe25": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_8E99F99D-FE8F-420B-AC49-0B52DF5362AB",
+    "measurement_mrid": "_8a558465-50bf-4b1b-95b7-2a11c228fe25",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "sect1",
+      "eqid": "_2858B6C2-0886-4269-884C-06FA8B887319",
+      "val": "400",
+      "cn1id": "_8E99F99D-FE8F-420B-AC49-0B52DF5362AB",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_0cffa585-68ec-478f-b38d-28903fb7a5c6": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_E5B2888B-B60D-4DA6-A4F7-17EB849D28B2",
+    "measurement_mrid": "_0cffa585-68ec-478f-b38d-28903fb7a5c6",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "692675",
+      "eqid": "_7060D0BB-B30D-4932-8FA1-40820A0FC4D0",
+      "val": "260",
+      "cn1id": "_E5B2888B-B60D-4DA6-A4F7-17EB849D28B2",
+      "va_normal": 624462.0511554993
+    }
+  },
+  "_45fa2ec2-756b-4d4f-aab8-41d2f9dc8a73": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_E5B2888B-B60D-4DA6-A4F7-17EB849D28B2",
+    "measurement_mrid": "_45fa2ec2-756b-4d4f-aab8-41d2f9dc8a73",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "692675",
+      "eqid": "_7060D0BB-B30D-4932-8FA1-40820A0FC4D0",
+      "val": "260",
+      "cn1id": "_E5B2888B-B60D-4DA6-A4F7-17EB849D28B2",
+      "va_normal": 624462.0511554993
+    }
+  },
+  "_f73abf1a-512c-4e81-8623-e8498e368e02": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_E5B2888B-B60D-4DA6-A4F7-17EB849D28B2",
+    "measurement_mrid": "_f73abf1a-512c-4e81-8623-e8498e368e02",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "692675",
+      "eqid": "_7060D0BB-B30D-4932-8FA1-40820A0FC4D0",
+      "val": "260",
+      "cn1id": "_E5B2888B-B60D-4DA6-A4F7-17EB849D28B2",
+      "va_normal": 624462.0511554993
+    }
+  },
+  "_17dd8a60-a58d-4acf-b19a-4c9b1c7a1c80": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_DBFA8EFA-B397-40DA-9642-60E8DE4B3471",
+    "measurement_mrid": "_17dd8a60-a58d-4acf-b19a-4c9b1c7a1c80",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap2",
+      "eqid": "_9D725810-BFD6-44C6-961A-2BC027F6FC95",
+      "val": "56.25",
+      "cn1id": "_DBFA8EFA-B397-40DA-9642-60E8DE4B3471",
+      "va_normal": 135099.96299037244
+    }
+  },
+  "_6e304d52-985a-4cb7-8b38-7783f935d975": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_6e304d52-985a-4cb7-8b38-7783f935d975",
+    "cn_nomv": 277.1281292110204
+  },
+  "_e03043c2-82dd-4ea2-b635-3642b245a231": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_e03043c2-82dd-4ea2-b635-3642b245a231",
+    "cn_nomv": 277.1281292110204
+  },
+  "_5479191e-e5bc-4d11-ba9e-f210121ac087": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_5479191e-e5bc-4d11-ba9e-f210121ac087",
+    "cn_nomv": 277.1281292110204
+  },
+  "_5142fd4b-8371-40b1-85e4-938e372d64a7": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0124E881-B82D-4206-BBDF-37D585159872",
+    "measurement_mrid": "_5142fd4b-8371-40b1-85e4-938e372d64a7",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "645646",
+      "eqid": "_0BBD0EA3-F665-465B-86FD-FC8B8466AD53",
+      "val": "230",
+      "cn1id": "_0124E881-B82D-4206-BBDF-37D585159872",
+      "va_normal": 552408.7375606339
+    }
+  },
+  "_db9565da-e5a1-4829-8f65-7d7bc2619e82": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_8C58660F-C62C-4903-BE72-22F1255B1E62",
+    "measurement_mrid": "_db9565da-e5a1-4829-8f65-7d7bc2619e82",
+    "cn_nomv": 2401.7771198288433
+  },
+  "_a1d5af7d-1cda-4aa4-bb97-b1add95b94b2": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0F1E28C3-6C44-4F88-B79C-2FDBCA4487B2",
+    "measurement_mrid": "_a1d5af7d-1cda-4aa4-bb97-b1add95b94b2",
+    "cn_nomv": 2401.7771198288433
+  },
+  "_93e3dd38-7963-427a-a69a-dac60506ceee": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+    "measurement_mrid": "_93e3dd38-7963-427a-a69a-dac60506ceee",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "tpoletop",
+      "eqid": "_7FF12CEF-1C4D-4CD2-8FCC-662530A7BA33",
+      "val": "2.2916667",
+      "cn1id": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+      "va_normal": 5504.07264633367
+    }
+  },
+  "_7e26bf88-6547-423e-ad35-4ee2bcf69402": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+    "measurement_mrid": "_7e26bf88-6547-423e-ad35-4ee2bcf69402",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "tpoletop",
+      "eqid": "_7FF12CEF-1C4D-4CD2-8FCC-662530A7BA33",
+      "val": "2.2916667",
+      "cn1id": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+      "va_normal": 5504.07264633367
+    }
+  },
+  "_63dc721e-038b-4068-ab4c-8cf2b5e1aef5": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+    "measurement_mrid": "_63dc721e-038b-4068-ab4c-8cf2b5e1aef5",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "tpoletop",
+      "eqid": "_7FF12CEF-1C4D-4CD2-8FCC-662530A7BA33",
+      "val": "2.2916667",
+      "cn1id": "_DC889FA5-7B28-4273-A1D7-205BE3E0BFED",
+      "va_normal": 5504.07264633367
+    }
+  },
+  "_327bce10-4686-43c6-8cde-56306d151b15": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_327bce10-4686-43c6-8cde-56306d151b15",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_cb3c7168-1741-4444-94ae-2e4e147cd703": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_cb3c7168-1741-4444-94ae-2e4e147cd703",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_8aef86ba-9013-4992-ba27-763b68cc2b2a": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_8aef86ba-9013-4992-ba27-763b68cc2b2a",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_0c2e8ddb-6043-4721-a276-27fc19e86c04": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+    "measurement_mrid": "_0c2e8ddb-6043-4721-a276-27fc19e86c04",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap1",
+      "eqid": "_A9DE8829-58CB-4750-B2A2-672846A89753",
+      "val": "112.41676",
+      "cn1id": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+      "va_normal": 270000.0020532903
+    }
+  },
+  "_55b04aca-c331-4a1d-ad1f-f34ff9188396": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+    "measurement_mrid": "_55b04aca-c331-4a1d-ad1f-f34ff9188396",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap1",
+      "eqid": "_A9DE8829-58CB-4750-B2A2-672846A89753",
+      "val": "112.41676",
+      "cn1id": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+      "va_normal": 270000.0020532903
+    }
+  },
+  "_3ae108c0-5e36-443f-9616-98182c646665": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+    "measurement_mrid": "_3ae108c0-5e36-443f-9616-98182c646665",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap1",
+      "eqid": "_A9DE8829-58CB-4750-B2A2-672846A89753",
+      "val": "112.41676",
+      "cn1id": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+      "va_normal": 270000.0020532903
+    }
+  },
+  "_ea7f7fe2-21cd-4d00-8d50-0f7a1a53c4e7": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_E5B2888B-B60D-4DA6-A4F7-17EB849D28B2",
+    "measurement_mrid": "_ea7f7fe2-21cd-4d00-8d50-0f7a1a53c4e7",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "692675",
+      "eqid": "_7060D0BB-B30D-4932-8FA1-40820A0FC4D0",
+      "val": "260",
+      "cn1id": "_E5B2888B-B60D-4DA6-A4F7-17EB849D28B2",
+      "va_normal": 624462.0511554993
+    }
+  },
+  "_e1bb8270-e341-48da-8414-eaaa7d3fd831": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0A98A62D-7642-4F03-8317-A8605CBDBA37",
+    "measurement_mrid": "_e1bb8270-e341-48da-8414-eaaa7d3fd831",
+    "cn_nomv": 120.08885599144216
+  },
+  "_a84b5965-6160-4482-aebf-faf0f2534f89": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0A98A62D-7642-4F03-8317-A8605CBDBA37",
+    "measurement_mrid": "_a84b5965-6160-4482-aebf-faf0f2534f89",
+    "cn_nomv": 120.08885599144216
+  },
+  "_f6013f90-37e0-4e01-97b4-ea67cf410711": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+    "measurement_mrid": "_f6013f90-37e0-4e01-97b4-ea67cf410711",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap1",
+      "eqid": "_A9DE8829-58CB-4750-B2A2-672846A89753",
+      "val": "112.41676",
+      "cn1id": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+      "va_normal": 270000.0020532903
+    }
+  },
+  "_6e76eb6e-363c-4d5d-b304-2e216c9451c0": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+    "measurement_mrid": "_6e76eb6e-363c-4d5d-b304-2e216c9451c0",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap1",
+      "eqid": "_A9DE8829-58CB-4750-B2A2-672846A89753",
+      "val": "112.41676",
+      "cn1id": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+      "va_normal": 270000.0020532903
+    }
+  },
+  "_9c51e7a7-3fb7-4bf2-a9f5-6c7aa4330549": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+    "measurement_mrid": "_9c51e7a7-3fb7-4bf2-a9f5-6c7aa4330549",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap1",
+      "eqid": "_A9DE8829-58CB-4750-B2A2-672846A89753",
+      "val": "112.41676",
+      "cn1id": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+      "va_normal": 270000.0020532903
+    }
+  },
+  "_47c95834-3913-406c-82ba-08374f1b02d2": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_DBFA8EFA-B397-40DA-9642-60E8DE4B3471",
+    "measurement_mrid": "_47c95834-3913-406c-82ba-08374f1b02d2",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap2",
+      "eqid": "_9D725810-BFD6-44C6-961A-2BC027F6FC95",
+      "val": "56.25",
+      "cn1id": "_DBFA8EFA-B397-40DA-9642-60E8DE4B3471",
+      "va_normal": 135099.96299037244
+    }
+  },
+  "_ef2ca369-2fb7-40ba-8d93-e77018e54c37": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0A98A62D-7642-4F03-8317-A8605CBDBA37",
+    "measurement_mrid": "_ef2ca369-2fb7-40ba-8d93-e77018e54c37",
+    "cn_nomv": 120.08885599144216
+  },
+  "_828ec85a-475f-4836-8371-66ad57d52a2c": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0A98A62D-7642-4F03-8317-A8605CBDBA37",
+    "measurement_mrid": "_828ec85a-475f-4836-8371-66ad57d52a2c",
+    "cn_nomv": 120.08885599144216
+  },
+  "_f500b9cc-932c-44f1-96b6-12ca0a9ba911": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_f500b9cc-932c-44f1-96b6-12ca0a9ba911",
+    "cn_nomv": 277.1281292110204
+  },
+  "_e4789bc7-afc2-49a4-8f4f-70b269f0d70d": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_e4789bc7-afc2-49a4-8f4f-70b269f0d70d",
+    "cn_nomv": 277.1281292110204
+  },
+  "_37780e7f-0a56-4980-96ac-32670b6145cd": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_37780e7f-0a56-4980-96ac-32670b6145cd",
+    "cn_nomv": 277.1281292110204
+  },
+  "_cd5b34ea-8e3e-4807-bf04-3500679f331a": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0A98A62D-7642-4F03-8317-A8605CBDBA37",
+    "measurement_mrid": "_cd5b34ea-8e3e-4807-bf04-3500679f331a",
+    "cn_nomv": 120.08885599144216
+  },
+  "_fa87b12f-dbd6-4004-bcf4-17df5bb388cc": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0A98A62D-7642-4F03-8317-A8605CBDBA37",
+    "measurement_mrid": "_fa87b12f-dbd6-4004-bcf4-17df5bb388cc",
+    "cn_nomv": 120.08885599144216
+  },
+  "_1c8b757a-e27a-496b-bfa8-fbd19c2a3292": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_1c8b757a-e27a-496b-bfa8-fbd19c2a3292",
+    "cn_nomv": 277.1281292110204
+  },
+  "_39615e17-18ee-4304-a0ce-1be657b08602": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_39615e17-18ee-4304-a0ce-1be657b08602",
+    "cn_nomv": 277.1281292110204
+  },
+  "_3064b38f-e8ae-4d40-aa81-fb5c4d52704a": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_3064b38f-e8ae-4d40-aa81-fb5c4d52704a",
+    "cn_nomv": 277.1281292110204
+  },
+  "_ccfb98a6-1db7-4000-9b2b-d44db4fc3859": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_A8A25B50-3AE3-4A31-A18B-B3FA13397ED3",
+    "measurement_mrid": "_ccfb98a6-1db7-4000-9b2b-d44db4fc3859",
+    "cn_nomv": 66395.28095680696,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "sub3",
+      "eqid": "_259E820F-B4AF-4E1A-8271-687534EDAECC",
+      "val": "27.612404",
+      "cn1id": "_A8A25B50-3AE3-4A31-A18B-B3FA13397ED3",
+      "va_normal": 1833333.3214728606
+    }
+  },
+  "_8e729069-0abb-426c-99b0-1d71491d51dd": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_A8A25B50-3AE3-4A31-A18B-B3FA13397ED3",
+    "measurement_mrid": "_8e729069-0abb-426c-99b0-1d71491d51dd",
+    "cn_nomv": 66395.28095680696,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "sub3",
+      "eqid": "_259E820F-B4AF-4E1A-8271-687534EDAECC",
+      "val": "27.612404",
+      "cn1id": "_A8A25B50-3AE3-4A31-A18B-B3FA13397ED3",
+      "va_normal": 1833333.3214728606
+    }
+  },
+  "_85c76d73-8662-41f7-a22b-eb1a9e44c0e6": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_A8A25B50-3AE3-4A31-A18B-B3FA13397ED3",
+    "measurement_mrid": "_85c76d73-8662-41f7-a22b-eb1a9e44c0e6",
+    "cn_nomv": 66395.28095680696,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "sub3",
+      "eqid": "_259E820F-B4AF-4E1A-8271-687534EDAECC",
+      "val": "27.612404",
+      "cn1id": "_A8A25B50-3AE3-4A31-A18B-B3FA13397ED3",
+      "va_normal": 1833333.3214728606
+    }
+  },
+  "_243fdef8-003d-4d71-89cf-0f5e1a2e1562": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+    "measurement_mrid": "_243fdef8-003d-4d71-89cf-0f5e1a2e1562",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Breaker",
+      "eqname": "brkr1",
+      "eqid": "_52DE9189-20DC-4C73-BDEE-E960FE1F9493",
+      "val": "400",
+      "cn1id": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_1671d766-d683-4038-bf23-86ecf752381d": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+    "measurement_mrid": "_1671d766-d683-4038-bf23-86ecf752381d",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Breaker",
+      "eqname": "brkr1",
+      "eqid": "_52DE9189-20DC-4C73-BDEE-E960FE1F9493",
+      "val": "400",
+      "cn1id": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_a36aab82-53b4-41d0-9161-42b31f8e67a2": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+    "measurement_mrid": "_a36aab82-53b4-41d0-9161-42b31f8e67a2",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Breaker",
+      "eqname": "brkr1",
+      "eqid": "_52DE9189-20DC-4C73-BDEE-E960FE1F9493",
+      "val": "400",
+      "cn1id": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_3324240e-a64c-4acd-9ff9-db9347e9a250": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_04984C4D-CC29-477A-9AF4-61AC7D74F16F",
+    "measurement_mrid": "_3324240e-a64c-4acd-9ff9-db9347e9a250"
+  },
+  "_d10a93da-687a-496c-8406-3b5166ee3479": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_04984C4D-CC29-477A-9AF4-61AC7D74F16F",
+    "measurement_mrid": "_d10a93da-687a-496c-8406-3b5166ee3479"
+  },
+  "_6e929a30-05fc-4237-beb4-8c22613d6b9b": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_04984C4D-CC29-477A-9AF4-61AC7D74F16F",
+    "measurement_mrid": "_6e929a30-05fc-4237-beb4-8c22613d6b9b"
+  },
+  "_704cfb22-8d38-4f2e-8fc6-4f27fa5af2a0": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_ADDB7A30-5A3C-4179-AF5D-5C9A7213B0E7",
+    "measurement_mrid": "_704cfb22-8d38-4f2e-8fc6-4f27fa5af2a0",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "xfm1",
+      "eqid": "_1E6B5C97-C4E8-4CED-B9A5-6E69F389DA93",
+      "val": "76.332367",
+      "cn1id": "_ADDB7A30-5A3C-4179-AF5D-5C9A7213B0E7",
+      "va_normal": 183333.33256297826
+    }
+  },
+  "_9d38c431-a309-4835-824e-ce86464ca9ca": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_ADDB7A30-5A3C-4179-AF5D-5C9A7213B0E7",
+    "measurement_mrid": "_9d38c431-a309-4835-824e-ce86464ca9ca",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "xfm1",
+      "eqid": "_1E6B5C97-C4E8-4CED-B9A5-6E69F389DA93",
+      "val": "76.332367",
+      "cn1id": "_ADDB7A30-5A3C-4179-AF5D-5C9A7213B0E7",
+      "va_normal": 183333.33256297826
+    }
+  },
+  "_2a54cdf8-d469-4ac7-aee9-e49b39d46756": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_ADDB7A30-5A3C-4179-AF5D-5C9A7213B0E7",
+    "measurement_mrid": "_2a54cdf8-d469-4ac7-aee9-e49b39d46756",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "PowerTransformer",
+      "eqname": "xfm1",
+      "eqid": "_1E6B5C97-C4E8-4CED-B9A5-6E69F389DA93",
+      "val": "76.332367",
+      "cn1id": "_ADDB7A30-5A3C-4179-AF5D-5C9A7213B0E7",
+      "va_normal": 183333.33256297826
+    }
+  },
+  "_91fbcb9d-a87c-4d5c-b2b0-e9342c91fcb0": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_91fbcb9d-a87c-4d5c-b2b0-e9342c91fcb0",
+    "cn_nomv": 277.1281292110204
+  },
+  "_b49a5b70-fe22-405d-8519-de87c8132c9e": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_b49a5b70-fe22-405d-8519-de87c8132c9e",
+    "cn_nomv": 277.1281292110204
+  },
+  "_ea8aa437-fb7f-4c76-aa69-6419333a28b8": {
+    "class": "Analog",
+    "type": "VA",
+    "cnid": "_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A",
+    "measurement_mrid": "_ea8aa437-fb7f-4c76-aa69-6419333a28b8",
+    "cn_nomv": 277.1281292110204
+  },
+  "_04d9f780-ad0c-4205-b94d-531e66087f2d": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+    "measurement_mrid": "_04d9f780-ad0c-4205-b94d-531e66087f2d",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Breaker",
+      "eqname": "brkr1",
+      "eqid": "_52DE9189-20DC-4C73-BDEE-E960FE1F9493",
+      "val": "400",
+      "cn1id": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_cdc67714-d8f3-4a95-a3b7-ce4c95d6b9ed": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+    "measurement_mrid": "_cdc67714-d8f3-4a95-a3b7-ce4c95d6b9ed",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Breaker",
+      "eqname": "brkr1",
+      "eqid": "_52DE9189-20DC-4C73-BDEE-E960FE1F9493",
+      "val": "400",
+      "cn1id": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_00ff72f5-628c-462b-bdd1-2dcc1bd519b5": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+    "measurement_mrid": "_00ff72f5-628c-462b-bdd1-2dcc1bd519b5",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Breaker",
+      "eqname": "brkr1",
+      "eqid": "_52DE9189-20DC-4C73-BDEE-E960FE1F9493",
+      "val": "400",
+      "cn1id": "_7BEDDADD-0A14-429F-8601-9EA8B892CA6E",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_ffe351f9-22c0-483d-8017-04dcbb6c107b": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+    "measurement_mrid": "_ffe351f9-22c0-483d-8017-04dcbb6c107b",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap1",
+      "eqid": "_A9DE8829-58CB-4750-B2A2-672846A89753",
+      "val": "112.41676",
+      "cn1id": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+      "va_normal": 270000.0020532903
+    }
+  },
+  "_bbf78ce5-9c07-4843-b2c0-0d94305fb581": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+    "measurement_mrid": "_bbf78ce5-9c07-4843-b2c0-0d94305fb581",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap1",
+      "eqid": "_A9DE8829-58CB-4750-B2A2-672846A89753",
+      "val": "112.41676",
+      "cn1id": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+      "va_normal": 270000.0020532903
+    }
+  },
+  "_5220d83e-ee9b-451d-8ce7-2768b6ad8612": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+    "measurement_mrid": "_5220d83e-ee9b-451d-8ce7-2768b6ad8612",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap1",
+      "eqid": "_A9DE8829-58CB-4750-B2A2-672846A89753",
+      "val": "112.41676",
+      "cn1id": "_63DFBEA0-CD06-4D2E-B956-DF9517BE057B",
+      "va_normal": 270000.0020532903
+    }
+  },
+  "_b5358da9-c206-4149-84ea-8b996495d574": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_DBFA8EFA-B397-40DA-9642-60E8DE4B3471",
+    "measurement_mrid": "_b5358da9-c206-4149-84ea-8b996495d574",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LinearShuntCompensator",
+      "eqname": "cap2",
+      "eqid": "_9D725810-BFD6-44C6-961A-2BC027F6FC95",
+      "val": "56.25",
+      "cn1id": "_DBFA8EFA-B397-40DA-9642-60E8DE4B3471",
+      "va_normal": 135099.96299037244
+    }
+  },
+  "_7ed3d06a-a849-4032-a1ef-10d89688ff33": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_7ed3d06a-a849-4032-a1ef-10d89688ff33",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_aed74869-30b6-4a4b-9d1b-5488173e9859": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_aed74869-30b6-4a4b-9d1b-5488173e9859",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_18ccedff-3c2c-4c1b-891e-5af708e4421c": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+    "measurement_mrid": "_18ccedff-3c2c-4c1b-891e-5af708e4421c",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "671692",
+      "eqid": "_517413CB-6977-46FA-8911-C82332E42884",
+      "val": "400",
+      "cn1id": "_30BE5988-DE57-4E0C-AB08-50D5A13D2C1B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_c24f82e9-d6fa-4837-8ccd-cb5990ab2ad2": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_8E99F99D-FE8F-420B-AC49-0B52DF5362AB",
+    "measurement_mrid": "_c24f82e9-d6fa-4837-8ccd-cb5990ab2ad2",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "LoadBreakSwitch",
+      "eqname": "sect1",
+      "eqid": "_2858B6C2-0886-4269-884C-06FA8B887319",
+      "val": "400",
+      "cn1id": "_8E99F99D-FE8F-420B-AC49-0B52DF5362AB",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_824c02fc-18d1-4064-b313-22f9f6ce472b": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+    "measurement_mrid": "_824c02fc-18d1-4064-b313-22f9f6ce472b",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "650632",
+      "eqid": "_A04CDFB1-E951-4FC4-8882-0323CD70AE3C",
+      "val": "730",
+      "cn1id": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+      "va_normal": 1753297.2974750556
+    }
+  },
+  "_c389843f-37c3-4c76-8e54-f02b70368492": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+    "measurement_mrid": "_c389843f-37c3-4c76-8e54-f02b70368492",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "650632",
+      "eqid": "_A04CDFB1-E951-4FC4-8882-0323CD70AE3C",
+      "val": "730",
+      "cn1id": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+      "va_normal": 1753297.2974750556
+    }
+  },
+  "_fea855f6-4939-4c6d-8d84-02757a82c01d": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+    "measurement_mrid": "_fea855f6-4939-4c6d-8d84-02757a82c01d",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "ACLineSegment",
+      "eqname": "650632",
+      "eqid": "_A04CDFB1-E951-4FC4-8882-0323CD70AE3C",
+      "val": "730",
+      "cn1id": "_673E896A-DCBF-4E43-9924-BEB31C5B6005",
+      "va_normal": 1753297.2974750556
+    }
+  },
+  "_5db0c160-f3f0-488e-88a9-5c8ef4ee130a": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+    "measurement_mrid": "_5db0c160-f3f0-488e-88a9-5c8ef4ee130a",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Recloser",
+      "eqname": "rec1",
+      "eqid": "_CE5D0651-676B-4AF3-8D67-41BF1B33E30C",
+      "val": "400",
+      "cn1id": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_ea48bd8d-4916-4fee-b424-fc967d6a7d90": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+    "measurement_mrid": "_ea48bd8d-4916-4fee-b424-fc967d6a7d90",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Recloser",
+      "eqname": "rec1",
+      "eqid": "_CE5D0651-676B-4AF3-8D67-41BF1B33E30C",
+      "val": "400",
+      "cn1id": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+      "va_normal": 960710.8479315373
+    }
+  },
+  "_3a4d201c-bc7e-4d65-91bc-37e1ea8e7125": {
+    "class": "Discrete",
+    "type": "Pos",
+    "cnid": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+    "measurement_mrid": "_3a4d201c-bc7e-4d65-91bc-37e1ea8e7125",
+    "cn_nomv": 2401.7771198288433,
+    "current_nomv": {
+      "eqtype": "Recloser",
+      "eqname": "rec1",
+      "eqid": "_CE5D0651-676B-4AF3-8D67-41BF1B33E30C",
+      "val": "400",
+      "cn1id": "_6CB5E5CE-2CD0-40CC-A979-B4F9ED05E49B",
+      "va_normal": 960710.8479315373
+    }
+  }
+}
