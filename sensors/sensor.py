@@ -9,7 +9,6 @@ from .measurements import Measurements
 
 _log = logging.getLogger(__name__)
 
-_log.setLevel(logging.DEBUG)
 DEFAULT_SENSOR_CONFIG = {
     "default-perunit-confidence-band": 2,
     "default-aggregation-interval": 30,
@@ -91,11 +90,10 @@ class Sensors(object):
         self._gappsd = gridappsd
         # note we are using the gridappsd based logger here because we are
         # replacing the global _log that's defined outside the class.
-        _log = self._gappsd.get_logger()
+        #_log = self._gappsd.get_logger()
         self._read_topic = read_topic
         self._write_topic = write_topic
         self._log_statistics = False
-        _log.debug(f"I AM HERE!")
         assert self._gappsd, "Invalid gridappsd object specified, cannot be None"
         assert self._read_topic, "Invalid read topic specified, cannot be None"
         assert self._write_topic, "Invalid write topic specified, cannob be None"
@@ -195,7 +193,6 @@ class Sensors(object):
         :param message:
             Simulation measurement message.
         """
-        _log.debug("Measurement Detected")
         measurement_out = {}
         # if passthrough set then copy over the measurmments of the entire message
         # into the output, then we will update the ones that are specified as 
@@ -204,62 +201,76 @@ class Sensors(object):
             measurement_out = deepcopy(message['message']['measurements'])
 
         timestamp = message['message']['timestamp']
-        _log.debug("Looping over sensors next")
-        # Loop over the configured sensor andding measurements for each of them
-        for mrid in self._sensors:
-            new_measurement = dict(
-                measurement_mrid=mrid
-            )
+        # _log.info(f"Detected measurement at timestamp {timestamp}")
+        try:
 
-            _log.debug(f"Getting message from sensor: {mrid}")
-            item = message['message']['measurements'].get(mrid)
+            # Loop over the configured sensor andding measurements for each of them
+            for mrid in self._sensors:
+                new_measurement = dict(
+                    measurement_mrid=mrid
+                )
 
-            if not item:
-                if mrid not in self._reported_invalid:
-                    _log.error(f"Invalid sensor mrid configured {mrid}")
-                    self._reported_invalid.add(mrid)
-                continue
-            _log.debug(f"Item is: {item}")
-            # Create new values for data from the sensor.
-            for prop, value in item.items():
-                # transfer mrid to new_measurement dictionary
-                if prop in ('measurement_mrid',):
-                    new_measurement[prop] = value
+                item = message['message']['measurements'].get(mrid)
+
+                if not item:
+                    if mrid not in self._reported_invalid:
+                        _log.error(f"Invalid sensor mrid configured {mrid}")
+                        self._reported_invalid.add(mrid)
                     continue
-                new_value = None
 
-                sensor = self._sensors[mrid]
+                debug_set = set()
+                # Create new values for data from the sensor.
+                for prop, value in item.items():
+                    # transfer mrid to new_measurement dictionary
+                    if prop in ('measurement_mrid',):
+                        new_measurement[prop] = value
+                        continue
+                    new_value = None
 
-                if prop in ('angle', 'magnitude'):
-                    sensor_prop = sensor.get_property_sensor(prop)
-                    if sensor_prop is None:
-                        # sensor is normally 0
-                        sensor.add_property_sensor(prop, 180, sensor.interval, sensor.perunit_dropping,
-                                                   sensor._perunit_confidence_band_95pct)
+                    sensor = self._sensors[mrid]
+                    if not mrid in debug_set:
+                        _log.info(f"prop: {prop} ts: {timestamp} interval start: " 
+                               f"{sensor.interval_start_time} interval end: {sensor.interval_end_time} "
+                               f"left: {sensor.interval_end_time - timestamp} {mrid}")
+                        debug_set.add(mrid)
+ 
+                    if prop in ('angle', 'magnitude'):
                         sensor_prop = sensor.get_property_sensor(prop)
-                    new_value = sensor_prop.get_new_value(timestamp, value)
-                else:
-                    # Keep values other than angle and magnitued the same for now.
-                    new_measurement[prop] = value
+                        if sensor_prop is None:
+                            # sensor is normally 0
+                            sensor.add_property_sensor(prop, 180, sensor.interval, sensor.perunit_dropping,
+                                                       sensor._perunit_confidence_band_95pct)
+                            sensor_prop = sensor.get_property_sensor(prop)
+                        new_value = sensor_prop.get_new_value(timestamp, value)
+                    else:
+                        # Keep values other than angle and magnitued the same for now.
+                        new_measurement[prop] = value
 
-                if new_value is None:
-                    continue
+                    if new_value is None:
+                        continue
 
-                _log.debug(f"mrid: {mrid} timestamp: {timestamp} prop: {prop} new_value: {new_value}")
-                new_measurement[prop] = new_value
+                    _log.debug(f"mrid: {mrid} timestamp: {timestamp} prop: {prop} new_value: {new_value}")
+                    new_measurement[prop] = new_value
 
-            # Make sure there is more properties than just the mrid
-            if len(list(new_measurement.keys())) > 1:
-                _log.debug(f"Adding new measurement: {new_measurement}")
-                measurement_out[mrid] = new_measurement
-        if len(measurement_out) > 0:
-            message['message']['measurements'] = measurement_out
-            if self._log_statistics:
-                self._log_sensors()
-            self._gappsd.send(self._write_topic, message)
-        else:
-            _log.info("No sensor output.")
-
+                # Make sure there is more properties than just the mrid
+                if len(list(new_measurement.keys())) > 1:
+                    measurement_out[mrid] = new_measurement
+            if len(measurement_out) > 0:
+                message['message']['measurements'] = measurement_out
+                if self._log_statistics:
+                    self._log_sensors()
+                self._gappsd.send(self._write_topic, message)
+                _log.info(f"For timestamp: {timestamp} publishing service {len(measurement_out)} measurements")
+            else:
+                _log.info(f"For timestamp: {timestamp} no sensor service measurements")
+        except Exception as ex:
+            _log.error(ex)
+            try:
+                stack = traceback.extract_stack() #traceback.extract_tb(sys.last_traceback)
+                _log.error(stack)
+            except Exception as ex2:
+                _log.error(ex2)
+            
     def _log_sensors(self):
         for s in self._sensors:
             _log.debug(s)
@@ -274,7 +285,7 @@ class Sensors(object):
             
 class Sensor(object):
     def __init__(self, normal_value, aggregation_interval, perunit_drop_rate,
-                 perunit_confidence_band):
+                 perunit_confidence_band, parent=None):
         """
         An object modeling an individual sensor.
 
@@ -291,7 +302,8 @@ class Sensor(object):
             that the true value lies within an interval this wide, centered on the measured value.
 
         """
-        self._LOG = logging.getLogger('sensor')
+        self._LOG = _log
+        self._parent = parent
         self._normal_value = normal_value
         self._perunit_drop_rate = perunit_drop_rate
         self._perunit_confidence_band_95pct = perunit_confidence_band
@@ -308,6 +320,7 @@ class Sensor(object):
         self._complex = False
         # A secondary list of sensors
         self._properties = {}
+        self._offset = 0
 
         self._LOG.debug(self)
 
@@ -317,7 +330,7 @@ class Sensor(object):
         if key in self._properties:
             raise KeyError(f"key {key} already exists in the sensor properties")
 
-        self._properties[key] = Sensor(normal_value, aggregation_interval, perunit_drop_rate, perunit_confidence_band)
+        self._properties[key] = Sensor(normal_value, aggregation_interval, perunit_drop_rate, perunit_confidence_band, self)
 
     def get_property_sensor(self, key):
         if key == 'magnitude':
@@ -345,11 +358,24 @@ class Sensor(object):
     def interval(self):
         return self._interval
 
+    @property
+    def interval_start_time(self):
+        return self._tstart
+
+    @property
+    def interval_end_time(self):
+        return self._tstart + self._interval
+
     def initialize(self, t, val):
         self._LOG.debug(f"initialize({t}, {val})")
         if self._interval > 0.0:
-            offset = random.randint(0, self._interval - 1)  # each sensor needs a staggered start
-            self.reset_interval(t - offset, val)
+            # Use the parent's offset if available.
+            if self._parent is not None:
+                self._LOG.debug(f"Adding parent offset {self._parent._offset}")
+                self._offset = self._parent._offset
+            else:
+                self._offset = random.randint(0, self._interval - 1)  # each sensor needs a staggered start
+            self.reset_interval(t - self._offset, val)
         else:
             self._n = 1
             self._tstart = t
@@ -379,6 +405,8 @@ class Sensor(object):
             self._n = self._n + 1
 
     def ready_to_sample(self, t):
+        self._LOG.debug(f"ready_to_sample? {t}")
+        self._LOG.info(f"ready?  t >= self._tstart + self._interval {bool(t >= self._tstart + self._interval)}")
         if t >= self._tstart + self._interval:
             return True
         return False
@@ -399,6 +427,7 @@ class Sensor(object):
         return ret
 
     def take_inst_sample(self, t):
+        self._LOG.debug(f"take_inst_sample({t})")
         if self._n < 1:
             self._n = 1
         mean_val = self._average / self._n
