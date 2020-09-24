@@ -406,7 +406,7 @@ class Sensor(object):
 
     def ready_to_sample(self, t):
         self._LOG.debug(f"ready_to_sample? {t}")
-        self._LOG.info(f"ready?  t >= self._tstart + self._interval {bool(t >= self._tstart + self._interval)}")
+        self._LOG.debug(f"ready?  t >= self._tstart + self._interval {bool(t >= self._tstart + self._interval)}")
         if t >= self._tstart + self._interval:
             return True
         return False
