@@ -24,8 +24,8 @@ def get_opts():
                         help="Simulation id to use for responses on the message bus.")
     parser.add_argument("request",
                         help="GRIDAPPSD based request that is sent from the client to start a simulation.")
-#    parser.add_argument("log_level",
-#                        help="The log level for the simulation service overall")
+    parser.add_argument("log_level",
+                        help="The log level for the simulation service overall")
 
     # parser.add_argument("--nominal", type=float, default=100.0, nargs='+',
     #                     help="Specify the nominal range of sensor measurements.")
