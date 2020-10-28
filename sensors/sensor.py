@@ -99,6 +99,7 @@ class Sensors(object):
         assert self._write_topic, "Invalid write topic specified, cannob be None"
         _log.debug(f"user_options is: {user_options}")
         sensors_config = user_options.pop("sensors-config", {})
+        self.randomize_sensor_offset = user_options.pop("randomize-sensor-offset", True)
         self.passthrough_if_not_specified = user_options.pop('passthrough-if-not-specified', False)
         self.simulate_all = user_options.pop('simulate-all', True)
         self.default_perunit_confifidence_band = user_options.get('default-perunit-confidence-band',
@@ -166,12 +167,13 @@ class Sensors(object):
                                                                                                     eqtype=eqtype,
                                                                                                     normal_value=normal_value))
             if class_name == 'Discrete':
-                self._sensors[k] = DiscreteSensor(perunit_drop_rate, agg_interval)
+                self._sensors[k] = DiscreteSensor(perunit_drop_rate, agg_interval, randomize_offset=self.randomize_sensor_offset)
             else:
                 self._sensors[k] = Sensor(normal_value=normal_value,
                                           aggregation_interval=agg_interval,
                                           perunit_drop_rate=perunit_drop_rate,
-                                          perunit_confidence_band=perunit_confidence_rate)
+                                          perunit_confidence_band=perunit_confidence_rate,
+                                          randomize_offset=self.randomize_sensor_offset)
         _log.info("Created {} sensors".format(len(self._sensors)))
         self._first_time_through = True
         self._simulation_complete = False
@@ -285,7 +287,7 @@ class Sensors(object):
             
 class Sensor(object):
     def __init__(self, normal_value, aggregation_interval, perunit_drop_rate,
-                 perunit_confidence_band, parent=None):
+                 perunit_confidence_band, parent=None, randomize_offset=True):
         """
         An object modeling an individual sensor.
 
@@ -321,6 +323,7 @@ class Sensor(object):
         # A secondary list of sensors
         self._properties = {}
         self._offset = 0
+        self._randomize_offset = randomize_offset
 
         self._LOG.debug(self)
 
@@ -369,12 +372,15 @@ class Sensor(object):
     def initialize(self, t, val):
         self._LOG.debug(f"initialize({t}, {val})")
         if self._interval > 0.0:
-            # Use the parent's offset if available.
-            if self._parent is not None:
-                self._LOG.debug(f"Adding parent offset {self._parent._offset}")
-                self._offset = self._parent._offset
-            else:
-                self._offset = random.randint(0, self._interval - 1)  # each sensor needs a staggered start
+        
+            # Only update the offset if we are allowed to.
+            if self._randomize_offset:
+                # Use the parent's offset if available.
+                if self._parent is not None:
+                    self._LOG.debug(f"Adding parent offset {self._parent._offset}")
+                    self._offset = self._parent._offset
+                else:
+                    self._offset = random.randint(0, self._interval - 1)  # each sensor needs a staggered start
             self.reset_interval(t - self._offset, val)
         else:
             self._n = 1
@@ -455,8 +461,8 @@ class Sensor(object):
 
 class DiscreteSensor(Sensor):
 
-    def __init__(self, perunit_drop_rate, aggregation_interval):
-        super(DiscreteSensor, self).__init__(0, aggregation_interval, perunit_drop_rate, 0)
+    def __init__(self, perunit_drop_rate, aggregation_interval, **kwargs):
+        super(DiscreteSensor, self).__init__(0, aggregation_interval, perunit_drop_rate, 0, **kwargs)
         self._perunit_drop_rate = perunit_drop_rate
         self._value = None
 
